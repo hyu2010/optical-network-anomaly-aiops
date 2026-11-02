@@ -1,0 +1,828 @@
+{
+  "B1_EXC": {
+    "name": "B1_EXC",
+    "description": "Excessive errors on the regenerator section (B1). This alarm is generated when the received SDH signals \ndegrade and the B1 bit errors on the regenerator section exceed the threshold.",
+    "severity": "Minor",
+    "alarm_type": "Service quality alarm",
+    "impact": "The B1 bit errors in the service signals received by a board exceed the B1 bit error threshold set for the \nboard. The alarm affects the QoS of the service signals.",
+    "fault_symptom": "None.\n \nIf the fault has no symptom, or if the fault symptom is not covered in this topic, handle the fault according to \n\"Handling Procedure\" provided in this topic.",
+    "possible_causes": [
+      "(reported from the client side): The input signals on the client side contain B1 bit errors.",
+      "(reported from the client side): The board that reports this alarm is faulty.",
+      "(reported from the WDM side): The receive side of the local station (Station B) is faulty. ===== PAGE 179 ===== OptiX OSN 9800 Product Documentation 2026-04-22 177",
+      "(reported from the WDM side): The attenuation of the received signals is excessively high; the fiber or connector is not clean.",
+      "(reported from the WDM side): The transmit side of the opposite station (Station A) is faulty."
+    ]
+  },
+  "BD_STATUS": {
+    "name": "BD_STATUS",
+    "description": "===== PAGE 181 =====\nPhysical board being offline. This alarm is generated when the logical board is created on the NCE but the \nphysical board is not inserted in the slot.",
+    "severity": "Major",
+    "alarm_type": "Equipment alarm",
+    "impact": "The board is offline. Therefore, the functions related to the board are unavailable.",
+    "fault_symptom": "",
+    "possible_causes": [
+      "The logical board is configured but the physical board has not been inserted in the corresponding slot.",
+      "The connection between the plug of the board and the socket of the backplane is loose.",
+      "The board is faulty.",
+      "If multiple boards report this alarm, the EFI board may be faulty.",
+      "The backplane is faulty."
+    ]
+  },
+  "BEFFEC_EXC": {
+    "name": "BEFFEC_EXC",
+    "description": "Signal degraded before FEC. Signals sent from the WDM side of the opposite-end OTU have the FEC \nfunction. As a result, before performing signal FEC in the receive direction on the WDM side of the local-\nend OTU, the local-end OTU counts the bit error rate. This alarm is generated when the counted bit error \nrate crosses the threshold.",
+    "severity": "Major",
+    "alarm_type": "Service quality alarm",
+    "impact": "The error tolerance of the system decreases, which may even affect the quality of signals.",
+    "fault_symptom": "Table 1 lists the fault symptom of the BEFFEC_EXC alarm. \n===== PAGE 183 =====\nTable 1 Fault symptom for the BEFFEC_EXC alarm \nFault Symptom Cause\nThe NE that reports this alarm reports a temperature alarm \nor fan fault alarm, such as TEMP_OVER or FAN_FAIL, within a \ncertain time.\nCause 3 of this alarm in the case of multiple \nwavelengths: The external environment is \nimproper.\n \nIf the fault has ",
+    "possible_causes": [
+      "The input optical power of the OTU board is excessively high or low.",
+      "The settings of the FEC mode of the interconnected OTU boards are different.",
+      "The fiber between the OTU board and the multiplexer/demultiplexer board is faulty.",
+      "The board that reports this alarm or the board at the opposite station is faulty. The possible causes of this alarm in the case of multiple wavelengths are as follows:",
+      "Fibers in the optical cables between stations or the multiplexing portions inside a station are faulty.",
+      "The attenuation of the signals during line transmission is excessively high.",
+      "The external environment is improper.",
+      "An inappropriate DCM is installed."
+    ]
+  },
+  "BIOS_STATUS": {
+    "name": "BIOS_STATUS",
+    "description": "===== PAGE 186 =====\nThe BIOS_STATUS is an alarm indicating the BIOS status. By default, if loading of the board software fails \nfor three consecutive times within five minutes, the board enters the BIOS status and the BIOS_STATUS \nalarm is reported.",
+    "severity": "Major",
+    "alarm_type": "Environment alarm",
+    "impact": "When an abnormality occurs on the board software or hardware, the BIOS_STATUS alarm is generated and \nrelated services are interrupted.",
+    "fault_symptom": "",
+    "possible_causes": [
+      "The software is lost.",
+      "Incorrect software is loaded.",
+      "Writing or reading the software becomes abnormal.",
+      "The board hardware is faulty.",
+      "The board software is not synchronized."
+    ]
+  },
+  "BOOTROM_BAD": {
+    "name": "BOOTROM_BAD",
+    "description": "A BOOTROM data check fails. This alarm is reported when the basic or extended BIOS software of the \nsystem control board is damaged.",
+    "severity": "Major",
+    "alarm_type": "Equipment alarm",
+    "impact": "When powered on again or reset after a power supply failure, the system control board cannot be \nnormally started.",
+    "fault_symptom": "",
+    "possible_causes": [
+      "The system control board is faulty.",
+      "The BOOTROM data area of the board is damaged."
+    ]
+  },
+  "BP_ODU_LOFLOM": {
+    "name": "BP_ODU_LOFLOM",
+    "description": "BP_ODU_LOFLOM indicates the loss of ODUk frames and multiframes in the backplane direction of an \nOTN line board. This alarm is reported when the frame header information of the source board and sink \nboard (the line board that reports the alarm) does not match.",
+    "severity": "Critical",
+    "alarm_type": "Equipment alarm",
+    "impact": "The OTN service that traverses this line board is interrupted or has a bit error.",
+    "fault_symptom": "",
+    "possible_causes": [
+      "The sink board is faulty.",
+      "The source board is faulty.",
+      "The cross-connect board is faulty.",
+      "The rate modes of corresponding channels on the source and sink boards are inconsistent."
+    ]
+  },
+  "BUS_ERR": {
+    "name": "BUS_ERR",
+    "description": "Backplane bus error. This alarm is generated when the board detects a backplane bus error.",
+    "severity": "Critical",
+    "alarm_type": "Equipment alarm",
+    "impact": "• This alarm triggers the bus switching.\n• Services are unavailable or bit errors are generated.",
+    "fault_symptom": "None\n \nIf the fault has no symptom, or if the fault symptom is not covered in this topic, handle the fault according to \n\"Handling Procedure\" provided in this topic.\n===== PAGE 194 =====\n2026-04-22 192",
+    "possible_causes": [
+      "The OTU, tributary, or line board is not properly inserted or is faulty.",
+      "The cross-connect board is not properly inserted or is faulty.",
+      "The type of services that are actually received does not match the service type configured on the board.",
+      "The pins are faulty or the bus is faulty on the backplane.",
+      "The logical board of the cross-connect board is not created.",
+      "The frequency deviation of input signals on the tributary board is excessively large.",
+      "When this alarm is reported by a cluster cross-connect board, the optical port on the cross- connect board is faulty.",
+      "When the cross-connect board reported the alarm, the service board was faulty."
+    ]
+  },
+  "CHAN_LOS": {
+    "name": "CHAN_LOS",
+    "description": "===== PAGE 196 =====\nSingle-wavelength signal loss or performance (the center wavelength, power, or OSNR) degrade alarm. \nThe alarm is generated when the multi-channel spectrum analyzer (MCA) board detects that the original \nwavelength is lost or the optical spectrum performance degrade amount exceeds the threshold after it \nscans the optical spectrum.",
+    "severity": "Critical",
+    "alarm_type": "Equipment alarm",
+    "impact": "• The services of the related wavelength are unavailable.\n• The MCA cannot monitor the optical spectrum performance of the wavelength related to the alarm.",
+    "fault_symptom": "None.\n \nIf the fault has no symptom, or if the fault symptom is not covered in this topic, handle the fault according to \n\"Handling Procedure\" provided in this topic.",
+    "possible_causes": [
+      "The wavelength that needs to be monitored is not received or the shift of the monitored wavelength exceeds 0.15 nm. For example, in the following figure, λ1 needs to be monitored as ===== PAGE 197 ===== OptiX OSN 9800 Product Documentation 2026-04-22 195 configured, but actually λ1 is not received. ",
+      "The laser on the board at the opposite station is turned off. For example, the laser on OTU1 in the preceding figure is turned off.",
+      "The optical power difference between the monitored wavelengths is excessively large. For example, the optical power difference between λ1 and λ2 is excessively large.",
+      "The attenuation of the multiplexer or OA board interconnected with the MCA is excessively high.",
+      "The OTU board located before the MCA is faulty. For example, OTU1 in the preceding figure is faulty.",
+      "The MCA that reports the alarm is faulty."
+    ]
+  },
+  "CLIENT_PORT_PS": {
+    "name": "CLIENT_PORT_PS",
+    "description": "Client-side 1+1 protection switching. This alarm is generated when a client 1+1 protection group \nundergoes protection switching and the active channel is switched from the working channel to the \nprotection channel.",
+    "severity": "Major",
+    "alarm_type": "Communication alarm",
+    "impact": "When a client 1+1 protection group undergoes protection switching, services are transiently interrupted. \nWhen this alarm is generated, the working channel of the client 1+1 protection group might have services \nthat needs to be restored.\n===== PAGE 200 =====\n2026-04-22 198",
+    "fault_symptom": "Table 1 lists the fault symptoms for the CLIENT_PORT_PS alarm. \nTable 1 Fault symptoms for the CLIENT_PORT_PS alarm \nFault Symptom Cause\nProtection switching is performed, but there is no \nalarm that can trigger protection switching.\nCause 1: A user delivers an external switching \ncommand such as forced switching or manual \nswitching.\nProtection switching is performed, and the board on \nthe workin",
+    "possible_causes": [
+      "A user delivers an external switching command such as forced switching or manual switching. Such a command makes the active channel of a client 1+1 protection group switch from the working channel to the protection channel, triggering the CLIENT_PORT_PS alarm.",
+      "The services on the working channel of a client 1+1 protection group are faulty and the active channel automatically switches to the working channel, triggering the CLIENT_PORT_PS alarm."
+    ]
+  },
+  "COMMUN_FAIL": {
+    "name": "COMMUN_FAIL",
+    "description": "Inter-board communication failure. This alarm is generated when the communication between system \ncontrol boards and other boards is interrupted.",
+    "severity": "Major",
+    "alarm_type": "Equipment alarm",
+    "impact": "Services may fail to be configured, protection switching may fail, or versions may be unexpectedly rolled \nback during package loading. When this occurs, new services will be abnormal.\nFor OSN 9800 U/M/K series subracks, after one COMMUN_FAIL alarm with the parameter being 0x03 and \nanother with the parameter being 0x04 are both generated, configurations cannot be delivered to boards \nor boards ca",
+    "fault_symptom": "Table 1 lists the common fault symptoms of the COMMUN_FAIL alarm on OSN 9800 U series subracks.\nTable 2 lists the common fault symptoms of the COMMUN_FAIL alarm on OSN 9800 M/K series subracks.\nTable 1 Common fault symptoms (OSN 9800 U series subracks) \nFault Symptom Possible Causes\nA service board reports the \nCOMMUN_FAIL alarm.\nThe alarm parameter is 0x01 0x00 \n0x03.\nNo other symptoms occur. The",
+    "possible_causes": [
+      "(reported on a single board): The board is in the cold reset or warm reset state.",
+      "(reported on a single board): The service board is faulty.",
+      "(reported on a single board): The system control board is faulty.",
+      "(reported on a single board): The AUX board is faulty.",
+      "(reported on a single board): The subrack backplane is faulty.",
+      "(reported on a single board): The fan board software is faulty.",
+      "(reported on a single board): The fan board is faulty.",
+      "(reported on a single board): The power board is faulty. The possible causes of the COMMUN_FAIL alarm reported on multiple boards are as follows:",
+      "(reported on multiple boards): The settings of the DIP switches of the subracks are incorrect or the subracks are cascaded inappropriately.",
+      "(reported on multiple boards): The cascading network cable between the master and slave subracks is faulty. ===== PAGE 205 ===== OptiX OSN 9800 Product Documentation 2026-04-22 203",
+      "(reported on multiple boards): The system control board or cross-connect board is faulty, or the system control board is offline.",
+      "(reported on multiple boards): The AUX board is faulty.",
+      "(reported on multiple boards): The subrack backplane is faulty.",
+      "(reported on multiple boards): The fan board is faulty.",
+      "(reported on multiple boards): The system control board is faulty.",
+      "(reported on multiple boards): The EFI board is faulty. If the active system control board is faulty, the active system control board, standby system control board, and service boards report the COMMUN_FAIL alarm at the same time. If the cross-connect board is faulty, the communication on channel 48"
+    ]
+  },
+  "DBMS_ERROR": {
+    "name": "DBMS_ERROR",
+    "description": "Database error. The alarm is generated when the database is in error.",
+    "severity": "Major",
+    "alarm_type": "Process alarm",
+    "impact": "• The database cannot be restored automatically.\n• The system configuration data may be lost. A failure message may be displayed in response to certain \nquery or setting commands. The functions of the system may be unavailable.\n• Inconsistent boards or ports exist in the database, causing a failure to execute the board or port \nrelated operation command.",
+    "fault_symptom": "",
+    "possible_causes": [
+      "The database operation fails.",
+      "Data in the database is damaged.",
+      "The board is faulty.",
+      "The configuration file fails to be saved because the storage space is full.",
+      "The database status does not support saving.",
+      "The saving fails due to a file backup failure.",
+      "The saving fails due to other errors."
+    ]
+  },
+  "FAN_FAIL": {
+    "name": "FAN_FAIL",
+    "description": "Fan failure. This alarm is generated when two or more fans fail.",
+    "severity": "Critical",
+    "alarm_type": "Equipment alarm",
+    "impact": "The failure of two or more fans leads to the increase in the board temperature and even the damage to \nthe board.",
+    "fault_symptom": "",
+    "possible_causes": [
+      "The speed of the fans is excessively low.",
+      "The fan power supply is abnormal.",
+      "The board is in poor contact with the backplane.",
+      "The fans stop running. ===== PAGE 211 ===== OptiX OSN 9800 Product Documentation 2026-04-22 209",
+      "The fans fail."
+    ]
+  },
+  "FAN_FAULT": {
+    "name": "FAN_FAULT",
+    "description": "Fan fault. This alarm is generated when a fan fails.",
+    "severity": "Major",
+    "alarm_type": "Equipment alarm",
+    "impact": "The failure of one fan may lead to the increase in the board temperature and even the damage to the \nboard.",
+    "fault_symptom": "",
+    "possible_causes": [
+      "One fan fails.",
+      "The logical inspection fails. ===== PAGE 212 ===== OptiX OSN 9800 Product Documentation 2026-04-22 210"
+    ]
+  },
+  "HARD_BAD": {
+    "name": "HARD_BAD",
+    "description": "Hardware failure. This alarm is generated when the system detects a hardware failure.",
+    "severity": "Critical",
+    "alarm_type": "Equipment alarm",
+    "impact": "The alarm affects the normal operating of the board and affects services.",
+    "fault_symptom": "",
+    "possible_causes": [
+      "The NE power supplies are abnormal.",
+      "The board is not connected to the backplane properly or the board is faulty.",
+      "The optical module is faulty.",
+      "The slot in the subrack is faulty. ===== PAGE 215 ===== OptiX OSN 9800 Product Documentation 2026-04-22 213",
+      "The device type in the EPPROM of the backplane fails to pass the verification, or the device type in the EPPROM of the backplane is different with that in the logic of the system control board, or the device type of the EPPROM on the backplane is inconsistent with that in the memory of the system co",
+      "The PSU is faulty."
+    ]
+  },
+  "HARD_NONSUPPORT": {
+    "name": "HARD_NONSUPPORT",
+    "description": "===== PAGE 221 =====\nNot supported by the hardware. This alarm is generated when the board hardware does not support the \nboard configuration, or the total power consumption of all inserted boards exceeds the upper limit of the \ndevice power consumption.",
+    "severity": "Major",
+    "alarm_type": "Equipment alarm",
+    "impact": "When this alarm is reported, the board configuration cannot take effect. Specifically, if this alarm is \nreported during service configuration, the service fails to be applied to the hardware and therefore cannot \nbe deployed. If this alarm is reported when IEEE 1588 is enabled, the IEEE 1588 function will fail to be \nenabled.",
+    "fault_symptom": "",
+    "possible_causes": []
+  },
+  "IN_PWR_HIGH": {
+    "name": "IN_PWR_HIGH",
+    "description": "Input optical power being too high. This alarm is generated when the input optical power is higher than \nthe upper threshold of the input optical power.",
+    "severity": "Critical",
+    "alarm_type": "Equipment alarm",
+    "impact": "When the input optical power is excessively high, bit errors and LOF alarms may be generated in the \nreceived signals, and the optical module on the board can be damaged. As a result, the services are \naffected.",
+    "fault_symptom": "None\n \nIf the fault has no symptom, or if the fault symptom is not covered in this topic, handle the fault according to \n\"Handling Procedure\" provided in this topic.",
+    "possible_causes": [
+      "(reported from the client side): The input optical power is excessively high, and the attenuation configured is insufficient or the attenuator is faulty.",
+      "(reported from the client side): The board that reports this alarm is faulty.",
+      "(reported from the WDM side): The output optical power of the board in the upstream station is excessively high.",
+      "(reported from the WDM side): The board that reports this alarm is faulty."
+    ]
+  },
+  "IN_PWR_LOW": {
+    "name": "IN_PWR_LOW",
+    "description": "Input optical power being too low. The alarm is generated when the input optical power is smaller than \nthe lower threshold of the input optical power.",
+    "severity": "Critical",
+    "alarm_type": "Equipment alarm",
+    "impact": "If the input optical power is excessively low, bit errors may be generated in the received signals, which \naffect the normal receiving of the services.",
+    "fault_symptom": "",
+    "possible_causes": [
+      "(reported from the client side): The fiber connector is dirty, and the fiber jumper is over-bent, damaged or aged.",
+      "(reported from the client side): The attenuation of the attenuator attached to the optical port on the board that reports this alarm is excessively high.",
+      "(reported from the client side): The board that reports this alarm is faulty.",
+      "(reported from the WDM side): The fiber connector is dirty, and the fiber jumper is over-bent, damaged or aged.",
+      "(reported from the WDM side): The attenuation of the attenuator attached to the optical port on the board that reports this alarm is excessively high. ===== PAGE 229 ===== OptiX OSN 9800 Product Documentation 2026-04-22 227",
+      "(reported from the WDM side): The attenuation attached to the transmit optical port on the board at the opposite station is excessively high, or the transmit optical module is faulty.",
+      "(reported from the WDM side): The attenuation in the transmission of the optical signals is excessively high and the compensation is insufficient.",
+      "(reported from the WDM side): The board that reports this alarm is faulty."
+    ]
+  },
+  "INNER_COMMUN_MISCON": {
+    "name": "INNER_COMMUN_MISCON",
+    "description": "Incorrect connection between an internal network and an external network. This alarm is generated when \nthe device cascading ports are incorrectly connected or the inter-board communication port of the subrack \nslot is disabled or a loop occurs in the inter-board communication of the subrack slot.",
+    "severity": "Major",
+    "alarm_type": "Equipment alarm",
+    "impact": "The communication data between the NE and each board is abnormal, and configuration query commands \ncannot be processed normally.",
+    "fault_symptom": "",
+    "possible_causes": [
+      "The device cascading ports are incorrectly connected or the inter-board communication port of the subrack slot is disabled or a loop occurs in the inter-board communication of the subrack slot."
+    ]
+  },
+  "INSUFFCNT_FLSH_SPACE": {
+    "name": "INSUFFCNT_FLSH_SPACE",
+    "description": "This alarm indicates the space of the flash file system is insufficient.",
+    "severity": "Critical",
+    "alarm_type": "Processing alarm",
+    "impact": "===== PAGE 234 =====\nThe flash file storage space is insufficient. As a result, file storage in the flash fails.",
+    "fault_symptom": "",
+    "possible_causes": []
+  },
+  "LAN_LOC": {
+    "name": "LAN_LOC",
+    "description": "Ethernet communication failure. In the case of NE cascading, this alarm is generated when the Ethernet \ncommunication between NEs fails.",
+    "severity": "Major",
+    "alarm_type": "Communication alarm",
+    "impact": "The communication at this network port fails and some NEs may be unreachable by the NCE, but the \nservices on the NEs are not affected.",
+    "fault_symptom": "",
+    "possible_causes": []
+  },
+  "LASER_MOD_ERR": {
+    "name": "LASER_MOD_ERR",
+    "description": "The LASER_MOD_ERR is an alarm indicating mismatch of optical modules. When the optical module \ninserted does not support the service currently configured, this alarm occurs.",
+    "severity": "Major",
+    "alarm_type": "Equipment alarm",
+    "impact": "When the installed optical module is incorrect, the performance of the optical port is degraded. In severe \ncases, the services are interrupted.",
+    "fault_symptom": "",
+    "possible_causes": [
+      "The optical interface is configured as single mode, but a multi-mode optical module is used; or the optical interface is configured as multi-mode, but a single-mode optical module is used. ===== PAGE 237 ===== OptiX OSN 9800 Product Documentation 2026-04-22 235",
+      "The rate of the optical module inserted does not match the rate of the optical interface of the board.",
+      "The optical module is faulty."
+    ]
+  },
+  "LASER_MODULE_MISMATCH": {
+    "name": "LASER_MODULE_MISMATCH",
+    "description": "Optical modules mismatch. This alarm is generated when the type of the optical module inserted into an \noptical port of a board mismatches the type of the board.",
+    "severity": "Major",
+    "alarm_type": "Equipment alarm",
+    "impact": "Services cannot be normally received or transmitted, and even may be interrupted.",
+    "fault_symptom": "",
+    "possible_causes": [
+      "The optical port type supported by the physical board mismatches the type of the optical module inserted to the optical port. • The logical port is inconsistent with the physical port.",
+      "The configuration of the logical port is inconsistent with the actual physical port where the optical module is installed. • The function configuration does not match the module.",
+      "After ST2 mode is enabled for the board, the BIDI OSC module is inserted.",
+      "The type of the OTDR module in the Alps-WDM scenario does not meet the requirement. • Parameter 1 is 0x01:",
+      "The use of optical ports on the optical module does not comply with the configuration principle. • Parameter 1 is 0x02:",
+      "The optical port does not support IEEE 1588 service configuration in the current networking. • Parameter 1 is 0x03:",
+      "After jitter detection is enabled, the inserted optical module is not supported."
+    ]
+  },
+  "LINK_ERR": {
+    "name": "LINK_ERR",
+    "description": "Incorrect data link. This alarm is generated when the link status of Ethernet data ports is down.",
+    "severity": "Critical",
+    "alarm_type": "Communication alarm",
+    "impact": "When the link status of Ethernet ports is down, a valid link cannot be created between the two data ports \nand the data services are interrupted.",
+    "fault_symptom": "Table 1 lists the fault symptom for the LINK_ERR alarm. \nTable 1 Fault symptom for the LINK_ERR alarm \nFault Symptom Cause\nAn IN_PWR_HIGH or IN_PWR_LOW alarm may be \ngenerated on both interconnected boards.\nCause 3: The input optical power of the two \ninterconnected Ethernet ports is excessively high or low.\n \nIf the fault has no symptom, or if the fault symptom is not covered in this topic, handl",
+    "possible_causes": [
+      "The service type of the client equipment mismatches the service type of the interconnected OTU.",
+      "The settings of the auto-negotiation mode of the two interconnected Ethernet ports are inconsistent. For example, one port is in auto-negotiation mode but the other is in non-negotiation mode.",
+      "The input optical power of the two interconnected Ethernet ports is excessively high or low. ===== PAGE 241 ===== OptiX OSN 9800 Product Documentation 2026-04-22 239",
+      "The fiber or cable that connects the two Ethernet ports fails.",
+      "The optical module types of the two interconnected Ethernet boards are inconsistent. Therefore, the types of fibers that the two optical modules can be connected to are inconsistent.",
+      "The data equipment on the client side is faulty.",
+      "The board that reports this alarm is faulty."
+    ]
+  },
+  "LOCAL_FAULT": {
+    "name": "LOCAL_FAULT",
+    "description": "This alarm is generated when a local fault occurs.",
+    "severity": "Critical",
+    "alarm_type": "Communication alarm",
+    "impact": "If the board receives the LOCAL_FAULT alarm, the received services may be interrupted.",
+    "fault_symptom": "",
+    "possible_causes": [
+      "The input fiber on the client side is transiently cut.",
+      "The input optical power on the client side is abnormal.",
+      "The optical port of the optical module is contaminated.",
+      "The optical module is not properly connected.",
+      "The board software is abnormal."
+    ]
+  },
+  "LPT_ACTIVE": {
+    "name": "LPT_ACTIVE",
+    "description": "This alarm indicates that LPT switching occurred. The data equipment itself has protection schemes. Hence, \nthe protection provided by the WDM equipment is not needed. However, the WDM equipment is needed \nfor informing the data equipment about the faults in the transmission layer. In this way, the switching \nwould be triggered for the data equipment. The alarm is generated when switching is triggered.",
+    "severity": "Major",
+    "alarm_type": "Communication alarm",
+    "impact": "When this alarm is generated, services will be interrupted if no alternative route is available. If an \nalternative route is available, the services will be automatically switched to the available route, and a \nmessage will be generated, prompting the user to remove the fault.",
+    "fault_symptom": "The following table lists the common symptoms of the LPT_ACTIVE alarm. \n===== PAGE 245 =====\nTable 1 Fault symptoms for the LPT_ACTIVE alarm \nFault Symptom Cause\nThe R_LOS, LINK_ERR or L_SYNC alarm may \nbe generated on the client side of the board.\nCause 1: The input signals on the client side are missing or the \nlocal board detects a LINK_ERR or L_SYNC alarm.\nAn REM_SF alarm may be generated on t",
+    "possible_causes": [
+      "The input signals on the client side are missing or the local board detects a LINK_ERR or L_SYNC alarm.",
+      "An REM_SF alarm is generated on the client side of the local board because equipment at the opposite station malfunctions.",
+      "When the WDM equipment receives data services and the OTN frames are transmitted on the WDM side, this alarm may be triggered by the R_LOS, OTUk_AIS, OTUk_LOF, ODUk_PM_AIS, ODUk_PM_OCI, ODUk_PM_LCK, ODUk_TCMn_AIS, ODUk_TCMn_OCI, or ODUk_TCMn_LCK alarm on the WDM side.",
+      "When the WDM equipment receives data services and the SDH frames are transmitted on the WDM side, this alarm may be triggered by the R_LOS or R_LOF alarm on the WDM side.",
+      "Regarding to separation of the tributary board from the line board, if the cross-connection configuration does not exist, the alarm is generated."
+    ]
+  },
+  "LSR_WILL_DIE": {
+    "name": "LSR_WILL_DIE",
+    "description": "This alarm indicates that the laser life will end.",
+    "severity": "Critical",
+    "alarm_type": "Equipment alarm",
+    "impact": "The laser is aging, and therefore the quality of the output optical signals and the received signals is \ndecreased (for example, the optical power is lower or is unstable). The impact depends on the aging level \nof the laser.",
+    "fault_symptom": "",
+    "possible_causes": [
+      "The laser is aging. The service life of the laser will be terminated.",
+      "The detection circuit of the board is faulty."
+    ]
+  },
+  "MEM_OVER": {
+    "name": "MEM_OVER",
+    "description": "The MEM_OVER alarm indicates that the memory utilization is too high. This alarm occurs when a board \ndetects that the memory utilization is higher than the threshold.",
+    "severity": "Major",
+    "alarm_type": "Process alarm",
+    "impact": "When this alarm occurs, the board might perform an automatic warm reset.",
+    "fault_symptom": "",
+    "possible_causes": [
+      "The NE is operating a large number of alarm and performance monitoring tasks.",
+      "The board is operating a large volume of traffic."
+    ]
+  },
+  "MOD_COM_FAIL": {
+    "name": "MOD_COM_FAIL",
+    "description": "Module communication abnormality. The alarm is generated when the communication between the CPU \nand other internal modules of the board is abnormal.",
+    "severity": "Critical",
+    "alarm_type": "Equipment alarm",
+    "impact": "Because the communication between the CPU and the optical module is abnormal, the optical module \ncannot be managed by NCE and the information about the optical module cannot be queried.",
+    "fault_symptom": "",
+    "possible_causes": [
+      "The board is in poor contact with the connector of the optical module.",
+      "The software processing of the optical module on the board is faulty.",
+      "The board or optical module is faulty."
+    ]
+  },
+  "MS_AIS": {
+    "name": "MS_AIS",
+    "description": "This alarm is a multiplex section alarm indication. The alarm is generated when the input signals from the \nclient side contain the MS_AIS signal or the receive side of the local station is faulty.",
+    "severity": "Major",
+    "alarm_type": "Communication alarm",
+    "impact": "The services are faulty.",
+    "fault_symptom": "",
+    "possible_causes": [
+      "The input signals from the client side contain the MS_AIS signal, as shown in the following figure. ===== PAGE 252 ===== OptiX OSN 9800 Product Documentation 2026-04-22 250",
+      "The board that reports the alarm is faulty."
+    ]
+  },
+  "MS_RDI": {
+    "name": "MS_RDI",
+    "description": "This alarm is a multiplex section remote defect indication. The alarm is generated at the local station if the \nopposite station back transmits the information through overhead when the WDM-side receive part of the \nopposite station is faulty (for example, the R_LOS, R_LOF or MS_AIS alarm is generated).\n===== PAGE 253 =====\n2026-04-22 251",
+    "severity": "Minor",
+    "alarm_type": "Communication alarm",
+    "impact": "• If the alarm is reported from the WDM side, the services may be interrupted.\n• If the alarm is reported from the client side, the client-side services are abnormal.",
+    "fault_symptom": "Table 1 lists the fault symptom for the MS_RDI alarm. \nTable 1 Fault symptom for the MS_RDI alarm \nFault Symptom Cause\nThe board at the opposite station reports \nan R_LOS, R_LOF, or MS_AIS alarm.\nCause 1 (reported from the WDM side): The receiver on the \nWDM side at the opposite station detects a signal failure.\n \nIf the fault has no symptom, or if the fault symptom is not covered in this topic, h",
+    "possible_causes": [
+      "(reported from the client side): For the OTU board whose client side supports the SDH services, the input signals from the client side contain the MS_RDI signal. As shown in the following figure, the input signals from the client side of the OTU board at the local station A contain the MS_RDI signal",
+      "(reported from the WDM side): The receiver on the WDM side at the opposite station detects a signal failure. (For example, an R_LOS, R_LOF, or MS_AIS alarm is generated.) As shown in the following figure, the WDM side of the OTU board in station B (the opposite station) sends the MS_RDI signals back",
+      "(reported from the WDM side): The board that reports the alarm is faulty."
+    ]
+  },
+  "MUT_LOS": {
+    "name": "MUT_LOS",
+    "description": "Multiplexed signals are lost. This alarm is generated when the multiplexed optical signals received by a \nboard are lost.",
+    "severity": "Critical",
+    "alarm_type": "Communication alarm",
+    "impact": "The services carried on the optical port where this alarm is generated are interrupted.",
+    "fault_symptom": "",
+    "possible_causes": [
+      "No fiber is connected to the optical port at the receive end of the board that reports the alarm, or the fiber is incorrectly connected or damaged.",
+      "The signal loss is too large during transmission.",
+      "The board that reports the alarm is faulty.",
+      "The optical power detection function of the optical port on the board that reports the alarm does not meet the following conditions: • The OTU board used with the AM port supports the Huawei digital optical label (LS) function. • The board is configured with optical cross-connections in automatic mo"
+    ]
+  },
+  "NEBD_XC_DIF": {
+    "name": "NEBD_XC_DIF",
+    "description": "The NE and board have inconsistent cross-connect data. For a board that supports service cross-\nconnections, this alarm is reported when the cross-connect data stored on the system control board is \ninconsistent with the cross-connect data stored on the board.",
+    "severity": "Critical",
+    "alarm_type": "Processing alarm",
+    "impact": "• New services may fail to be provisioned.\n• The created services are abnormal. For the boards (cross-connect boards and system control boards) \nthat have device-level protection, isolation or switching may be triggered. For service boards, services \nmay be interrupted, or the protection switching function may be abnormal.",
+    "fault_symptom": "",
+    "possible_causes": [
+      "The cross-connect data stored on the board is incorrect. ===== PAGE 259 ===== OptiX OSN 9800 Product Documentation 2026-04-22 257",
+      "The cross-connect data stored on the system control board is incorrect.",
+      "The cross-connect board is faulty."
+    ]
+  },
+  "NO_ELABEL": {
+    "name": "NO_ELABEL",
+    "description": "===== PAGE 260 =====\nElectronic label unloaded. This alarm is generated when the electronic label of a board is lost or not \nloaded.",
+    "severity": "Warning",
+    "alarm_type": "Equipment alarm",
+    "impact": "• The logical versions of some service boards will change after a device upgrade. If no cold reset is \nperformed on such a board, the logical version of the board is still the source version after the \nupgrade is completed.\n• After the software is upgraded, the new version enhances the frequency deviation tolerance of the \nsystem clock. If no cold reset is performed, services may be transiently in",
+    "fault_symptom": "",
+    "possible_causes": [
+      "The electronic label is lost or not loaded.",
+      "The new board logic does not take effect.",
+      "After the software is upgraded, no cold reset is performed on the board, and the clock configuration of the earlier version does not take effect.",
+      "The board software communication is abnormal."
+    ]
+  },
+  "OA_LOW_GAIN": {
+    "name": "OA_LOW_GAIN",
+    "description": "Gain of an optical amplifier (OA) board being low. This alarm is generated when the actual gain of an OA \nboard (except the Raman optical module of the RAU board) is 3 dB lower than the nominal gain. For the \nRaman optical module of the RAU board, the alarm is generated when the actual gain is 2 dB lower than \nthe nominal gain.",
+    "severity": "Critical",
+    "alarm_type": "Service quality alarm",
+    "impact": "The impacts of this alarm vary according to the alarm causes:\n• If the alarm is generated because the input optical power is excessively high, the redundancy of the \nsystem decreases, which affects the subsequent capacity expansion.\n===== PAGE 263 =====\n• If the alarm is caused by other factors (for example, excessive insertion loss between the TDC and \nRDC optical ports on an OAU board), the inpu",
+    "fault_symptom": "Table 1 lists the fault symptom for the OA_LOW_GAIN alarm. \nTable 1 Fault symptom for the OA_LOW_GAIN alarm \nFault Symptom Cause\nThe OAU board that reports this alarm also reports a power \nhigh alarm, such as SUM_INPWR_HI.\nCause 1: The input optical power of the OAU \nboard is excessively high.\n \nIf the fault has no symptom, or if the fault symptom is different from the one described in this topic,",
+    "possible_causes": [
+      "The input optical power of the board is excessively high.",
+      "This alarm may be generated because the insertion loss between the TDC and RDC optical ports is excessively high. (This cause is applicable only to the OAU board.)",
+      "The board that reports the alarm is faulty. For the Raman optical module of the RAU board and SRAU board, the alarm caused by different factors has different impacts on the system:",
+      "The quality of the fiber 30 km near the board deteriorates or the end face of the fiber is burnt.",
+      "The insertion loss of the near-end fiber connector is too large.",
+      "The span is too short.",
+      "The configured fiber type is inconsistent with the actual fiber type.",
+      "The current configured gain is out of the gain range of the new fibers after the fiber type is changed.",
+      "A fault occurs on the board. For example, the pump laser is aging or faulty, or the gain locking unit is faulty."
+    ]
+  },
+  "ODU_SNCP_PS": {
+    "name": "ODU_SNCP_PS",
+    "description": "ODUk SNCP protection switching. This alarm is generated on the board of working channel when an ODU \nSNCP protection group actuates switching in which the current channel switches to the protection channel \nfrom the working channel.",
+    "severity": "Major",
+    "alarm_type": "Communication alarm",
+    "impact": "When an ODUk SNCP protection group undergoes switching, services are transiently interrupted. When \nthis alarm is reported, the working channel of the ODUk SNCP protection group might have faulty services \nthat need to be restored.",
+    "fault_symptom": "Table 1 lists the fault symptoms for the ODU_SNCP_PS alarm. \nTable 1 Fault symptoms for the ODU_SNCP_PS alarm \nFault Symptom Cause\nProtection switching is performed, but there is \nno alarm that can trigger protection switching.\nCause 1: A user delivers an external switching command such \nas forced switching or manual switching.\nProtection switching is performed, and the \nboard on the working chann",
+    "possible_causes": [
+      "A user delivers an external switching command such as forced switching or manual switching. Such a command switches the services of the ODUk SNCP protection group from the working channel to the protection channel.",
+      "The services on the working channel of the ODUk SNCP protection group are faulty and therefore services are automatically switched to the protection channel."
+    ]
+  },
+  "ODU_SNCP_WEAK": {
+    "name": "ODU_SNCP_WEAK",
+    "description": "ODUk SNCP weak protection capability. This alarm is generated on the board of working channel when \nthe working and protection channels of a protection group are configured on the same OTU board. When \nthe working and protection channels of a protection group are configured on different OTU boards and the \nworking or protection channel on the sink NE of the SNCP protection group is faulty, this alarm is reported. \nInverse multiplexing SNCP protection groups are not correctly added to the SNCP protection group set.",
+    "severity": "Minor",
+    "alarm_type": "Processing alarm",
+    "impact": "• The protection capability is weak.\n• If the channel is faulty and ODUk SNCP switching occurs, services will be transiently interrupted.\n• If inverse multiplexing SNCP protection groups are not correctly added to the SNCP protection group \nset, services will be affected when protection switching occurs on any ODUk SNCP protection group.",
+    "fault_symptom": "",
+    "possible_causes": [
+      "The working and protection channels of a protection group are configured on the same OTU board.",
+      "A service fault occurs in the working or protection channel of the ODUk SNCP protection group.",
+      "The working or protection OTU boards or cross-connect boards of the SNCP are faulty. ===== PAGE 269 ===== OptiX OSN 9800 Product Documentation 2026-04-22 267",
+      "Inverse multiplexing SNCP protection groups are not correctly added to the SNCP protection group set."
+    ]
+  },
+  "ODUk_LOFLOM": {
+    "name": "ODUk_LOFLOM",
+    "description": "Frame alignment signal (FAS) and multiframe alignment signal (MFAS) being abnormal. This alarm is \ngenerated when the upstream frame header does not match the downstream frame header.\nk indicates the rate level, its value is FLEX, 0, 1, 2, 3, or 25.",
+    "severity": "Critical",
+    "alarm_type": "Communication alarm",
+    "impact": "The services on the board are interrupted.",
+    "fault_symptom": "",
+    "possible_causes": [
+      "The signals transmitted by the corresponding board at the opposite end do not have a frame structure.",
+      "The input optical power is abnormal.",
+      "The FEC type is incorrectly configured.",
+      "Bit errors in the received signals of the OTU board at the local station are excessive.",
+      "The fiber of the transmission line is abnormal.",
+      "The rate modes of corresponding channels on the local and opposite boards are inconsistent.",
+      "The ODUk timeslot configuration modes of the board at both ends are different.",
+      "The service mapping paths of the local and peer boards are inconsistent.",
+      "The local or opposite board is faulty."
+    ]
+  },
+  "ODUk_PM_EXC": {
+    "name": "ODUk_PM_EXC",
+    "description": "ODUk PM BIP8 error count exceeding the threshold. This alarm is generated when the BIP8 detection is in \npoisson mode and bit error count exceeds the threshold.\n===== PAGE 272 =====\nk indicates the level of rate. Its value is 3.",
+    "severity": "Major",
+    "alarm_type": "Communication alarm",
+    "impact": "If this alarm is reported, bit errors will be generated on the services of this optical port, resulting service \nsignal failure or service signal unavailability.",
+    "fault_symptom": "Table 1 lists the fault symptoms for the ODUk_PM_EXC alarm. \nTable 1 Fault symptoms for the ODUk_PM_EXC alarm \nFault Symptom Cause\nThe OTU board at the local station may \nreport an IN_PWR_LOW alarm.\nCause 1: The attenuation of the received signals is rather large, \nand the fiber transmission line is abnormal.\n \nIf the fault has no symptom, or if the fault symptom is different from the one describe",
+    "possible_causes": [
+      "The attenuation of the received signals is rather large, and the fiber transmission line is abnormal.",
+      "The transmitter of the OTU board at the opposite station is faulty.",
+      "The receiver of the OTU board at local station is faulty."
+    ]
+  },
+  "OPA_FAIL_INDI": {
+    "name": "OPA_FAIL_INDI",
+    "description": "===== PAGE 274 =====\nFailure in automatic power adjustment of optical cross-connections. The alarm is generated when the \ncalculated attenuation exceeds the adjustment range of the board during an automatic optical power \nadjustment.",
+    "severity": "Major",
+    "alarm_type": "Process alarm",
+    "impact": "• When the alarm is reported, the attenuation of the board is not adjusted. For new services, the \nservices may be unavailable. For existing services, the QoS cannot be improved.\n• This alarm indicates an operation failure instead of a fault being detected. In other words, this alarm \npersists even after you manually adjust the attenuation and services are restored.",
+    "fault_symptom": "",
+    "possible_causes": [
+      "The optical power budget is insufficient.",
+      "The attenuation of the configured VA1 or VA4 board is manually modified.",
+      "When there are adjustment points of multiplexed wavelengths and each single wavelength in OPA scenarios, the attenuation of the VOAs at the multiplexed wavelength adjustment points is not adjusted to the minimum value. For example, in the OPA application scenario, the built-in VOAs on ===== PAGE 275"
+    ]
+  },
+  "OTUk_LOF": {
+    "name": "OTUk_LOF",
+    "description": "The OTUk_LOF is an alarm indicating that the frame alignment signal (FAS) is abnormal. This alarm occurs \nwhen the frame alignment processing is out of frame (OOF) in three consecutive milliseconds.\nk indicates the level of rate. Its value is 0, 1, 2, 3, 4, 5, or 25.",
+    "severity": "Critical",
+    "alarm_type": "Communication alarm",
+    "impact": "Services on the board are interrupted.",
+    "fault_symptom": "Table 1 lists the fault symptom for the OTUk_LOF alarm. \nTable 1 Fault symptom for the OTUk_LOF alarm \nFault Symptom Cause\nTwo boards at two ends of a single wavelength report the \nOTUk_LOF alarm in the deployment.\nCause 1: The settings of the service \ntype or FEC type are incorrect.\nA single board at one end reports the OTUk_LOF alarm in the \ndeployment. In addition, the alarm indicating abnormal",
+    "possible_causes": [
+      "The two ends have different service types or FEC modes.",
+      "The board that reports the alarm is faulty.",
+      "The receive optical power or the OSNR of the local board is abnormal.",
+      "The signals transmitted by the corresponding board at the opposite end do not have a frame structure.",
+      "The fiber of the transmission line is abnormal.",
+      "The dispersion compensation value is excessively great or small. ===== PAGE 277 ===== OptiX OSN 9800 Product Documentation 2026-04-22 275",
+      "The optical module type does not match.",
+      "Dummy light is filled in the C+L-band system. As a result, the OTU board cannot receive signal light."
+    ]
+  },
+  "OUT_PWR_HIGH": {
+    "name": "OUT_PWR_HIGH",
+    "description": "Output optical power being too high. This alarm is generated when the laser output optical power exceeds \nthe upper threshold.\n===== PAGE 280 =====\n2026-04-22 278",
+    "severity": "Major",
+    "alarm_type": "Equipment alarm",
+    "impact": "• When the output optical power is excessively high, the input optical power at the receive end will be \nvery high if no proper optical attenuator is used at the receive end. As a result, the module at the \nreceive end may be damaged.\n• If the board works abnormally, the existing services are affected.",
+    "fault_symptom": "",
+    "possible_causes": []
+  },
+  "PORT_MODULE_OFFLINE": {
+    "name": "PORT_MODULE_OFFLINE",
+    "description": "===== PAGE 281 =====\nOptical module on an optical port being offline. This alarm is generated when the board detects that an \noptical module is offline.",
+    "severity": "Major",
+    "alarm_type": "Equipment alarm",
+    "impact": "Absence of the optical module leads to an interruption of services carried at the corresponding optical port.",
+    "fault_symptom": "",
+    "possible_causes": [
+      "The optical module does not exist or is not correctly inserted.",
+      "The optical module or the board is faulty."
+    ]
+  },
+  "POWER_DIFF_OVER": {
+    "name": "POWER_DIFF_OVER",
+    "description": "POWER_DIFF_OVER indicates that the optical power difference change exceeds the specified threshold. If \nthe variance of the current power difference between active and standby optical signals from the initial \npower difference between active and standby optical signals exceeds the specified threshold, this alarm will \nbe reported on the channel with lower power.",
+    "severity": "Major",
+    "alarm_type": "Equipment alarm",
+    "impact": "The switching of the active and standby channels is affected. As a result, the quality of the received \nservices is affected.",
+    "fault_symptom": "",
+    "possible_causes": [
+      "During transmission, the optical power attenuation of signals is excessively large or the board at the local end is equipped with an over-large optical attenuator. Therefore, the optical power difference between the active and standby OSCs at the receive end is excessively large. ===== PAGE 283 ====",
+      "The optical power difference of signals on the active and standby channels when the board at the peer end transmits signals is excessively large.",
+      "The detection circuit of the board at the local end is faulty."
+    ]
+  },
+  "POWER_FAIL": {
+    "name": "POWER_FAIL",
+    "description": "Power supply failure. This alarm is generated when the power supply of a board becomes abnormal. For \nexample, there is overvoltage or undervoltage of the power supply, or the battery on the system control \nboard has no charge.",
+    "severity": "Major",
+    "alarm_type": "Equipment alarm",
+    "impact": "• If this alarm is reported by the system control board (parameter 1 of this alarm is 0x05), the \nconfiguration within 30 minutes before the power failure may be lost. In this case, you need to \nmanually redeliver the configuration data within 30 minutes before the power failure.\n• If this alarm is reported by other boards, \n• If the active power supply fails but the standby power supply is normal",
+    "fault_symptom": "",
+    "possible_causes": [
+      "If the alarm is reported by the system control board (parameter 1 is 0x05), the battery power supply of the system control board is abnormal.",
+      "If the alarm is reported by the PIU board, the input power voltage of the subrack is abnormal and the power supply module is faulty (parameter 1 is 0x3d or 0x3f).",
+      "If the alarm is reported by the PIU board, the power supply module of the board is faulty or aging, the board is not properly installed, or the PIU board is set to the shutdown mode in the system control board configuration window (parameter 1 is not 0x05, 0x3d, or 0x3f).",
+      "If the PSU board reports this alarm, the input power of the subrack is abnormal and the power module is faulty. ===== PAGE 286 ===== OptiX OSN 9800 Product Documentation 2026-04-22 284"
+    ]
+  },
+  "PUMP_COOL_EXC": {
+    "name": "PUMP_COOL_EXC",
+    "description": "Cooling current of the pump laser exceeding the threshold. This alarm is generated when the laser cooling \ncurrent is higher than the upper threshold or lower than the lower threshold.",
+    "severity": "Critical",
+    "alarm_type": "Equipment alarm",
+    "impact": "When this alarm is reported, the laser ages sharply and the performance of output signals deteriorates.\n===== PAGE 288 =====\n2026-04-22 286",
+    "fault_symptom": "Table 1 lists the fault symptom for the PUMP_COOL_EXC alarm. \nTable 1 Fault symptom for the PUMP_COOL_EXC alarm \nFault Symptom Cause\nThe NE that reports this alarm reports a temperature alarm or fan \nfault alarm, such as TEMP_OVER or FAN_FAIL, within a certain time.\nCause 1: The ambient temperature of \nthe board is excessively high or low.\n \nIf the fault has no symptom, or if the fault symptom is ",
+    "possible_causes": [
+      "The ambient temperature of the board is excessively high or low.",
+      "The pump laser temperature is excessively high or low.",
+      "The board that reports this alarm is faulty."
+    ]
+  },
+  "R_LOF": {
+    "name": "R_LOF",
+    "description": "===== PAGE 289 =====\nLoss of frames on the receiving line. This alarm is generated when the frame alignment processing is out \nof frame (OOF) in 3 consecutive milliseconds.",
+    "severity": "Critical",
+    "alarm_type": "Communication alarm",
+    "impact": "• The board fails to locate the data frame of the received signals, and therefore the client services fail.\n• After this alarm is detected, protection switching is performed if the board supports protection \nswitching.",
+    "fault_symptom": "Table 1 lists the fault symptom for the R_LOF alarm. \nTable 1 Fault symptom for the R_LOF alarm \nFault Symptom Cause\nThe upstream board may report an R_LOS or R_LOF alarm. Cause 4 (reported from the WDM side)\n===== PAGE 290 =====\n \nIf the fault has no symptom, or if the fault symptom is not covered in this topic, handle the fault according to \n\"Handling Procedure\" provided in this topic.",
+    "possible_causes": [
+      "for this alarm generated on the client side: The input signals from the client side contain an R_LOF signal.",
+      "for this alarm generated on the client side: The board that reports this alarm is faulty.",
+      "for this alarm generated on the WDM side: The receive optical power or the OSNR of the local board is abnormal.",
+      "for this alarm generated on the WDM side: The signals transmitted by the upstream OTU have no frame structure.",
+      "for this alarm generated on the WDM side: The board that reports this alarm is faulty.",
+      "for this alarm generated on the WDM side: The input signals from the upstream station contain an R_LOS or R_LOF signal.",
+      "for this alarm generated on the WDM side: The dispersion is under- or over-compensated.",
+      "(on the WDM side): A fault occurs at the OTN server layer, affecting SDH services."
+    ]
+  },
+  "R_LOS": {
+    "name": "R_LOS",
+    "description": "Loss of signals at the receive end. This alarm is generated when the receive end receives no signal.",
+    "severity": "Critical",
+    "alarm_type": "Communication alarm",
+    "impact": "Services carried at the optical port where this alarm is generated are interrupted.",
+    "fault_symptom": "",
+    "possible_causes": [
+      "(reported from the client side): No fiber jumper is connected to the optical port on the board of the local station, the fiber jumper connected to the optical port is loose, or the fiber jumper is connected incorrectly.",
+      "(reported from the client side): The line attenuation is excessively high or a fiber cut occurs.",
+      "(reported from the client side): The board that reports this alarm is faulty.",
+      "(reported from the client side): If the board reporting this alarm is a 40G or 100G board, at least one wavelength has been missing from the receive end of the board.",
+      "(reported from the WDM side): No fiber jumper is connected to the optical port on the board of the local station, the fiber jumper connected to the optical port is loose, or the fiber jumper is connected incorrectly.",
+      "(reported from the WDM side): The line attenuation is excessively high or a fiber cut occurs.",
+      "(reported from the WDM side): The laser of the board at the opposite station is shut down.",
+      "(reported from the WDM side): The transmit module of the opposite station or receive module of the local station is faulty.",
+      "(reported from the WDM side): For the coherent board, the actually received wavelength is inconsistent with the configured received wavelength on the board."
+    ]
+  },
+  "R_SLIP": {
+    "name": "R_SLIP",
+    "description": "Frame slipping on the receive side. The alarm is generated when the phase deviation occurs in the received \nservice frames of the OSC board.",
+    "severity": "Major",
+    "alarm_type": "Equipment alarm",
+    "impact": "===== PAGE 297 =====\nThis alarm affects the services carried by the OSC board. For example, the optical supervisory signals or \nclock signals are degraded. As a result, the NE is disconnected from the NCE system.",
+    "fault_symptom": "Table 1 lists the fault symptom for the R_SLIP alarm. \nTable 1 Fault symptom for the R_SLIP alarm \nFault Symptom Cause\nThe board that reports this alarm also report an \nIN_PWR_HIGH or IN_PWR_LOW alarm.\nCause 2: The optical line attenuation is excessively high \nor the receive optical power is excessively high.\n \nIf the fault has no symptom, or if the fault symptom is not covered in this topic, hand",
+    "possible_causes": [
+      "The clock configuration is wrong or the clock signals are not synchronous.",
+      "The optical line attenuation is excessively high or the receive optical power is excessively high.",
+      "The fibers at the eastward and westward optical ports on the OSC board are connected reversely.",
+      "The board that reports this alarm is faulty."
+    ]
+  },
+  "REM_SF": {
+    "name": "REM_SF",
+    "description": "Remote signal failure alarm indication. This alarm is generated when the client side of the board at the \nopposite station fails to receive signals (for example, when there is an R_LOS or R_LOF alarm).\n===== PAGE 299 =====\n2026-04-22 297",
+    "severity": "Minor",
+    "alarm_type": "Communication alarm",
+    "impact": "Services carried on the client side of the board are interrupted.",
+    "fault_symptom": "Table 1 lists the fault symptom for the REM_SF alarm. \nTable 1 Fault symptom for the REM_SF alarm \nFault Symptom Cause\nThe OTU board at the opposite station reports \nan R_LOS, R_LOF, R_LOC, or a LOCAL_FAULT \nalarm.\nCause 1: An R_LOS, R_LOF, R_LOC, or a LOCAL_FAULT \nalarm is generated on the client side of the OTU at the \nopposite station.\n \nIf the fault has no symptom, or if the fault symptom is n",
+    "possible_causes": [
+      "An R_LOS, R_LOF, R_LOC or a LOCAL_FAULT alarm is generated on the client side of the OTU board at the opposite station.",
+      "The client side of the OTU board at the opposite station is faulty."
+    ]
+  },
+  "REMOTE_FAULT": {
+    "name": "REMOTE_FAULT",
+    "description": "Fault at the remote end.",
+    "severity": "Minor",
+    "alarm_type": "Communication alarm",
+    "impact": "If a board receives the REMOTE_FAULT alarm, the services on the board may be interrupted.",
+    "fault_symptom": "Table 1 lists the fault symptom for the REMOTE_FAULT alarm. \nTable 1 Fault symptom for the REMOTE_FAULT alarm \nFault Symptom Cause\nA LOCAL_FAULT alarm is reported from the client side of the \nboard at the opposite end.\nCause 1: The opposite station receives a \nLOCAL_FAULT alarm.\n \n===== PAGE 301 =====\nIf the fault has no symptom, or if the fault symptom is not covered in this topic, handle the fau",
+    "possible_causes": [
+      "The LOCAL_FAULT alarm is reported at the opposite station when 10GE LAN (BIT transparent transmission) services are received. See the following figure. After the service board at station A detects an LOCAL_FAULT alarm, it processes and transmits the alarm to station B. Then the service board at stat",
+      "The data equipment on the client side is malfunctioning."
+    ]
+  },
+  "SECU_ALM": {
+    "name": "SECU_ALM",
+    "description": "Invalid access. This alarm is generated when a user fails to log in again after four consecutive login \nfailures.",
+    "severity": "Major",
+    "alarm_type": "Security alarm",
+    "impact": "The alarm automatically clears and has no impact on the system.",
+    "fault_symptom": "",
+    "possible_causes": []
+  },
+  "SUBRACK_ID_CONFLICT": {
+    "name": "SUBRACK_ID_CONFLICT",
+    "description": "This alarm is generated when a subrack ID conflict occurs in master-slave subrack mode.",
+    "severity": "Critical",
+    "alarm_type": "Equipment alarm",
+    "impact": "The inter-subrack communication is abnormal. As a result, commands cannot be correctly issued to \ncorresponding subracks, and boards become unreachable by the NMS.",
+    "fault_symptom": "The board may report a BD_STATUS, COMMUN_FAIL, or WRG_BD_TYPE alarm at the same time.\n \nIf no corresponding fault symptom occurs, or the fault symptom is not included in this section, handle the alarm by \nreferring to the procedure below.",
+    "possible_causes": []
+  },
+  "SUM_INPWR_LOW": {
+    "name": "SUM_INPWR_LOW",
+    "description": "Input optical power of multiplexed wavelengths is excessively low. This alarm is generated when the input \noptical power of multiplexed signals is lower than the threshold.",
+    "severity": "Major",
+    "alarm_type": "Communication alarm",
+    "impact": "The output optical signals of a single channel of the board may be lost. As a result, the services in use may \nhave bit errors or even are interrupted.",
+    "fault_symptom": "Table 1 lists the fault symptom for the SUM_INPWR_LOW alarm. \nTable 1 Fault symptom for the SUM_INPWR_LOW alarm \nFault Symptom Cause\nThe upstream board reports an \nOUT_PWR_LOW alarm.\nCause 1: The output optical power of the upstream station decreases. \nTherefore, the input optical power of the local station is excessively low.\n \nIf the fault has no symptom, or if the fault symptom is not covered i",
+    "possible_causes": [
+      "The output optical power of the upstream station decreases. Therefore, the input optical power of the local station is excessively low.",
+      "The line attenuation is excessively high, or related fiber jumpers, fiber connectors, or optical attenuators are dirty.",
+      "The board that reports this alarm is faulty."
+    ]
+  },
+  "SWDL_CHGMNG_NOMATCH": {
+    "name": "SWDL_CHGMNG_NOMATCH",
+    "description": "Software mismatching alarm after system control board replacement. The system re-checks whether the \nsoftware of each board matches the NE software after the NE starts up upon a power failure or the system \ncontrol board is replaced or reset (cold). This alarm is generated when the board software of a board \nmismatches the NE software.",
+    "severity": "Critical",
+    "alarm_type": "Equipment alarm",
+    "impact": "• When this alarm occurs, the automatic matching function for package loading is disabled.\n• The version of the NE software is inconsistent with that of the system control board. Certain functions \nof the NE may operate abnormally.",
+    "fault_symptom": "",
+    "possible_causes": []
+  },
+  "SWDL_NEPKGCHECK": {
+    "name": "SWDL_NEPKGCHECK",
+    "description": "Loss of files. This alarm is generated when the NE software checks the software package and finds that a \nfile in a partition of the system control board software package is lost and the file cannot be restored from \nthe related file in another partition. This alarm clears when the NE software checks the software package \nand finds the file during next preventive maintenance. \n \nThe system control board checks the software package each time when the system control board starts up and when \nthe periodical check is performed. The periodical check is performed every hour by default.",
+    "severity": "Critical",
+    "alarm_type": "Process alarm",
+    "impact": "• If the alarm is reported during package loading, the package loading will fail.\n• If the alarm is reported at other time, the automatic matching function will be unavailable.",
+    "fault_symptom": "Table 1 lists the fault symptom for the SWDL_NEPKGCHECK alarm. \n===== PAGE 309 =====\nTable 1 Fault symptom for the SWDL_NEPKGCHECK alarm \nFault Symptom Cause\nThe SWDL_NEPKGCHECK alarm persists. Cause 1: The same file in two partitions in the software \npackage of the system control board is lost and cannot be \nrestored.\nThe SWDL_NEPKGCHECK alarm disappears after \nbeing reported for a certain period",
+    "possible_causes": [
+      "The same file in two partitions in the software package of the system control board is lost and cannot be restored.",
+      "A file in a partition in the software package of the system control board is lost and the file cannot be restored from the associated file in another partition."
+    ]
+  },
+  "SYNC_C_LOS": {
+    "name": "SYNC_C_LOS",
+    "description": "===== PAGE 310 =====\n• In cluster and non-cluster scenarios, this alarm indicates that the level of the synchronization source \nfrom the service board or bidirectional OSC board is lost. That is, this alarm is generated when the \nclock source on the service board or bidirectional OSC board in the priority table is lost.\n• In cluster scenarios, this alarm indicates that the time-scale source of the internal service subrack is \nlost, or the time-scale source of the standby CLC is lost.",
+    "severity": "Warning",
+    "alarm_type": "Equipment alarm",
+    "impact": "===== PAGE 311 =====\n• In cluster and non-cluster scenarios, this alarm is generated when the clock source is lost, indicating \nthat the external clock source of the system is lost and the device cannot trace the external clock \nsource.\n• In cluster scenarios, this alarm is generated when the time-scale source is lost, indicating that the \ntime-scale source is unavailable. Each service subrack has",
+    "fault_symptom": "",
+    "possible_causes": [
+      "Input signals are lost at the optical or electrical port that is connected to the clock source.",
+      "A fiber fault occurs.",
+      "The service board or bidirectional OSC board is faulty.",
+      "The clock board is faulty. In a cluster scenario where the time-scale source is lost:",
+      "The clock fiber connection in the cluster is interrupted.",
+      "The optical module is faulty.",
+      "The system control board or clock distribution board is faulty."
+    ]
+  },
+  "TEMP_OVER": {
+    "name": "TEMP_OVER",
+    "description": "Working temperature crossing the threshold. This alarm is generated when the system detects that the \nboard working temperature is higher than the upper threshold or lower than the lower threshold.",
+    "severity": "Major",
+    "alarm_type": "Equipment alarm",
+    "impact": "The excessively high or low temperature puts the system in a highly dangerous state. If the system runs in \nthis state for a long period of time, bit errors may be generated and services may be interrupted. \nTherefore, the TEMP_OVER alarm must be handled in a timely manner.",
+    "fault_symptom": "",
+    "possible_causes": [
+      "The set rotating speed of the fan board is excessively low.",
+      "The fan board is faulty.",
+      "The air filter is excessively dusty.",
+      "The ambient temperature is excessively high or excessively low due to a cooler or heater equipment fault.",
+      "The fan is not in position.",
+      "The board that reports the alarm is faulty.",
+      "If the alarm is reported on the cross-board, the operation may be irregular. The vents on the cross-board are obstructed, causing the temperature of the board to be too high."
+    ]
+  },
+  "TF": {
+    "name": "TF",
+    "description": "Transmission failure. This alarm is generated when the transmit optical power of the laser exceeds the \nthreshold of the output optical power of the laser.",
+    "severity": "Critical",
+    "alarm_type": "Equipment alarm",
+    "impact": "If a laser transmission failure occurs, services are interrupted.\n===== PAGE 316 =====\n2026-04-22 314",
+    "fault_symptom": "",
+    "possible_causes": [
+      "The laser module is damaged, or the laser is aging.",
+      "The detection circuit of the board is faulty."
+    ]
+  },
+  "WRG_BD_TYPE": {
+    "name": "WRG_BD_TYPE",
+    "description": "Incorrect board type. This alarm is generated when the configured logical board type is inconsistent with \nthe actual physical board type. This alarm is generated when the configured logical board is not supported \nby the current device.",
+    "severity": "Major",
+    "alarm_type": "Equipment alarm",
+    "impact": "If the type of the logical board is different from the type of the physical board, the board cannot work \nproperly, affecting services.",
+    "fault_symptom": "",
+    "possible_causes": [
+      "The type of the logical board configured on the NCE is different from the type of the physical board installed in the slot.",
+      "The board that reports this alarm is faulty.",
+      "The logical board supported by the patch version is added. After the patch is uninstalled, the current software version does not support the logical board."
+    ]
+  }
+}

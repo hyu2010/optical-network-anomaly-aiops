@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Network Fault Simulator</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <script src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+</head>
+<body>
+  <header>
+    <h1>Network Fault Simulator</h1>
+    <div class="header-actions">
+      <span id="topology-id" class="muted"></span>
+      <button id="clear-btn">Clear DB</button>
+      <a id="export-btn" href="/api/export" download>Export &darr;</a>
+    </div>
+  </header>
+
+  <main>
+    <section id="canvas-section">
+      <h2>Network topology</h2>
+      <div id="topology-canvas"></div>
+      <div id="canvas-legend">
+        <span class="dot ne"></span> NE
+        <span class="dot span"></span> fiber span
+        <span class="dot link-faulted"></span> faulted span
+        <span class="dot ne-faulted"></span> NE with alarms
+      </div>
+    </section>
+
+    <section id="ppe-section">
+      <h2>Power Profile Estimation
+        <span id="ppe-meta" class="muted small"></span>
+      </h2>
+      <div id="ppe-placeholder" class="muted small">
+        Trigger a fault to see the longitudinal power profile of affected OCh channels.
+      </div>
+      <div id="ppe-image-wrap" hidden>
+        <a id="ppe-image-link" href="#" target="_blank"
+           title="Open at full resolution in a new tab">
+          <img id="ppe-image" alt="PPE traces">
+        </a>
+        <div id="ppe-image-hint" class="muted small">
+          baseline <span style="color:#888">— — —</span>
+          &nbsp; observed <span style="color:#c93030">———</span>
+          &nbsp; click image to view full size
+        </div>
+        <div id="ppe-anomalies"></div>
+      </div>
+    </section>
+
+    <aside id="control-panel">
+      <h2>Trigger fault</h2>
+
+      <fieldset class="fault-group" data-group="R1">
+        <legend><span class="group-tag tag-R1">R1</span> root cause A</legend>
+        <label>Fault type
+          <select id="fault-select"></select>
+        </label>
+        <p class="muted small" id="fault-help"></p>
+        <label>Target
+          <select id="target-select"></select>
+        </label>
+        <label id="target-board-block" hidden>Board
+          <select id="target-board-select"></select>
+        </label>
+        <div id="target-z-block" hidden>
+          <label class="small">Position z (km along span)
+            <input type="number" id="target-z-input" min="0" step="0.1" value="0">
+          </label>
+          <label class="small">Magnitude (dB step) — &lt;1.5 sub-threshold (PPE-only), &ge;1.5 raises BEFFEC_EXC
+            <input type="number" id="target-mag-input" min="0.1" max="6" step="0.1" value="2.0">
+          </label>
+        </div>
+      </fieldset>
+
+      <label class="checkbox">
+        <input type="checkbox" id="compound-checkbox">
+        Add a second root cause (compound incident)
+      </label>
+
+      <fieldset class="fault-group" id="fault-block-2" data-group="R2" hidden>
+        <legend><span class="group-tag tag-R2">R2</span> root cause B</legend>
+        <label>Fault type
+          <select id="fault-select-2"></select>
+        </label>
+        <p class="muted small" id="fault-help-2"></p>
+        <label>Target
+          <select id="target-select-2"></select>
+        </label>
+        <label id="target-board-block-2" hidden>Board
+          <select id="target-board-select-2"></select>
+        </label>
+        <div id="target-z-block-2" hidden>
+          <label class="small">Position z (km along span)
+            <input type="number" id="target-z-input-2" min="0" step="0.1" value="0">
+          </label>
+          <label class="small">Magnitude (dB step) — &lt;1.5 sub-threshold (PPE-only), &ge;1.5 raises BEFFEC_EXC
+            <input type="number" id="target-mag-input-2" min="0.1" max="6" step="0.1" value="2.0">
+          </label>
+        </div>
+        <label class="small">Time offset for R2 (ms)
+          <input type="number" id="delay-ms-input" value="0" min="0" step="100">
+        </label>
+      </fieldset>
+
+      <label class="checkbox">
+        <input type="checkbox" id="suppress-checkbox" checked>
+        Show suppressed view (operator) — uncheck to see raw cascade
+      </label>
+
+      <button id="trigger-btn" class="primary">Trigger</button>
+    </aside>
+  </main>
+
+  <section id="alarms-section">
+    <h2 id="alarms-heading">Alarms <span id="incident-info" class="muted"></span></h2>
+    <div class="table-wrap">
+      <table id="alarms-table">
+        <thead>
+          <tr>
+            <th>#</th><th>Alarm</th><th>Description</th><th>Layer</th>
+            <th>Location (NE.board.port)</th><th>Container</th>
+            <th>Severity</th>
+            <th title="NMS-observed time: physical propagation + per-layer poll jitter">+ms (observed)</th>
+            <th>Root</th>
+            <th title="Lineage: which root cause this alarm descends from">Group</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="yang-section">
+    <h2>YANG Files &amp; Services
+      <span id="yang-meta" class="muted small"></span>
+    </h2>
+    <nav class="tab-nav">
+      <button class="tab-btn active" data-tab="services">Services
+        <span id="services-count" class="tab-badge"></span>
+      </button>
+      <button class="tab-btn" data-tab="tunnels">tunnels.json</button>
+      <button class="tab-btn" data-tab="topology">topology.json</button>
+      <button class="tab-btn" data-tab="inventory">inventory.json</button>
+    </nav>
+
+    <div class="tab-content active" data-pane="services">
+      <p class="muted small">
+        Each service = one ODU tunnel + supporting OCh tunnel + per-hop optical spans.
+        Services that share a span (highlighted) will fail together when that span is cut —
+        the R4 cross-service correlation rule fires.
+      </p>
+      <div class="table-wrap">
+        <table id="services-table">
+          <thead>
+            <tr>
+              <th>Service</th>
+              <th>Source</th>
+              <th>Destination</th>
+              <th>OCh tunnel</th>
+              <th>ODU tunnel</th>
+              <th>Path (OMS spans)</th>
+              <th title="Total fibre length along the OCh ERO">Total km</th>
+              <th title="Launch power on the OCh tunnel — tx-channel-power">Tx dBm</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="tab-content" data-pane="tunnels" hidden>
+      <div class="json-toolbar">
+        <span class="muted small">data/yang/tunnels.json — 6 OCh tunnels + 6 ODU tunnels with nfms:client-service-name</span>
+        <a href="/api/yang/tunnels" target="_blank" class="raw-link">raw &#8599;</a>
+      </div>
+      <pre class="json-viewer"><code id="json-tunnels" class="lang-json">loading…</code></pre>
+    </div>
+
+    <div class="tab-content" data-pane="topology" hidden>
+      <div class="json-toolbar">
+        <span class="muted small">data/yang/topology.json — optical-topo + otn-topo networks; 16 directed spans</span>
+        <a href="/api/yang/topology" target="_blank" class="raw-link">raw &#8599;</a>
+      </div>
+      <pre class="json-viewer"><code id="json-topology" class="lang-json">loading…</code></pre>
+    </div>
+
+    <div class="tab-content" data-pane="inventory" hidden>
+      <div class="json-toolbar">
+        <span class="muted small">data/yang/inventory.json — 6 chassis A..F with WSS/OTU/OA/FIU/SCC/FAN modules</span>
+        <a href="/api/yang/inventory" target="_blank" class="raw-link">raw &#8599;</a>
+      </div>
+      <pre class="json-viewer"><code id="json-inventory" class="lang-json">loading…</code></pre>
+    </div>
+  </section>
+
+  <section id="history-section">
+    <h2>Incident history
+      <span class="muted small">— click an incident to review its Huawei NMS dump here</span>
+    </h2>
+    <div id="history-layout">
+      <ul id="incident-history"></ul>
+      <div id="dump-viewer" hidden>
+        <div class="dump-toolbar">
+          <span id="dump-title" class="muted small">Huawei NMS dump</span>
+          <span class="dump-toolbar-actions">
+            <a id="dump-download" class="raw-link" href="#" download>download .txt &darr;</a>
+            <button id="dump-close" class="dump-close" title="Close viewer">&times;</button>
+          </span>
+        </div>
+        <pre class="dump-pre"><code id="dump-text">Select an incident from the list to view its alarm dump.</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

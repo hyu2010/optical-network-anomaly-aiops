@@ -1,0 +1,57 @@
+# AI-Ops fault-management framework — Python dependencies.
+#
+# Tested with Python 3.10+ on Linux (also works on Windows / macOS).
+# Install in a fresh virtualenv:
+#     python3 -m venv .venv
+#     . .venv/bin/activate
+#     pip install -r requirements.txt
+#
+# All entries are direct imports of the framework's own code — pip will
+# resolve transitive deps (httpx, anyio, openai, tiktoken, …) automatically.
+
+# --- Google ADK (the agent runtime) ----------------------------------------
+google-adk[extensions]==1.31.1     # google.adk.agents / models / tools / runners / sessions
+
+# --- LLM client layer ------------------------------------------------------
+google-genai                        # google.genai.types — used by interactive.py
+litellm                             # google.adk.models.LiteLlm wraps this
+
+# --- MCP (Model Context Protocol) ------------------------------------------
+mcp==1.27.0                         # mcp.server.fastmcp + mcp.client.stdio
+
+# --- kg_abduction knowledge-graph tool -----------------------------------------
+pandas                              # knowledge_engine/kg_abduction/tools.py — CSV/triple queries
+networkx                            # knowledge_engine/kg_abduction/tools.py — get_neighbors / shortest_path
+openai                              # standalone `python -m kg_abduction` LLM front-end
+                                    # (also pulled in transitively by litellm)
+
+# --- Data validation -------------------------------------------------------
+pydantic==2.13.3                    # SkillCard schemas
+
+# --- Configuration ---------------------------------------------------------
+python-dotenv==1.2.2                # auto-loads .env at the framework root
+
+# --- HTTP server (used by ADK's web UI when invoked) -----------------------
+fastapi==0.136.1
+uvicorn==0.46.0
+
+# --- Document generation (paper/make_paper.py + paper/make_ppt.py) ---------
+python-docx==1.2.0                   # paper/make_paper.py — Word .docx output
+python-pptx==1.0.2                   # paper/make_ppt.py — PowerPoint .pptx output
+pypdf>=4.0                           # paper/ — PDF page-count / length check of the demo paper
+
+# --- Building the LaTeX demo paper (system tools, NOT pip dependencies) -----
+# paper/cnsm2026_demo_paper.tex needs a TeX engine with IEEEtran + TikZ; pick one:
+#   Debian/Ubuntu:  sudo apt-get install --no-install-recommends \
+#                     texlive-latex-base texlive-latex-recommended \
+#                     texlive-fonts-recommended texlive-latex-extra \
+#                     texlive-pictures texlive-publishers
+#                   then:  pdflatex paper/cnsm2026_demo_paper.tex   (run twice for refs)
+#   or Tectonic (self-contained, no root):  https://tectonic-typesetting.github.io
+#                   then:  tectonic paper/cnsm2026_demo_paper.tex
+
+# --- Simulator / KG / KG-Engine (merged from aiops_data_ruilin) ------------
+Flask>=3.0,<4.0                      # simulator/app/server.py — fault-trigger + PPE-plot UI
+numpy>=1.26,<3.0                     # simulator/simulator/ppe.py — float32 PPE traces (BLOB)
+matplotlib>=3.7                      # simulator/simulator/ppe_plot.py — per-OCH PPE PNG render
+# pandas already required above (kg_abduction); reused by simulator/kg + explore_db.py

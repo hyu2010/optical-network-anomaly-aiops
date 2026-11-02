@@ -1,0 +1,3758 @@
+{
+  "AD_CHECK_FAIL": {
+    "name": "AD_CHECK_FAIL",
+    "description": "AD (analog to digital converter) self check failure",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "ALC_ADJUST_FAIL": {
+    "name": "ALC_ADJUST_FAIL",
+    "description": "ALC link adjustment failure",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "ALC_WAIT_ADJUST": {
+    "name": "ALC_WAIT_ADJUST",
+    "description": "ALC link anomaly and wait for adjustment",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "ALS_ACTIVE": {
+    "name": "ALS_ACTIVE",
+    "description": "ALS occurred",
+    "severity": "Minor",
+    "service_affecting": false
+  },
+  "ALS_TRIGGERED": {
+    "name": "ALS_TRIGGERED",
+    "description": "The laser on a board is disabled by ALS",
+    "severity": "Critical",
+    "service_affecting": true
+  },
+  "ALM_ALS": {
+    "name": "ALM_ALS",
+    "description": "Automatic laser shutdown",
+    "severity": "Minor",
+    "service_affecting": false
+  },
+  "ALM_GFP_dCSF": {
+    "name": "ALM_GFP_dCSF",
+    "description": "GFP client signal fail",
+    "severity": "Critical",
+    "service_affecting": true
+  },
+  "ALM_GFP_dLFD": {
+    "name": "ALM_GFP_dLFD",
+    "description": "The loss of generic framing procedure (GFP) frame delineation",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "ALM_HANGUP": {
+    "name": "ALM_HANGUP",
+    "description": "The orderwire phone is in the off-hook state for a long time",
+    "severity": "Minor",
+    "service_affecting": false
+  },
+  "AMBIENT_TEMP_FLUCT": {
+    "name": "AMBIENT_TEMP_FLUCT",
+    "description": "Subrack ambient temperature fluctuation alarm",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "APE_ADJUST_FAIL": {
+    "name": "APE_ADJUST_FAIL",
+    "description": "APE adjustment failure",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "APE_ADJUST_PEND": {
+    "name": "APE_ADJUST_PEND",
+    "description": "APE adjustment is pending for operation.",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "APS_MANUAL_STOP": {
+    "name": "APS_MANUAL_STOP",
+    "description": "The MSP protocol is manually stopped",
+    "severity": "Minor",
+    "service_affecting": false
+  },
+  "APS_FAIL": {
+    "name": "APS_FAIL",
+    "description": "APS protection switching failure",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "APS_INDI": {
+    "name": "APS_INDI",
+    "description": "An alarm indicating the APS state",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "ARP_FAIL": {
+    "name": "ARP_FAIL",
+    "description": "ARP learning failure",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "ARP_SPOOF": {
+    "name": "ARP_SPOOF",
+    "description": "System being spoofed by ARP",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "ASE_NOT_CALIBRATE": {
+    "name": "ASE_NOT_CALIBRATE",
+    "description": "ASE of raman optical module not demarcated",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "AU_AIS": {
+    "name": "AU_AIS",
+    "description": "AU alarm indication signal",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "AU_LOP": {
+    "name": "AU_LOP",
+    "description": "AU loss of pointer",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "B1_EXC": {
+    "name": "B1_EXC",
+    "description": "Regenerator section (B1) excessive errors",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "B1_SD": {
+    "name": "B1_SD",
+    "description": "Regenerator section (B1) signal degraded",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "B2_EXC": {
+    "name": "B2_EXC",
+    "description": "Multiplex section (B2) excessive errors",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "B2_SD": {
+    "name": "B2_SD",
+    "description": "Multiplex section (B2) signal degraded",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "B3_EXC": {
+    "name": "B3_EXC",
+    "description": "The number of higher order path B3 bit errors in the signals received on the line exceeds the threshold",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "B3_EXC_VC3": {
+    "name": "B3_EXC_VC3",
+    "description": "The number of B3 bit errors in the lower order path VC-3 exceeds the threshold.",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "B3_EXC_VC4": {
+    "name": "B3_EXC_VC4",
+    "description": "The number of B3 bit errors in the VC-4 path exceeds the threshold.",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "B3_SD": {
+    "name": "B3_SD",
+    "description": "The higher order path B3 signals received on the line are degraded.",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "B3_SD_VC3": {
+    "name": "B3_SD_VC3",
+    "description": "The number of VC-3 B3 bit errors exceeds the threshold.",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "B3_SD_VC4": {
+    "name": "B3_SD_VC4",
+    "description": "The number of B3 bit errors in the VC-4 path exceeds the threshold.",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "BD_BPXC_MISMATCH": {
+    "name": "BD_BPXC_MISMATCH",
+    "description": "Board access capacity mismatching backplane cross-connect capacity",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "BD_LEDTEST": {
+    "name": "BD_LEDTEST",
+    "description": "Board LED Flash Test",
+    "severity": "Warning",
+    "service_affecting": false
+  },
+  "BD_NOT_INSTALLED": {
+    "name": "BD_NOT_INSTALLED",
+    "description": "Logic board not installed alarm",
+    "severity": "Minor",
+    "service_affecting": false
+  },
+  "BD_SESSION_FAIL": {
+    "name": "BD_SESSION_FAIL",
+    "description": "Session broken between NE and remote board",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "BD_STATUS": {
+    "name": "BD_STATUS",
+    "description": "Board out of position",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "BDID_ERROR": {
+    "name": "BDID_ERROR",
+    "description": "An alarm of slot verification error",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "BEFFEC_EXC": {
+    "name": "BEFFEC_EXC",
+    "description": "Signal degraded before FEC",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "BIOS_STATUS": {
+    "name": "BIOS_STATUS",
+    "description": "The BIOS status",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "BOOTROM_BAD": {
+    "name": "BOOTROM_BAD",
+    "description": "BOOTROM data check failed",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "BUS_ERR": {
+    "name": "BUS_ERR",
+    "description": "Bus error",
+    "severity": "Critical",
+    "service_affecting": true
+  },
+  "BWUTILIZATION_OVE": {
+    "name": "BWUTILIZATION_OVE",
+    "description": "Bandwidth utilization over the threshold",
+    "severity": "Warning",
+    "service_affecting": true
+  },
+  "C2_VCAIS": {
+    "name": "C2_VCAIS",
+    "description": "A C2 byte alarm indication",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "CFCARD_FAILED": {
+    "name": "CFCARD_FAILED",
+    "description": "CF Card Failed",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "CFG_DATASA": {
+    "name": "CFG_DATASA",
+    "description": "VE_FAIL Failure to save configuration data",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "CFG_DATACHECK_FAIL": {
+    "name": "CFG_DATACHECK_FAIL",
+    "description": "Database check error alarm",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "CFP_LOS": {
+    "name": "CFP_LOS",
+    "description": "Loss of signals in CFP module",
+    "severity": "Critical",
+    "service_affecting": true
+  },
+  "CHAN_ADD": {
+    "name": "CHAN_ADD",
+    "description": "Channel of single wave signal add",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "CHAN_LOS": {
+    "name": "CHAN_LOS",
+    "description": "Channel of single wave signal loss",
+    "severity": "Critical",
+    "service_affecting": false
+  },
+  "CHIP_ABN": {
+    "name": "CHIP_ABN",
+    "description": "Temperature chip failure",
+    "severity": "Minor",
+    "service_affecting": false
+  },
+  "CLIENT_PROT_NOTSTAR": {
+    "name": "CLIENT_PROT_NOTSTAR",
+    "description": "T Client-side 1+1 protection group not started",
+    "severity": "Minor",
+    "service_affecting": false
+  },
+  "CLIENT_PORT_PS": {
+    "name": "CLIENT_PORT_PS",
+    "description": "Client-side 1+1 protection switching",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "CLIENT_PORT_STA_INDI": {
+    "name": "CLIENT_PORT_STA_INDI",
+    "description": "The state of the client-side 1+1 optical channel protection group",
+    "severity": "Minor",
+    "service_affecting": false
+  },
+  "CLK_NO_TRACE_MODE": {
+    "name": "CLK_NO_TRACE_MODE",
+    "description": "The clock enters into a non-tracing running mode.",
+    "severity": "Minor",
+    "service_affecting": false
+  },
+  "CLK_LOCK_FAIL": {
+    "name": "CLK_LOCK_FAIL",
+    "description": "Clock lockout failure alarm",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "COM_EXTECC_FULL": {
+    "name": "COM_EXTECC_FULL",
+    "description": "Number of TCP connections between NEs running the automatically extended ECC protocol exceeding the system limit",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "COMMUN_FAIL": {
+    "name": "COMMUN_FAIL",
+    "description": "Internal communication failure on the board",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "CPC_NODE_ID_ERR": {
+    "name": "CPC_NODE_ID_ERR",
+    "description": "Node ID Error",
+    "severity": "Critical",
+    "service_affecting": false
+  },
+  "CRC4_CROSSTR": {
+    "name": "CRC4_CROSSTR",
+    "description": "CRC4 multi-frame error code count exceeds the threshold",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "DB_RESTORE_FAIL": {
+    "name": "DB_RESTORE_FAIL",
+    "description": "Database restore fail alarm",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "DBMS_DELETE": {
+    "name": "DBMS_DELETE",
+    "description": "The NE database is deleted",
+    "severity": "Critical",
+    "service_affecting": false
+  },
+  "DCNSIZE_OVER": {
+    "name": "DCNSIZE_OVER",
+    "description": "The number of NEs in a DCN subnet exceeds the setting threshold",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "DCNLINK_OVER": {
+    "name": "DCNLINK_OVER",
+    "description": "The number of DCN OSPF neighbors excesses the suggested threshold",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "DBMS_ERROR": {
+    "name": "DBMS_ERROR",
+    "description": "Database error alarm",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "DBMS_PROTECT_MODE": {
+    "name": "DBMS_PROTECT_MODE",
+    "description": "Database in protect mode",
+    "severity": "Critical",
+    "service_affecting": false
+  },
+  "DBPS_ABNORMAL": {
+    "name": "DBPS_ABNORMAL",
+    "description": "DBPS abnormal alarm",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "DCM_INSUFF": {
+    "name": "DCM_INSUFF",
+    "description": "Insufficient dispersion compensation margin",
+    "severity": "Warning",
+    "service_affecting": true
+  },
+  "DERIVED_PWR_ERROR": {
+    "name": "DERIVED_PWR_ERROR",
+    "description": "Optical power exception alarm",
+    "severity": "Critical",
+    "service_affecting": true
+  },
+  "DLAG_PROTECT_FAIL": {
+    "name": "DLAG_PROTECT_FAIL",
+    "description": "DLAG protect failed alarm",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "DSP_LOAD_FAIL": {
+    "name": "DSP_LOAD_FAIL",
+    "description": "DSP software loading failure",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "EFI_TYPE_MISMATCH": {
+    "name": "EFI_TYPE_MISMATCH",
+    "description": "Mismatch between the EFI board type and subrack type",
+    "severity": "Critical",
+    "service_affecting": false
+  },
+  "ELAN_SMAC_FLAPPIN": {
+    "name": "ELAN_SMAC_FLAPPIN",
+    "description": "G The source MAC address learned by an E-LAN service undergoes a transfer",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "ERPS_IN_PROTECTION": {
+    "name": "ERPS_IN_PROTECTION",
+    "description": "EPRS switching is triggered",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "ETH_APS_LOST": {
+    "name": "ETH_APS_LOST",
+    "description": "APS frame loss",
+    "severity": "Minor",
+    "service_affecting": false
+  },
+  "ETH_APS_PATH_MISM": {
+    "name": "ETH_APS_PATH_MISM",
+    "description": "ATCH Mismatch of APS working/ protection paths",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "ETH_APS_SWITCH_FAI": {
+    "name": "ETH_APS_SWITCH_FAI",
+    "description": "L APS protection switching failure",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "ETH_APS_TYPE_MISM": {
+    "name": "ETH_APS_TYPE_MISM",
+    "description": "ATCH Mismatch of APS protection type",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "ETH_8B10B_ERR": {
+    "name": "ETH_8B10B_ERR",
+    "description": "Ethernet line signal encoding/decoding error",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "ETH_BIP8_SD": {
+    "name": "ETH_BIP8_SD",
+    "description": "40GE/100GE signal is degraded",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "ETH_HI_BER": {
+    "name": "ETH_HI_BER",
+    "description": "40GE/100GE signal bit errors exceeds the preset threshold",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "ETH_CFM_AIS": {
+    "name": "ETH_CFM_AIS",
+    "description": "ETH MEP alarm indication signal",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "ETH_CFM_LOC": {
+    "name": "ETH_CFM_LOC",
+    "description": "Service connectivity loss",
+    "severity": "Critical",
+    "service_affecting": true
+  },
+  "ETH_CFM_MISMERGE": {
+    "name": "ETH_CFM_MISMERGE",
+    "description": "Misconnection",
+    "severity": "Critical",
+    "service_affecting": true
+  },
+  "ETH_CFM_MACSTATU": {
+    "name": "ETH_CFM_MACSTATU",
+    "description": "S Remote MAC defect indication",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "ETH_CFM_RDI": {
+    "name": "ETH_CFM_RDI",
+    "description": "A remote CFM_OAM alarm indication",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "ETH_CFM_UNEXPERI": {
+    "name": "ETH_CFM_UNEXPERI",
+    "description": "Errored frame",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "ETH_EFM_DF": {
+    "name": "ETH_EFM_DF",
+    "description": "Discovery failure alarm",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "ETH_EFM_EVENT": {
+    "name": "ETH_EFM_EVENT",
+    "description": "Remote link event alarm",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "ETH_EFM_LOOPBACK": {
+    "name": "ETH_EFM_LOOPBACK",
+    "description": "Ethernet loopback alarm",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "ETH_EFM_REMFAULT": {
+    "name": "ETH_EFM_REMFAULT",
+    "description": "Remote failure indication",
+    "severity": "Critical",
+    "service_affecting": true
+  },
+  "ETH_LINK_DOWN": {
+    "name": "ETH_LINK_DOWN",
+    "description": "Failure of network interface connection",
+    "severity": "Critical",
+    "service_affecting": true
+  },
+  "ETH_LOS": {
+    "name": "ETH_LOS",
+    "description": "Loss of Ethernet interface connection",
+    "severity": "Critical",
+    "service_affecting": true
+  },
+  "ETH_MISCONNECT": {
+    "name": "ETH_MISCONNECT",
+    "description": "Network interface misconnection alarm",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "ETH_NO_FLOW": {
+    "name": "ETH_NO_FLOW",
+    "description": "No traffic at Ethernet port",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "ETH_SERVICE_CONFIG": {
+    "name": "ETH_SERVICE_CONFIG",
+    "description": "_FAIL Ethernet service configuration failure",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "ETHOAM_DISCOVER_": {
+    "name": "ETHOAM_DISCOVER_",
+    "description": "FAIL The point-to-point Ethernet OAM discovery failure alarm",
+    "severity": "Minor",
+    "service_affecting": false
+  },
+  "ETHOAM_RMT_CRIT_": {
+    "name": "ETHOAM_RMT_CRIT_",
+    "description": "FAULT A critical fault occurs to the remote end of point-to- point Ethernet OAM",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "ETHOAM_RMT_LOOP": {
+    "name": "ETHOAM_RMT_LOOP",
+    "description": "The remote loopback of point-to-point Ethernet OAM alarm",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "ETHOAM_RMT_SD": {
+    "name": "ETHOAM_RMT_SD",
+    "description": "The remote SD of point-to- point Ethernet OAM alarm",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "ETHOAM_SELF_LOOP": {
+    "name": "ETHOAM_SELF_LOOP",
+    "description": "Loopback of the MAC port that receives the OAM protocol packets in a point- to-point manner",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "ETHOAM_VCG_SELF_": {
+    "name": "ETHOAM_VCG_SELF_",
+    "description": "LOOP Loopback of the VCTRUNK port that receives the OAM protocol packets in a point-to-point manner",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "EX_ETHOAM_CC_LOS": {
+    "name": "EX_ETHOAM_CC_LOS",
+    "description": "Loss of the periodic continuity check message",
+    "severity": "Critical",
+    "service_affecting": true
+  },
+  "EX_ETHOAM_MPID_C": {
+    "name": "EX_ETHOAM_MPID_C",
+    "description": "NFLCT The maintenance point ID conflict",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "EXT_MODULE_OFFLIN": {
+    "name": "EXT_MODULE_OFFLIN",
+    "description": "E The extended wavelength module offline",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "EXT_SYNC_LOS": {
+    "name": "EXT_SYNC_LOS",
+    "description": "The loss of external clock source",
+    "severity": "Critical",
+    "service_affecting": false
+  },
+  "EXT_TIME_LOC": {
+    "name": "EXT_TIME_LOC",
+    "description": "The loss of the external timing source",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "FAN_FAIL": {
+    "name": "FAN_FAIL",
+    "description": "Fan failed",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "FAN_FAULT": {
+    "name": "FAN_FAULT",
+    "description": "Fan fault",
+    "severity": "Minor",
+    "service_affecting": false
+  },
+  "FC_8B10BERR_OVER": {
+    "name": "FC_8B10BERR_OVER",
+    "description": "8B10B bit error rate crossing alarm",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "FC_LINK_ERR": {
+    "name": "FC_LINK_ERR",
+    "description": "FC service link failure alarm",
+    "severity": "Critical",
+    "service_affecting": true
+  },
+  "FC_SYNC_LOS": {
+    "name": "FC_SYNC_LOS",
+    "description": "FC service synchronous word loss alarm",
+    "severity": "Critical",
+    "service_affecting": true
+  },
+  "FCS_ERR": {
+    "name": "FCS_ERR",
+    "description": "The frame check sequence (FCS) is incorrect",
+    "severity": "Critical",
+    "service_affecting": true
+  },
+  "FC_AIS": {
+    "name": "FC_AIS",
+    "description": "FC alarm indication signal",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "FDBSIZEALM_ELAN": {
+    "name": "FDBSIZEALM_ELAN",
+    "description": "MAC address forwarding table of E-LAN used up",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "FEATURE_WITHOUT_LIC": {
+    "name": "FEATURE_WITHOUT_LIC",
+    "description": "ENSE Service without license",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "FIBERTYPE_MIS": {
+    "name": "FIBERTYPE_MIS",
+    "description": "Fiber type mismatch",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "FLOW_OVER": {
+    "name": "FLOW_OVER",
+    "description": "The inflow at the Ethernet port exceeds the threshold",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "FEC_LOF": {
+    "name": "FEC_LOF",
+    "description": "Received FEC is loss of frame",
+    "severity": "Critical",
+    "service_affecting": true
+  },
+  "FEC_OOF": {
+    "name": "FEC_OOF",
+    "description": "Received FEC is out of frame",
+    "severity": "Critical",
+    "service_affecting": true
+  },
+  "FOP_NR": {
+    "name": "FOP_NR",
+    "description": "Protection group does not receive the negotiation response from the peer end",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "FOP_PM": {
+    "name": "FOP_PM",
+    "description": "Inconsistency between the transmitted B bit in the protection protocol and the received B bit",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "FOP_PR": {
+    "name": "FOP_PR",
+    "description": "Inconsistency between the transmitted R bit in the protection protocol and the received R bit",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "FPGA_ABN": {
+    "name": "FPGA_ABN",
+    "description": "FPGA status is abnormal",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "FSELECT_STG": {
+    "name": "FSELECT_STG",
+    "description": "The clock board is forcibly selected",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "FWD_PKT_LOSS": {
+    "name": "FWD_PKT_LOSS",
+    "description": "Packets droped alarms",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "GAINDATA_MIS": {
+    "name": "GAINDATA_MIS",
+    "description": "Mismatch of gain attribute",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "GFP_UPM": {
+    "name": "GFP_UPM",
+    "description": "User payload mismatch",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "HARD_BAD": {
+    "name": "HARD_BAD",
+    "description": "Hardware failed",
+    "severity": "Critical",
+    "service_affecting": true
+  },
+  "HARD_ERR": {
+    "name": "HARD_ERR",
+    "description": "Minor hardware error",
+    "severity": "Minor",
+    "service_affecting": false
+  },
+  "HARD_NONSUPPORT": {
+    "name": "HARD_NONSUPPORT",
+    "description": "Hardware does not support the configuration delivered by the SCC board",
+    "severity": "Critical",
+    "service_affecting": true
+  },
+  "HP_LOM": {
+    "name": "HP_LOM",
+    "description": "Loss of multiframe in the higher order path",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "HP_RDI": {
+    "name": "HP_RDI",
+    "description": "A remote defect in the higher order path",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "HP_REI": {
+    "name": "HP_REI",
+    "description": "A remote error indication in the higher order path",
+    "severity": "Warning",
+    "service_affecting": true
+  },
+  "HP_SLM": {
+    "name": "HP_SLM",
+    "description": "A signal label mismatch alarm in the higher order path",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "HP_TIM": {
+    "name": "HP_TIM",
+    "description": "A trace identifier mismatch alarm in the higher order path",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "HP_UNEQ": {
+    "name": "HP_UNEQ",
+    "description": "An alarm indicating that no signals are loaded in the higher order path",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "HSC_UNA": {
+    "name": "HSC_UNA",
+    "description": "V AIL Working/protection switching failed",
+    "severity": "Minor",
+    "service_affecting": false
+  },
+  "IGSP_ENTRIES_EXC": {
+    "name": "IGSP_ENTRIES_EXC",
+    "description": "The number of IGMP Snooping multicast table entries exceeds its upper threshold",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "IN_PWR_ABN": {
+    "name": "IN_PWR_ABN",
+    "description": "Input power abnormal",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "IN_PWR_HIGH": {
+    "name": "IN_PWR_HIGH",
+    "description": "Input optical power is too high",
+    "severity": "Critical",
+    "service_affecting": true
+  },
+  "IN_PWR_LOW": {
+    "name": "IN_PWR_LOW",
+    "description": "Input optical power is excessively low",
+    "severity": "Critical",
+    "service_affecting": false
+  },
+  "INNER_COMMUN_MISCO": {
+    "name": "INNER_COMMUN_MISCO",
+    "description": "N Connection between an internal network and an external network",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "INSUFFCNT_FLSH_SPACE": {
+    "name": "INSUFFCNT_FLSH_SPACE",
+    "description": "Insufficient flash space",
+    "severity": "Critical",
+    "service_affecting": false
+  },
+  "INSUFFCNT_MEM_SPACE": {
+    "name": "INSUFFCNT_MEM_SPACE",
+    "description": "Insufficient memory space",
+    "severity": "Critical",
+    "service_affecting": false
+  },
+  "INSERTION_LOSS_HIGH": {
+    "name": "INSERTION_LOSS_HIGH",
+    "description": "Excessive insertion loss between the TDC and RDC optical ports",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "INTRA_OTU_PS": {
+    "name": "INTRA_OTU_PS",
+    "description": "Intra-board 1+1 protection switching",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "INTRA_OTU_STA_INDI": {
+    "name": "INTRA_OTU_STA_INDI",
+    "description": "The state of the intra-board 1+1 optical channel protection group",
+    "severity": "Minor",
+    "service_affecting": false
+  },
+  "IPA_FAULT": {
+    "name": "IPA_FAULT",
+    "description": "IPA detection board malfunctioning",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "IPA_SHUT": {
+    "name": "IPA_SHUT",
+    "description": "Laser shutdown by IPA",
+    "severity": "Minor",
+    "service_affecting": false
+  },
+  "J0_MM": {
+    "name": "J0_MM",
+    "description": "J0 byte or trace indicator mismatch",
+    "severity": "Minor",
+    "service_affecting": false
+  },
+  "K1_K2_M": {
+    "name": "K1_K2_M",
+    "description": "The K1 and K2 bytes mismatch alarm",
+    "severity": "Minor",
+    "service_affecting": false
+  },
+  "K2_M": {
+    "name": "K2_M",
+    "description": "The K2 bytes mismatch alarm",
+    "severity": "Minor",
+    "service_affecting": false
+  },
+  "L_SYNC": {
+    "name": "L_SYNC",
+    "description": "Loss of synchronization alarm",
+    "severity": "Critical",
+    "service_affecting": true
+  },
+  "LAG_DOWN": {
+    "name": "LAG_DOWN",
+    "description": "LAG unavailable",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "LAG_MEMBER_DOWN": {
+    "name": "LAG_MEMBER_DOWN",
+    "description": "LAG member unavailable",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "LAG_PORT_FAIL": {
+    "name": "LAG_PORT_FAIL",
+    "description": "Aggregation group VCG port failure alarm",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "LAG_VC_PORT_FAIL": {
+    "name": "LAG_VC_PORT_FAIL",
+    "description": "Aggregation group VCG port failure alarm",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "LAN_LOC": {
+    "name": "LAN_LOC",
+    "description": "Ethernet communication failure",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "LASER_OPEN_FAIL": {
+    "name": "LASER_OPEN_FAIL",
+    "description": "Laser turn-on failure alarm",
+    "severity": "Critical",
+    "service_affecting": true
+  },
+  "LASER_HAZARD_WARNI": {
+    "name": "LASER_HAZARD_WARNI",
+    "description": "NG Warning indication of the laser hazard level.",
+    "severity": "Critical",
+    "service_affecting": false
+  },
+  "LASER_MOD_ERR": {
+    "name": "LASER_MOD_ERR",
+    "description": "Wrong type of optical module inserted",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "LASER_MODULE_MISMA": {
+    "name": "LASER_MODULE_MISMA",
+    "description": "TCH Optical module mismatch alarm",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "LASER_SHUT": {
+    "name": "LASER_SHUT",
+    "description": "The laser of the board is shut down",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "LASER_PARA_ERR": {
+    "name": "LASER_PARA_ERR",
+    "description": "Optical Module Parameter Error",
+    "severity": "Minor",
+    "service_affecting": false
+  },
+  "LASER_TYPE_MISMATCH": {
+    "name": "LASER_TYPE_MISMATCH",
+    "description": "Optical module type mismatch",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "LSR_KEY_UNLOCK": {
+    "name": "LSR_KEY_UNLOCK",
+    "description": "Front panel key unlocked",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "LCAS_FOPR": {
+    "name": "LCAS_FOPR",
+    "description": "The failure of the LCAS protocol in the receive direction",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "LCAS_FOPT": {
+    "name": "LCAS_FOPT",
+    "description": "The failure of the LCAS protocol in the transmit direction",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "LCAS_PLCR": {
+    "name": "LCAS_PLCR",
+    "description": "Partial loss of capacity in the LCAS receive direction",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "LCAS_PLCT": {
+    "name": "LCAS_PLCT",
+    "description": "Partial loss of capacity in the LCAS transmit direction",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "LCAS_TLCR": {
+    "name": "LCAS_TLCR",
+    "description": "The total loss of capacity in the LCAS receive direction",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "LCAS_TLCT": {
+    "name": "LCAS_TLCT",
+    "description": "Total loss of capacity in the LCAS transmit direction",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "LCS_DAYS_OF_GRACE": {
+    "name": "LCS_DAYS_OF_GRACE",
+    "description": "License in keepalive period",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "LCS_EXPIRED": {
+    "name": "LCS_EXPIRED",
+    "description": "License expired",
+    "severity": "Critical",
+    "service_affecting": false
+  },
+  "LCS_FILE_NOT_EXIST": {
+    "name": "LCS_FILE_NOT_EXIST",
+    "description": "No license file",
+    "severity": "Critical",
+    "service_affecting": false
+  },
+  "LCS_SHORTAGE_SHELF": {
+    "name": "LCS_SHORTAGE_SHELF",
+    "description": "Lack of sufficient licenses",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "LINK_ERR": {
+    "name": "LINK_ERR",
+    "description": "Incorrect data link",
+    "severity": "Critical",
+    "service_affecting": true
+  },
+  "LOCAL_FAULT": {
+    "name": "LOCAL_FAULT",
+    "description": "Local fault",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "LOCKPOW_MIS": {
+    "name": "LOCKPOW_MIS",
+    "description": "Mismatch of lock-power attribute",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "LOCK_CUR_FAIL": {
+    "name": "LOCK_CUR_FAIL",
+    "description": "Pump drive current unlocked alarm",
+    "severity": "Critical",
+    "service_affecting": true
+  },
+  "LOL": {
+    "name": "LOL",
+    "description": "Loss of Lane Alignment",
+    "severity": "Critical",
+    "service_affecting": true
+  },
+  "LOOP_ALM": {
+    "name": "LOOP_ALM",
+    "description": "Indication of loop operating",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "LP_RDI_VC3": {
+    "name": "LP_RDI_VC3",
+    "description": "Aremote defect indication in the VC-3 lower order path",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "LP_SLM_VC3": {
+    "name": "LP_SLM_VC3",
+    "description": "A signal label mismatch alarm in the VC-3 lower order path",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "LP_UNEQ_VC3": {
+    "name": "LP_UNEQ_VC3",
+    "description": "No payload is equipped in the VC-3 lower order path",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "LPT_ACTIVE": {
+    "name": "LPT_ACTIVE",
+    "description": "LPT switching is active",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "LPT_RFI": {
+    "name": "LPT_RFI",
+    "description": "A remote failure indication alarm of link state pass through",
+    "severity": "Critical",
+    "service_affecting": true
+  },
+  "LSR_BCM_ALM": {
+    "name": "LSR_BCM_ALM",
+    "description": "Laser bias current crossing the threshold",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "LSR_COOL_ALM": {
+    "name": "LSR_COOL_ALM",
+    "description": "Cooling current of the laser over threshold",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "LSR_NO_FITED": {
+    "name": "LSR_NO_FITED",
+    "description": "Laser not installed",
+    "severity": "Critical",
+    "service_affecting": false
+  },
+  "LSR_INV": {
+    "name": "LSR_INV",
+    "description": "ALID Invalid optical module alarm",
+    "severity": "Critical",
+    "service_affecting": true
+  },
+  "LSR_WILL_DIE": {
+    "name": "LSR_WILL_DIE",
+    "description": "Laser will be out of work",
+    "severity": "Critical",
+    "service_affecting": true
+  },
+  "LTI": {
+    "name": "LTI",
+    "description": "The loss of synchronization source",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "MAC_FCS_EXC": {
+    "name": "MAC_FCS_EXC",
+    "description": "Bit error threshold- crossing detected at MAC layer",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "MAINBD_SUBBD_MISM": {
+    "name": "MAINBD_SUBBD_MISM",
+    "description": "ATCH Mainboard and subboard mismatch",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "MCLAG_CFG_MISMATC": {
+    "name": "MCLAG_CFG_MISMATC",
+    "description": "H Configuration of MC- LAG Mismatch",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "MCSP_PATH_LOCV": {
+    "name": "MCSP_PATH_LOCV",
+    "description": "Loss of connection of the protocol channel for multi-chassis synchronization protocol",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "MCS_SWITCH_BLOCKED": {
+    "name": "MCS_SWITCH_BLOCKED",
+    "description": "MCS switch blocked",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "MOD_COM_FAIL": {
+    "name": "MOD_COM_FAIL",
+    "description": "Module communicates abnormally",
+    "severity": "Critical",
+    "service_affecting": true
+  },
+  "MODULE_ADJUST_FAIL": {
+    "name": "MODULE_ADJUST_FAIL",
+    "description": "Adjustment of optical module failed",
+    "severity": "Critical",
+    "service_affecting": true
+  },
+  "MODULE_COOLCUR_OV": {
+    "name": "MODULE_COOLCUR_OV",
+    "description": "ER Module cooling current exceeds the threshold",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "MODULE_TEMP_OVER": {
+    "name": "MODULE_TEMP_OVER",
+    "description": "Module temperature exceeds the threshold",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "MODULE_RATE_MISMAT": {
+    "name": "MODULE_RATE_MISMAT",
+    "description": "CH The signal rate mismatched with the optical module.",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "MODULEFILE_UPDATE_": {
+    "name": "MODULEFILE_UPDATE_",
+    "description": "FAIL Updating the microprogram and laser parameter table failed",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "MPLS_PW_AIS": {
+    "name": "MPLS_PW_AIS",
+    "description": "PW forward defect",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "MPLS_PW_LOCV": {
+    "name": "MPLS_PW_LOCV",
+    "description": "Loss of PW connectivity",
+    "severity": "Critical",
+    "service_affecting": true
+  },
+  "MPLS_PW_OAMFAIL": {
+    "name": "MPLS_PW_OAMFAIL",
+    "description": "OAM protocol negotiation failure",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "MPLS_PW_RDI": {
+    "name": "MPLS_PW_RDI",
+    "description": "PW backward defect",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "MPLS_PW_SD": {
+    "name": "MPLS_PW_SD",
+    "description": "PW SD",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "MPLS_PW_SF": {
+    "name": "MPLS_PW_SF",
+    "description": "PW SF",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "MPLS_PW_UNEXPMEG": {
+    "name": "MPLS_PW_UNEXPMEG",
+    "description": "Unexpected MEG ID in CCM packets of PW OAM",
+    "severity": "Critical",
+    "service_affecting": true
+  },
+  "MPLS_PW_UNEXPMEP": {
+    "name": "MPLS_PW_UNEXPMEP",
+    "description": "Unexpected MEP ID in CCM packets of PW OAM",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "MPLS_PW_UNEXPPER": {
+    "name": "MPLS_PW_UNEXPPER",
+    "description": "No expected CCM packets to PW",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "MPLS_TUNNEL_AIS": {
+    "name": "MPLS_TUNNEL_AIS",
+    "description": "Tunnel forward defect",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "MPLS_TUNNEL_LOCV": {
+    "name": "MPLS_TUNNEL_LOCV",
+    "description": "Loss of tunnel connectivity",
+    "severity": "Critical",
+    "service_affecting": true
+  },
+  "MPLS_TUNNEL_OAMFAI": {
+    "name": "MPLS_TUNNEL_OAMFAI",
+    "description": "L OAM protocol negotiation failure",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "MPLS_TUNNEL_RDI": {
+    "name": "MPLS_TUNNEL_RDI",
+    "description": "Tunnel backward defect",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "MPLS_TUNNEL_SD": {
+    "name": "MPLS_TUNNEL_SD",
+    "description": "Tunnel SD",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "MPLS_TUNNEL_SF": {
+    "name": "MPLS_TUNNEL_SF",
+    "description": "Tunnel SF",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "MPLS_TUNNEL_UNEXP": {
+    "name": "MPLS_TUNNEL_UNEXP",
+    "description": "MEP Unexpected MEP ID in CCM packets of PW OAM",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "MPLS_TUNNEL_UNEXPP": {
+    "name": "MPLS_TUNNEL_UNEXPP",
+    "description": "ER No expected CCM packets to the tunnel",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "MS_AIS": {
+    "name": "MS_AIS",
+    "description": "Multiplex section alarm indication",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "MS_APS_INDI_EX": {
+    "name": "MS_APS_INDI_EX",
+    "description": "An extended indication alarm of the MSP switching state",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "MS_CROSSTR": {
+    "name": "MS_CROSSTR",
+    "description": "Multiplex section performance over threshold",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "MS_RDI": {
+    "name": "MS_RDI",
+    "description": "Multiplex section remote defect indication",
+    "severity": "Minor",
+    "service_affecting": false
+  },
+  "MS_REI": {
+    "name": "MS_REI",
+    "description": "Multiplex section remote error indication",
+    "severity": "Warning",
+    "service_affecting": true
+  },
+  "MS_SNCP_PS": {
+    "name": "MS_SNCP_PS",
+    "description": "MS SNCP protection switch",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "MS_SNCP_STA_INDI": {
+    "name": "MS_SNCP_STA_INDI",
+    "description": "The state of the MS SNCP protection group",
+    "severity": "Minor",
+    "service_affecting": false
+  },
+  "MULTI_RPL_OWNER": {
+    "name": "MULTI_RPL_OWNER",
+    "description": "More than one RPL_OWNER alarm",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "MUT_LOS": {
+    "name": "MUT_LOS",
+    "description": "Loss of multiplexed signals",
+    "severity": "Critical",
+    "service_affecting": true
+  },
+  "MUT_TLOS": {
+    "name": "MUT_TLOS",
+    "description": "Loss of output multiplexed signals",
+    "severity": "Critical",
+    "service_affecting": true
+  },
+  "NEBD_XC_DIF": {
+    "name": "NEBD_XC_DIF",
+    "description": "Crossing data of NE and board different",
+    "severity": "Critical",
+    "service_affecting": false
+  },
+  "NESF_LOST": {
+    "name": "NESF_LOST",
+    "description": "Lack a set of host software",
+    "severity": "Critical",
+    "service_affecting": false
+  },
+  "NESTATE_INSTALL": {
+    "name": "NESTATE_INSTALL",
+    "description": "NE is in install state, not configured",
+    "severity": "Critical",
+    "service_affecting": false
+  },
+  "NO_BD_PARA": {
+    "name": "NO_BD_PARA",
+    "description": "No board parameter",
+    "severity": "Critical",
+    "service_affecting": true
+  },
+  "NO_BD_SOFT": {
+    "name": "NO_BD_SOFT",
+    "description": "No board software",
+    "severity": "Critical",
+    "service_affecting": true
+  },
+  "NO_ELABEL": {
+    "name": "NO_ELABEL",
+    "description": "E-label unloaded",
+    "severity": "Warning",
+    "service_affecting": false
+  },
+  "NODEID_MM": {
+    "name": "NODEID_MM",
+    "description": "The NODEID_MM is an alarm indicating the MSP node ID mismatch",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "NTP_SYNC_FAIL": {
+    "name": "NTP_SYNC_FAIL",
+    "description": "NTP synchronization failure",
+    "severity": "Minor",
+    "service_affecting": false
+  },
+  "NULL_SEND": {
+    "name": "NULL_SEND",
+    "description": "The NULL signals (overhead is expressed in all \"0\"s) are sent out",
+    "severity": "Warning",
+    "service_affecting": true
+  },
+  "OA_LOW_GAIN": {
+    "name": "OA_LOW_GAIN",
+    "description": "Optical multiplexed signal gain low",
+    "severity": "Critical",
+    "service_affecting": false
+  },
+  "OA_HIGH_GAIN": {
+    "name": "OA_HIGH_GAIN",
+    "description": "Gain of an optical amplifier is high",
+    "severity": "Critical",
+    "service_affecting": true
+  },
+  "OA_OUT_PWR_ABN": {
+    "name": "OA_OUT_PWR_ABN",
+    "description": "OA out power abnormal",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "OCH_FDI": {
+    "name": "OCH_FDI",
+    "description": "Forward defect indication at OCh layer",
+    "severity": "Warning",
+    "service_affecting": true
+  },
+  "OCH_FDI_O": {
+    "name": "OCH_FDI_O",
+    "description": "Forward defect indication at OCh layer (overhead)",
+    "severity": "Warning",
+    "service_affecting": false
+  },
+  "OCH_FDI_P": {
+    "name": "OCH_FDI_P",
+    "description": "Forward defect indication at OCh layer (payload)",
+    "severity": "Warning",
+    "service_affecting": true
+  },
+  "OCH_LOS_P": {
+    "name": "OCH_LOS_P",
+    "description": "Loss of signal (payload) at OCh layer",
+    "severity": "Critical",
+    "service_affecting": true
+  },
+  "OCH_OCI": {
+    "name": "OCH_OCI",
+    "description": "Open connection indication at OCh layer",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "OCH_SSF": {
+    "name": "OCH_SSF",
+    "description": "Server signal fail at OCh layer",
+    "severity": "Warning",
+    "service_affecting": true
+  },
+  "OCH_SSF_O": {
+    "name": "OCH_SSF_O",
+    "description": "Server signal fail (overhead) at OCh layer",
+    "severity": "Warning",
+    "service_affecting": false
+  },
+  "OCH_SSF_P": {
+    "name": "OCH_SSF_P",
+    "description": "Server signal fail (payload) at OCh layer",
+    "severity": "Warning",
+    "service_affecting": true
+  },
+  "ODU_AIS": {
+    "name": "ODU_AIS",
+    "description": "ODU (optical channel data unit) alarm indication signal",
+    "severity": "Warning",
+    "service_affecting": true
+  },
+  "ODU_LCK": {
+    "name": "ODU_LCK",
+    "description": "ODU locked",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "ODU_OCI": {
+    "name": "ODU_OCI",
+    "description": "ODU open connection indication",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "ODU_SNCP_PS": {
+    "name": "ODU_SNCP_PS",
+    "description": "ODU SNCP protection switching",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "ODU_SNCP_STA_INDI": {
+    "name": "ODU_SNCP_STA_INDI",
+    "description": "The state of the ODU SNCP protection group",
+    "severity": "Minor",
+    "service_affecting": false
+  },
+  "ODU_SNCP_WEAK": {
+    "name": "ODU_SNCP_WEAK",
+    "description": "ODUk SNCP weak protection capability",
+    "severity": "Minor",
+    "service_affecting": false
+  },
+  "ODUFLEX_LOFLOM": {
+    "name": "ODUFLEX_LOFLOM",
+    "description": "The FAS and MFAS are abnormal",
+    "severity": "Critical",
+    "service_affecting": true
+  },
+  "ODUFLEX_PM_AIS": {
+    "name": "ODUFLEX_PM_AIS",
+    "description": "ODUFlex PM Alarm Indication Signal",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "ODUFLEX_PM_BDI": {
+    "name": "ODUFLEX_PM_BDI",
+    "description": "ODU0 PM Backward Defect Indication",
+    "severity": "Minor",
+    "service_affecting": false
+  },
+  "ODUFLEX_PM_DEG": {
+    "name": "ODUFLEX_PM_DEG",
+    "description": "ODUFlex PM Signal Degrade Alarm",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "ODUFLEX_PM_EXC": {
+    "name": "ODUFLEX_PM_EXC",
+    "description": "ODUFlex PM Section Excessive BIP8 Errors defect",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "ODUFLEX_PM_LCK": {
+    "name": "ODUFLEX_PM_LCK",
+    "description": "ODUFlex PM Lockout Defect",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "ODUFLEX_PM_OCI": {
+    "name": "ODUFLEX_PM_OCI",
+    "description": "ODUFlex PM Open Connection Indication",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "ODUFLEX_PM_SSF": {
+    "name": "ODUFLEX_PM_SSF",
+    "description": "ODUFlex PM Server Signal Fail",
+    "severity": "Warning",
+    "service_affecting": true
+  },
+  "ODUFLEX_PM_TIM": {
+    "name": "ODUFLEX_PM_TIM",
+    "description": "ODUFlex PM Trace Identifier Mismatch",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "ODUFLEX_TCMn_AIS": {
+    "name": "ODUFLEX_TCMn_AIS",
+    "description": "ODUFLEX TCMn alarm indication signal",
+    "severity": "Warning",
+    "service_affecting": true
+  },
+  "ODUFLEX_TCMn_BDI": {
+    "name": "ODUFLEX_TCMn_BDI",
+    "description": "ODUFLEX TCMn backward defect indication",
+    "severity": "Warning",
+    "service_affecting": false
+  },
+  "ODUFLEX_TCMn_DEG": {
+    "name": "ODUFLEX_TCMn_DEG",
+    "description": "ODUFLEX TCMn signal degraded",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "ODUFLEX_TCMn_LCK": {
+    "name": "ODUFLEX_TCMn_LCK",
+    "description": "ODUFLEX TCMn signal locked",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "ODUFLEX_TCMn_LTC": {
+    "name": "ODUFLEX_TCMn_LTC",
+    "description": "Loss of ODUFLEX TCMn serial connection",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "ODUFLEX_TCMn_SSF": {
+    "name": "ODUFLEX_TCMn_SSF",
+    "description": "ODUFLEX TCMn Server signal fail",
+    "severity": "Warning",
+    "service_affecting": true
+  },
+  "ODUFLEX_TCMn_TIM": {
+    "name": "ODUFLEX_TCMn_TIM",
+    "description": "ODUFLEX TCMn TTI mismatch",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "ODU0_LOFLOM": {
+    "name": "ODU0_LOFLOM",
+    "description": "The FAS and MFAS are abnormal",
+    "severity": "Critical",
+    "service_affecting": true
+  },
+  "ODU0_PM_AIS": {
+    "name": "ODU0_PM_AIS",
+    "description": "ODU0 PM alarm indication signal",
+    "severity": "Warning",
+    "service_affecting": true
+  },
+  "ODU0_PM_BDI": {
+    "name": "ODU0_PM_BDI",
+    "description": "ODU0 PM backward defect indication",
+    "severity": "Warning",
+    "service_affecting": false
+  },
+  "ODU0_PM_DEG": {
+    "name": "ODU0_PM_DEG",
+    "description": "ODU0 PM signal degraded",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "ODU0_PM_LCK": {
+    "name": "ODU0_PM_LCK",
+    "description": "ODU0 PM signal locked",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "ODU0_PM_OCI": {
+    "name": "ODU0_PM_OCI",
+    "description": "ODU0 PM open connection indication",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "ODU0_PM_SSF": {
+    "name": "ODU0_PM_SSF",
+    "description": "ODU0 PM Server signal fail",
+    "severity": "Warning",
+    "service_affecting": true
+  },
+  "ODU0_PM_TIM": {
+    "name": "ODU0_PM_TIM",
+    "description": "ODU0 PM section TTI mismatch",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "ODU0_PM_EXC": {
+    "name": "ODU0_PM_EXC",
+    "description": "ODU0 PM section BIP8 excessive error defect",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "ODU0_TCMn_AIS": {
+    "name": "ODU0_TCMn_AIS",
+    "description": "ODU0 TCMn alarm indication signal",
+    "severity": "Warning",
+    "service_affecting": true
+  },
+  "ODU0_TCMn_BDI": {
+    "name": "ODU0_TCMn_BDI",
+    "description": "ODU0 TCMn backward defect indication",
+    "severity": "Warning",
+    "service_affecting": false
+  },
+  "ODU0_TCMn_DEG": {
+    "name": "ODU0_TCMn_DEG",
+    "description": "ODU0 TCMn signal degraded",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "ODU0_TCMn_LCK": {
+    "name": "ODU0_TCMn_LCK",
+    "description": "ODU0 TCMn signal locked",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "ODU0_TCMn_LTC": {
+    "name": "ODU0_TCMn_LTC",
+    "description": "Loss of ODU0 TCMn serial connection",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "ODU0_TCMn_OCI": {
+    "name": "ODU0_TCMn_OCI",
+    "description": "ODU0 TCMn open connection indication",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "ODU0_TCMn_SSF": {
+    "name": "ODU0_TCMn_SSF",
+    "description": "ODU0 TCMn Server signal fail",
+    "severity": "Warning",
+    "service_affecting": true
+  },
+  "ODU0_TCMn_TIM": {
+    "name": "ODU0_TCMn_TIM",
+    "description": "ODU0 TCMn TTI mismatch",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "ODU0_TCMn_EXC": {
+    "name": "ODU0_TCMn_EXC",
+    "description": "ODU0 TCMn section BIP8 excessive error defect",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "ODU1_PM_AIS": {
+    "name": "ODU1_PM_AIS",
+    "description": "ODU1 PM alarm indication signal",
+    "severity": "Warning",
+    "service_affecting": true
+  },
+  "ODU1_PM_BDI": {
+    "name": "ODU1_PM_BDI",
+    "description": "ODU1 PM backward defect indication",
+    "severity": "Warning",
+    "service_affecting": false
+  },
+  "ODU1_PM_DEG": {
+    "name": "ODU1_PM_DEG",
+    "description": "ODU1 PM signal degraded",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "ODU1_PM_LCK": {
+    "name": "ODU1_PM_LCK",
+    "description": "ODU1 PM signal locked",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "ODU1_PM_OCI": {
+    "name": "ODU1_PM_OCI",
+    "description": "ODU1 PM open connection indication",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "ODU1_PM_SSF": {
+    "name": "ODU1_PM_SSF",
+    "description": "ODU1 PM Server signal fail",
+    "severity": "Warning",
+    "service_affecting": true
+  },
+  "ODU1_PM_TIM": {
+    "name": "ODU1_PM_TIM",
+    "description": "ODU1 PM section TTI mismatch",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "ODU1_PM_EXC": {
+    "name": "ODU1_PM_EXC",
+    "description": "ODU1 PM section BIP8 excessive error defect",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "ODU1_TCMn_AIS": {
+    "name": "ODU1_TCMn_AIS",
+    "description": "ODU1 TCMn alarm indication signal",
+    "severity": "Warning",
+    "service_affecting": true
+  },
+  "ODU1_TCMn_BDI": {
+    "name": "ODU1_TCMn_BDI",
+    "description": "ODU1 TCMn backward defect indication",
+    "severity": "Warning",
+    "service_affecting": true
+  },
+  "ODU1_TCMn_DEG": {
+    "name": "ODU1_TCMn_DEG",
+    "description": "ODU1 TCMn signal degraded",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "ODU1_TCMn_LCK": {
+    "name": "ODU1_TCMn_LCK",
+    "description": "ODU1 TCMn signal locked",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "ODU1_TCMn_LTC": {
+    "name": "ODU1_TCMn_LTC",
+    "description": "Loss of ODU1 TCMn serial connection",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "ODU1_TCMn_OCI": {
+    "name": "ODU1_TCMn_OCI",
+    "description": "ODU1 TCMn open connection indication",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "ODU1_TCMn_SSF": {
+    "name": "ODU1_TCMn_SSF",
+    "description": "ODU1 TCMn Server signal fail",
+    "severity": "Warning",
+    "service_affecting": true
+  },
+  "ODU1_TCMn_TIM": {
+    "name": "ODU1_TCMn_TIM",
+    "description": "ODU1 TCMn TTI mismatch",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "ODU1_TCMn_EXC": {
+    "name": "ODU1_TCMn_EXC",
+    "description": "ODU1 TCMn section BIP8 excessive error defect",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "ODU2_LOFLOM": {
+    "name": "ODU2_LOFLOM",
+    "description": "The FAS and MFAS are abnormal",
+    "severity": "Critical",
+    "service_affecting": true
+  },
+  "ODU2_PM_AIS": {
+    "name": "ODU2_PM_AIS",
+    "description": "ODU2 PM alarm indication signal",
+    "severity": "Warning",
+    "service_affecting": true
+  },
+  "ODU2_PM_BDI": {
+    "name": "ODU2_PM_BDI",
+    "description": "ODU2 PM backward defect indication",
+    "severity": "Warning",
+    "service_affecting": false
+  },
+  "ODU2_PM_DEG": {
+    "name": "ODU2_PM_DEG",
+    "description": "ODU2 PM signal degraded",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "ODU2_PM_LCK": {
+    "name": "ODU2_PM_LCK",
+    "description": "ODU2 PM signal locked",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "ODU2_PM_OCI": {
+    "name": "ODU2_PM_OCI",
+    "description": "ODU2 PM open connection indication",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "ODU2_PM_SSF": {
+    "name": "ODU2_PM_SSF",
+    "description": "ODU2 PM server signal fail",
+    "severity": "Warning",
+    "service_affecting": true
+  },
+  "ODU2_PM_TIM": {
+    "name": "ODU2_PM_TIM",
+    "description": "ODU2 PM section TTI mismatch",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "ODU2_PM_EXC": {
+    "name": "ODU2_PM_EXC",
+    "description": "ODU2 PM section BIP8 excessive error defect",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "ODU2_TCMn_AIS": {
+    "name": "ODU2_TCMn_AIS",
+    "description": "ODU2 TCMn alarm indication signal",
+    "severity": "Warning",
+    "service_affecting": true
+  },
+  "ODU2_TCMn_BDI": {
+    "name": "ODU2_TCMn_BDI",
+    "description": "ODU2 TCMn backward defect indication",
+    "severity": "Warning",
+    "service_affecting": true
+  },
+  "ODU2_TCMn_DEG": {
+    "name": "ODU2_TCMn_DEG",
+    "description": "ODU2 TCMn signal degraded",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "ODU2_TCMn_LCK": {
+    "name": "ODU2_TCMn_LCK",
+    "description": "ODU2 TCMn signal locked",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "ODU2_TCMn_LTC": {
+    "name": "ODU2_TCMn_LTC",
+    "description": "Loss of ODU2 TCMn serial connection",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "ODU2_TCMn_OCI": {
+    "name": "ODU2_TCMn_OCI",
+    "description": "ODU2 TCMn open connection indication",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "ODU2_TCMn_SSF": {
+    "name": "ODU2_TCMn_SSF",
+    "description": "ODU2 TCMn server signal fail",
+    "severity": "Warning",
+    "service_affecting": true
+  },
+  "ODU2_TCMn_TIM": {
+    "name": "ODU2_TCMn_TIM",
+    "description": "ODU2 TCMn TTI mismatch",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "ODU2_TCMn_EXC": {
+    "name": "ODU2_TCMn_EXC",
+    "description": "ODU2 TCMn section BIP8 excessive error defect",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "ODU3_PM_AIS": {
+    "name": "ODU3_PM_AIS",
+    "description": "ODU3 PM alarm indication signal",
+    "severity": "Warning",
+    "service_affecting": true
+  },
+  "ODU3_PM_BDI": {
+    "name": "ODU3_PM_BDI",
+    "description": "ODU3 PM backward defect indication",
+    "severity": "Warning",
+    "service_affecting": false
+  },
+  "ODU3_PM_DEG": {
+    "name": "ODU3_PM_DEG",
+    "description": "ODU3 PM signal degraded",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "ODU3_PM_LCK": {
+    "name": "ODU3_PM_LCK",
+    "description": "ODU3 PM signal locked",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "ODU3_PM_OCI": {
+    "name": "ODU3_PM_OCI",
+    "description": "ODU3 PM open connection indication",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "ODU3_PM_SSF": {
+    "name": "ODU3_PM_SSF",
+    "description": "ODU3 PM server signal fail",
+    "severity": "Warning",
+    "service_affecting": true
+  },
+  "ODU3_PM_TIM": {
+    "name": "ODU3_PM_TIM",
+    "description": "ODU3 PM section TTI mismatch",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "ODU3_PM_EXC": {
+    "name": "ODU3_PM_EXC",
+    "description": "ODU3 PM section BIP8 excessive error defect",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "ODU3_TCMn_AIS": {
+    "name": "ODU3_TCMn_AIS",
+    "description": "ODU3 TCMn alarm indication signal",
+    "severity": "Warning",
+    "service_affecting": true
+  },
+  "ODU3_TCMn_BDI": {
+    "name": "ODU3_TCMn_BDI",
+    "description": "ODU3 TCMn backward defect indication",
+    "severity": "Warning",
+    "service_affecting": true
+  },
+  "ODU3_TCMn_DEG": {
+    "name": "ODU3_TCMn_DEG",
+    "description": "ODU3 TCMn signal degraded",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "ODU3_TCMn_LCK": {
+    "name": "ODU3_TCMn_LCK",
+    "description": "ODU3 TCMn signal locked",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "ODU3_TCMn_LTC": {
+    "name": "ODU3_TCMn_LTC",
+    "description": "Loss of ODU3 TCMn serial connection",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "ODU3_TCMn_OCI": {
+    "name": "ODU3_TCMn_OCI",
+    "description": "ODU3 TCMn open connection indication",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "ODU3_TCMn_SSF": {
+    "name": "ODU3_TCMn_SSF",
+    "description": "ODU3 TCMn server signal fail",
+    "severity": "Warning",
+    "service_affecting": true
+  },
+  "ODU3_TCMn_TIM": {
+    "name": "ODU3_TCMn_TIM",
+    "description": "ODU3 TCMn TTI mismatch",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "ODU3_TCMn_EXC": {
+    "name": "ODU3_TCMn_EXC",
+    "description": "ODU3 TCMn section BIP8 excessive error defect",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "ODU4_PM_AIS": {
+    "name": "ODU4_PM_AIS",
+    "description": "ODU4 PM alarm indication signal",
+    "severity": "Warning",
+    "service_affecting": true
+  },
+  "ODU4_PM_BDI": {
+    "name": "ODU4_PM_BDI",
+    "description": "ODU4 PM backward defect indication",
+    "severity": "Warning",
+    "service_affecting": false
+  },
+  "ODU4_PM_DEG": {
+    "name": "ODU4_PM_DEG",
+    "description": "ODU4 PM signal degraded",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "ODU4_PM_LCK": {
+    "name": "ODU4_PM_LCK",
+    "description": "ODU4 PM signal locked",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "ODU4_PM_OCI": {
+    "name": "ODU4_PM_OCI",
+    "description": "ODU4 PM open connection indication",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "ODU4_PM_SSF": {
+    "name": "ODU4_PM_SSF",
+    "description": "ODU4 PM server signal fail",
+    "severity": "Warning",
+    "service_affecting": true
+  },
+  "ODU4_PM_TIM": {
+    "name": "ODU4_PM_TIM",
+    "description": "ODU4 PM section TTI mismatch",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "ODU4_TCMn_AIS": {
+    "name": "ODU4_TCMn_AIS",
+    "description": "ODU4 TCMn alarm indication signal",
+    "severity": "Warning",
+    "service_affecting": true
+  },
+  "ODU4_TCMn_BDI": {
+    "name": "ODU4_TCMn_BDI",
+    "description": "ODU4 TCMn backward defect indication",
+    "severity": "Warning",
+    "service_affecting": true
+  },
+  "ODU4_TCMn_DEG": {
+    "name": "ODU4_TCMn_DEG",
+    "description": "ODU4 TCMn signal degraded",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "ODU4_TCMn_LCK": {
+    "name": "ODU4_TCMn_LCK",
+    "description": "ODU4 TCMn signal locked",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "ODU4_TCMn_LTC": {
+    "name": "ODU4_TCMn_LTC",
+    "description": "Loss of ODU4 TCMn serial connection",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "ODU4_TCMn_OCI": {
+    "name": "ODU4_TCMn_OCI",
+    "description": "ODU4 TCMn open connection indication",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "ODU4_TCMn_SSF": {
+    "name": "ODU4_TCMn_SSF",
+    "description": "ODU4 TCMn server signal fail",
+    "severity": "Warning",
+    "service_affecting": true
+  },
+  "ODU4_TCMn_TIM": {
+    "name": "ODU4_TCMn_TIM",
+    "description": "ODU4 TCMn TTI mismatch",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "ODU5G_LOFLOM": {
+    "name": "ODU5G_LOFLOM",
+    "description": "The FAS and MFAS are abnormal",
+    "severity": "Critical",
+    "service_affecting": true
+  },
+  "ODU5G_PM_AIS": {
+    "name": "ODU5G_PM_AIS",
+    "description": "ODU5G PM alarm indication signal",
+    "severity": "Warning",
+    "service_affecting": true
+  },
+  "ODU5G_PM_BDI": {
+    "name": "ODU5G_PM_BDI",
+    "description": "ODU5G PM backward defect indication",
+    "severity": "Warning",
+    "service_affecting": false
+  },
+  "ODU5G_PM_DEG": {
+    "name": "ODU5G_PM_DEG",
+    "description": "ODU5G PM signal degraded",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "ODU5G_PM_EXC": {
+    "name": "ODU5G_PM_EXC",
+    "description": "ODU5G PM section BIP8 excessive error defect",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "ODU5G_PM_LCK": {
+    "name": "ODU5G_PM_LCK",
+    "description": "ODU5G PM signal locked",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "ODU5G_PM_OCI": {
+    "name": "ODU5G_PM_OCI",
+    "description": "ODU5G PM open connection indication",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "ODU5G_PM_SSF": {
+    "name": "ODU5G_PM_SSF",
+    "description": "ODU5G PM server signal fail",
+    "severity": "Warning",
+    "service_affecting": true
+  },
+  "ODU5G_PM_TIM": {
+    "name": "ODU5G_PM_TIM",
+    "description": "ODU5G PM section TTI mismatch",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "ODU5G_TCMn_AIS": {
+    "name": "ODU5G_TCMn_AIS",
+    "description": "ODU5G TCMn alarm indication signal",
+    "severity": "Warning",
+    "service_affecting": true
+  },
+  "ODU5G_TCMn_BDI": {
+    "name": "ODU5G_TCMn_BDI",
+    "description": "ODU5G TCMn backward defect indication",
+    "severity": "Warning",
+    "service_affecting": true
+  },
+  "ODU5G_TCMn_DEG": {
+    "name": "ODU5G_TCMn_DEG",
+    "description": "ODU5G TCMn signal degraded",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "ODU5G_TCMn_EXC": {
+    "name": "ODU5G_TCMn_EXC",
+    "description": "ODU5G TCMn section BIP8 excessive error defect",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "ODU5G_TCMn_LCK": {
+    "name": "ODU5G_TCMn_LCK",
+    "description": "ODU5G TCMn signal locked",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "ODU5G_TCMn_LTC": {
+    "name": "ODU5G_TCMn_LTC",
+    "description": "Loss of ODU5G TCMn serial connection",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "ODU5G_TCMn_OCI": {
+    "name": "ODU5G_TCMn_OCI",
+    "description": "ODU5G TCMn open connection indication",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "ODU5G_TCMn_SSF": {
+    "name": "ODU5G_TCMn_SSF",
+    "description": "ODU5G TCMn server signal fail",
+    "severity": "Warning",
+    "service_affecting": true
+  },
+  "ODU5G_TCMn_TIM": {
+    "name": "ODU5G_TCMn_TIM",
+    "description": "ODU5G TCMn TTI mismatch",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "ODUKSP_PS": {
+    "name": "ODUKSP_PS",
+    "description": "ODUk SP protection switch",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "ODUKSP_STA_INDI": {
+    "name": "ODUKSP_STA_INDI",
+    "description": "The state of the ODUk SPRing protection group",
+    "severity": "Minor",
+    "service_affecting": false
+  },
+  "OH_LOOP": {
+    "name": "OH_LOOP",
+    "description": "Overhead bus loopback",
+    "severity": "Minor",
+    "service_affecting": false
+  },
+  "OLP_PS": {
+    "name": "OLP_PS",
+    "description": "Optical line protection switching",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "OLP_STA_INDI": {
+    "name": "OLP_STA_INDI",
+    "description": "The state of the optical line protection group",
+    "severity": "Minor",
+    "service_affecting": false
+  },
+  "OMS_BDI": {
+    "name": "OMS_BDI",
+    "description": "Backward defect indication at OMS layer",
+    "severity": "Warning",
+    "service_affecting": false
+  },
+  "OMS_BDI_O": {
+    "name": "OMS_BDI_O",
+    "description": "Backward defect indication (overhead) at OMS layer",
+    "severity": "Warning",
+    "service_affecting": false
+  },
+  "OMS_BDI_P": {
+    "name": "OMS_BDI_P",
+    "description": "Backward defect indication (payload) at OMS layer",
+    "severity": "Warning",
+    "service_affecting": false
+  },
+  "OMS_FDI": {
+    "name": "OMS_FDI",
+    "description": "Forward defect indication at OMS layer",
+    "severity": "Warning",
+    "service_affecting": true
+  },
+  "OMS_FDI_O": {
+    "name": "OMS_FDI_O",
+    "description": "Forward defect indication (overhead) at OMS layer",
+    "severity": "Warning",
+    "service_affecting": false
+  },
+  "OMS_FDI_P": {
+    "name": "OMS_FDI_P",
+    "description": "Forward defect indication (payload) at OMS layer",
+    "severity": "Warning",
+    "service_affecting": true
+  },
+  "OMS_LOS_P": {
+    "name": "OMS_LOS_P",
+    "description": "Loss of signal (payload) at OMS layer",
+    "severity": "Critical",
+    "service_affecting": true
+  },
+  "OMS_SSF": {
+    "name": "OMS_SSF",
+    "description": "Server signal fail at OMS layer",
+    "severity": "Warning",
+    "service_affecting": true
+  },
+  "OMS_SSF_O": {
+    "name": "OMS_SSF_O",
+    "description": "Server signal fail (overhead) at OMS layer",
+    "severity": "Warning",
+    "service_affecting": false
+  },
+  "OMS_SSF_P": {
+    "name": "OMS_SSF_P",
+    "description": "Server signal fail (payload) at OMS layer",
+    "severity": "Warning",
+    "service_affecting": true
+  },
+  "OMS_PMI": {
+    "name": "OMS_PMI",
+    "description": "OMS-layer payload loss alarm",
+    "severity": "Critical",
+    "service_affecting": true
+  },
+  "OMS_PWR_ADJ_FAIL": {
+    "name": "OMS_PWR_ADJ_FAIL",
+    "description": "OMS loss compensation adjustment failure",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "OMS_LOSS_MON_FAIL": {
+    "name": "OMS_LOSS_MON_FAIL",
+    "description": "OMS loss monitoring failure",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "OMS_LOSS_ACCUM_AB": {
+    "name": "OMS_LOSS_ACCUM_AB",
+    "description": "N Abnormal accumulated span loss",
+    "severity": "Minor",
+    "service_affecting": false
+  },
+  "ONE_PUMP_WORK": {
+    "name": "ONE_PUMP_WORK",
+    "description": "Single pump card working alarm",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "OOL": {
+    "name": "OOL",
+    "description": "The phase-locked loop is out of lock",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "OOS_LOST": {
+    "name": "OOS_LOST",
+    "description": "Loss of OOS",
+    "severity": "Minor",
+    "service_affecting": false
+  },
+  "OPA_FAIL_INDI": {
+    "name": "OPA_FAIL_INDI",
+    "description": "Automatic adjustment of power during optical cross-connection failed",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "OPU0_CSF": {
+    "name": "OPU0_CSF",
+    "description": "Client-side signals fail",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "OPU0_PLM": {
+    "name": "OPU0_PLM",
+    "description": "OPU0 payload mismatch",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "OPU1_CSF": {
+    "name": "OPU1_CSF",
+    "description": "Client-side signals fail",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "OPU1_PLM": {
+    "name": "OPU1_PLM",
+    "description": "OPU1 payload mismatch",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "OPU1_MSIM": {
+    "name": "OPU1_MSIM",
+    "description": "OPU1 multiplex structure indicator mismatch",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "OPU1_VCAT_SQM": {
+    "name": "OPU1_VCAT_SQM",
+    "description": "OPU1 sequence indicator mismatch",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "OPU1_VCAT_VcPLM": {
+    "name": "OPU1_VCAT_VcPLM",
+    "description": "OPU1 virtual concatenation payload mismatch",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "OPU2_CSF": {
+    "name": "OPU2_CSF",
+    "description": "Client-side signals fail",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "OPU2_MSIM": {
+    "name": "OPU2_MSIM",
+    "description": "OPU2 multiplex structure indicator mismatch",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "OPU2_PLM": {
+    "name": "OPU2_PLM",
+    "description": "OPU2 payload mismatch",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "OPU3_MSIM": {
+    "name": "OPU3_MSIM",
+    "description": "OPU3 multiplex structure indicator mismatch",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "OPU3_PLM": {
+    "name": "OPU3_PLM",
+    "description": "OPU3 payload mismatch",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "OPU4_CSF": {
+    "name": "OPU4_CSF",
+    "description": "Client-side signals fail",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "OPU4_MSIM": {
+    "name": "OPU4_MSIM",
+    "description": "OPU4 multiplex structure indicator mismatch",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "OPU4_PLM": {
+    "name": "OPU4_PLM",
+    "description": "OPU4 payload mismatch",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "OPU4_LOOMFI": {
+    "name": "OPU4_LOOMFI",
+    "description": "Loss of OPU4 multiframe",
+    "severity": "Critical",
+    "service_affecting": true
+  },
+  "OPU5G_PLM": {
+    "name": "OPU5G_PLM",
+    "description": "OPU5G payload mismatch",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "OPUFLEX_CSF": {
+    "name": "OPUFLEX_CSF",
+    "description": "Client-side signals fail",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "OPUFLEX_PLM": {
+    "name": "OPUFLEX_PLM",
+    "description": "OPUFLEX Payload Label Mismatch",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "ORP_CRITICAL_HI": {
+    "name": "ORP_CRITICAL_HI",
+    "description": "Excessively high reflection power.",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "OSC_CLK_MISMATCH": {
+    "name": "OSC_CLK_MISMATCH",
+    "description": "OSC clock mismatch",
+    "severity": "Warning",
+    "service_affecting": false
+  },
+  "OSC_BDI": {
+    "name": "OSC_BDI",
+    "description": "OSC Backward defect indication",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "OSC_DEG": {
+    "name": "OSC_DEG",
+    "description": "OSC signal degrade",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "OSC_LOS": {
+    "name": "OSC_LOS",
+    "description": "Loss of OSC signal",
+    "severity": "Critical",
+    "service_affecting": false
+  },
+  "OSC_RDI": {
+    "name": "OSC_RDI",
+    "description": "Remote defect indication",
+    "severity": "Minor",
+    "service_affecting": false
+  },
+  "OSNR_LOSS_UNBALANC": {
+    "name": "OSNR_LOSS_UNBALANC",
+    "description": "ED OSNR LOSS imbalanced",
+    "severity": "Minor",
+    "service_affecting": false
+  },
+  "OTU_AIS": {
+    "name": "OTU_AIS",
+    "description": "OTU alarm indication signal",
+    "severity": "Warning",
+    "service_affecting": true
+  },
+  "OTU_LOF": {
+    "name": "OTU_LOF",
+    "description": "Loss of frame",
+    "severity": "Critical",
+    "service_affecting": true
+  },
+  "OTU_LOM": {
+    "name": "OTU_LOM",
+    "description": "Loss of Multi-frame",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "OTU1_AIS": {
+    "name": "OTU1_AIS",
+    "description": "OTU1 alarm indication signal",
+    "severity": "Warning",
+    "service_affecting": true
+  },
+  "OTU1_BDI": {
+    "name": "OTU1_BDI",
+    "description": "OTU1 backward defect indication",
+    "severity": "Warning",
+    "service_affecting": true
+  },
+  "OTU1_DEG": {
+    "name": "OTU1_DEG",
+    "description": "OTU1 signal degraded",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "OTU1_EXC": {
+    "name": "OTU1_EXC",
+    "description": "OTU1 BIP8 excessive error defect",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "OTU1_LOF": {
+    "name": "OTU1_LOF",
+    "description": "The FAS is abnormal",
+    "severity": "Critical",
+    "service_affecting": true
+  },
+  "OTU1_LOM": {
+    "name": "OTU1_LOM",
+    "description": "The MFAS is abnormal",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "OTU1_SSF": {
+    "name": "OTU1_SSF",
+    "description": "OTU1 server signal fail",
+    "severity": "Warning",
+    "service_affecting": true
+  },
+  "OTU1_TIM": {
+    "name": "OTU1_TIM",
+    "description": "OTU1 TTI mismatch",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "OTU2_AIS": {
+    "name": "OTU2_AIS",
+    "description": "OTU2 alarm indication signal",
+    "severity": "Warning",
+    "service_affecting": true
+  },
+  "OTU2_BDI": {
+    "name": "OTU2_BDI",
+    "description": "OTU2 backward defect indication",
+    "severity": "Warning",
+    "service_affecting": true
+  },
+  "OTU2_DEG": {
+    "name": "OTU2_DEG",
+    "description": "OTU2 signal degraded",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "OTU2_LOF": {
+    "name": "OTU2_LOF",
+    "description": "The FAS is abnormal",
+    "severity": "Critical",
+    "service_affecting": true
+  },
+  "OTU2_LOM": {
+    "name": "OTU2_LOM",
+    "description": "The MFAS is abnormal",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "OTU2_SSF": {
+    "name": "OTU2_SSF",
+    "description": "OTU2 server signal fail",
+    "severity": "Warning",
+    "service_affecting": true
+  },
+  "OTU2_TIM": {
+    "name": "OTU2_TIM",
+    "description": "OTU2 TTI mismatch",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "OTU2_EXC": {
+    "name": "OTU2_EXC",
+    "description": "OTU2 BIP8 excessive error defect",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "OTU3_AIS": {
+    "name": "OTU3_AIS",
+    "description": "OTU3 alarm indication signal",
+    "severity": "Warning",
+    "service_affecting": true
+  },
+  "OTU3_BDI": {
+    "name": "OTU3_BDI",
+    "description": "OTU3 backward defect indication",
+    "severity": "Warning",
+    "service_affecting": true
+  },
+  "OTU3_DEG": {
+    "name": "OTU3_DEG",
+    "description": "OTU3 signal degraded",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "OTU3_LOF": {
+    "name": "OTU3_LOF",
+    "description": "The FAS is abnormal",
+    "severity": "Critical",
+    "service_affecting": true
+  },
+  "OTU3_LOM": {
+    "name": "OTU3_LOM",
+    "description": "The MFAS is abnormal",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "OTU3_SSF": {
+    "name": "OTU3_SSF",
+    "description": "OTU3 server signal fail",
+    "severity": "Warning",
+    "service_affecting": true
+  },
+  "OTU3_TIM": {
+    "name": "OTU3_TIM",
+    "description": "OTU3 TTI mismatch",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "OTU3_EXC": {
+    "name": "OTU3_EXC",
+    "description": "OTU3 BIP8 excessive error defect",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "OTU4_AIS": {
+    "name": "OTU4_AIS",
+    "description": "OTU4 alarm indication signal",
+    "severity": "Warning",
+    "service_affecting": true
+  },
+  "OTU4_BDI": {
+    "name": "OTU4_BDI",
+    "description": "OTU4 backward defect indication",
+    "severity": "Warning",
+    "service_affecting": true
+  },
+  "OTU4_DEG": {
+    "name": "OTU4_DEG",
+    "description": "OTU4 signal degraded",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "OTU4_LOF": {
+    "name": "OTU4_LOF",
+    "description": "The FAS is abnormal",
+    "severity": "Critical",
+    "service_affecting": true
+  },
+  "OTU4_LOM": {
+    "name": "OTU4_LOM",
+    "description": "The MFAS is abnormal",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "OTU4_SSF": {
+    "name": "OTU4_SSF",
+    "description": "OTU4 server signal fail",
+    "severity": "Warning",
+    "service_affecting": true
+  },
+  "OTU4_TIM": {
+    "name": "OTU4_TIM",
+    "description": "OTU4 TTI mismatch",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "OTU5G_AIS": {
+    "name": "OTU5G_AIS",
+    "description": "OTU5G alarm indication signal",
+    "severity": "Warning",
+    "service_affecting": true
+  },
+  "OTU5G_BDI": {
+    "name": "OTU5G_BDI",
+    "description": "OTU5G backward defect indication",
+    "severity": "Warning",
+    "service_affecting": true
+  },
+  "OTU5G_DEG": {
+    "name": "OTU5G_DEG",
+    "description": "OTU5G signal degraded",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "OTU5G_EXC": {
+    "name": "OTU5G_EXC",
+    "description": "OTU5G BIP8 excessive error defect",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "OTU5G_LOF": {
+    "name": "OTU5G_LOF",
+    "description": "The FAS is abnormal",
+    "severity": "Critical",
+    "service_affecting": true
+  },
+  "OTU5G_LOM": {
+    "name": "OTU5G_LOM",
+    "description": "The MFAS is abnormal",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "OTU5G_SSF": {
+    "name": "OTU5G_SSF",
+    "description": "OTU5G server signal fail",
+    "severity": "Warning",
+    "service_affecting": true
+  },
+  "OTU5G_TIM": {
+    "name": "OTU5G_TIM",
+    "description": "OTU5G TTI mismatch",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "OTS_BDI": {
+    "name": "OTS_BDI",
+    "description": "Backward defect indication at OTS layer",
+    "severity": "Warning",
+    "service_affecting": false
+  },
+  "OTS_BDI_O": {
+    "name": "OTS_BDI_O",
+    "description": "Backward defect indication (overhead) at OTS layer",
+    "severity": "Warning",
+    "service_affecting": false
+  },
+  "OTS_BDI_P": {
+    "name": "OTS_BDI_P",
+    "description": "Backward defect indication (payload) at OTS layer",
+    "severity": "Warning",
+    "service_affecting": false
+  },
+  "OTS_LOS": {
+    "name": "OTS_LOS",
+    "description": "Loss of signal at OTS layer",
+    "severity": "Critical",
+    "service_affecting": true
+  },
+  "OTS_LOS_O": {
+    "name": "OTS_LOS_O",
+    "description": "Loss of signal (overhead) at OTS layer",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "OTS_LOS_P": {
+    "name": "OTS_LOS_P",
+    "description": "Loss of signal (payload) at OTS layer",
+    "severity": "Critical",
+    "service_affecting": true
+  },
+  "OTS_PMI": {
+    "name": "OTS_PMI",
+    "description": "OTS-layer payload loss alarm",
+    "severity": "Critical",
+    "service_affecting": true
+  },
+  "OTS_TIM": {
+    "name": "OTS_TIM",
+    "description": "Trail trace identifier mismatch at OTS layer",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "OUT_PWR_HIGH": {
+    "name": "OUT_PWR_HIGH",
+    "description": "Output optical power is too high",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "OUT_PWR_ABN": {
+    "name": "OUT_PWR_ABN",
+    "description": "Output power abnormal",
+    "severity": "Critical",
+    "service_affecting": true
+  },
+  "OUT_PWR_LOW": {
+    "name": "OUT_PWR_LOW",
+    "description": "Output optical power is excessively low",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "OWSP_PS": {
+    "name": "OWSP_PS",
+    "description": "Optical wave share protection switching",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "OWSP_STA_INDI": {
+    "name": "OWSP_STA_INDI",
+    "description": "the state of the optical wave share protection group",
+    "severity": "Minor",
+    "service_affecting": false
+  },
+  "PASSWORD_NEED_CHAN": {
+    "name": "PASSWORD_NEED_CHAN",
+    "description": "GE Default password must be changed",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "PATCH_ACT_TIMEOUT": {
+    "name": "PATCH_ACT_TIMEOUT",
+    "description": "Activated patch overtime",
+    "severity": "Minor",
+    "service_affecting": false
+  },
+  "PATCH_DEACT_TIMEOUT": {
+    "name": "PATCH_DEACT_TIMEOUT",
+    "description": "Deactivated patch overtime",
+    "severity": "Minor",
+    "service_affecting": false
+  },
+  "PATCH_PKGERR": {
+    "name": "PATCH_PKGERR",
+    "description": "Patch package file error",
+    "severity": "Minor",
+    "service_affecting": false
+  },
+  "PID_AUTO_ADJUST_FAIL": {
+    "name": "PID_AUTO_ADJUST_FAIL",
+    "description": "Automatic adjustment failure of PID optical power alarm",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "PRO_PKT_FLOODING": {
+    "name": "PRO_PKT_FLOODING",
+    "description": "Protocol packet flooding attacks detected alarm.",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "PM_BDI": {
+    "name": "PM_BDI",
+    "description": "ODU PM section backward defect indication",
+    "severity": "Warning",
+    "service_affecting": false
+  },
+  "PM_BEI": {
+    "name": "PM_BEI",
+    "description": "ODU PM section backward error indication",
+    "severity": "Warning",
+    "service_affecting": true
+  },
+  "PM_BIP8_OVER": {
+    "name": "PM_BIP8_OVER",
+    "description": "ODU layer, PM section BIP exceed the upper threshold",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "PM_BIP8_SD": {
+    "name": "PM_BIP8_SD",
+    "description": "Optical channel data unit layer, path monitoring section bit interleaved parity signal degraded",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "PM_TIM": {
+    "name": "PM_TIM",
+    "description": "ODU layer PM section TTI mismatch",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "PORT_EXC_TRAFFIC": {
+    "name": "PORT_EXC_TRAFFIC",
+    "description": "Traffic at Ethernet ports over the threshold",
+    "severity": "Warning",
+    "service_affecting": true
+  },
+  "PORT_MODULE_OFFLINE": {
+    "name": "PORT_MODULE_OFFLINE",
+    "description": "Port module offline",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "PORTSWITCH_FAIL": {
+    "name": "PORTSWITCH_FAIL",
+    "description": "Optical switch switching failure",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "PORT_WLLCFG_REPEATE": {
+    "name": "PORT_WLLCFG_REPEATE",
+    "description": "D Repeated wavelength locking configurations are found on the optical ports of an OTU board",
+    "severity": "Critical",
+    "service_affecting": false
+  },
+  "POWER_ABNORMAL": {
+    "name": "POWER_ABNORMAL",
+    "description": "Power supply failure",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "POWER_DIFF_OVER": {
+    "name": "POWER_DIFF_OVER",
+    "description": "Power difference between active and standby channels crossed the threshold",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "POWER_SAMPLE_DIFF": {
+    "name": "POWER_SAMPLE_DIFF",
+    "description": "The current power and sampling power are inconsistent",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "POWER_FAIL": {
+    "name": "POWER_FAIL",
+    "description": "Power failure",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "PRBS_LSS": {
+    "name": "PRBS_LSS",
+    "description": "PRBS signal lost alarm",
+    "severity": "Minor",
+    "service_affecting": false
+  },
+  "PTP_SOURCE_SWITCH": {
+    "name": "PTP_SOURCE_SWITCH",
+    "description": "PTP time source switching alarm",
+    "severity": "Minor",
+    "service_affecting": false
+  },
+  "PTP_TIMESTAMP_ABN": {
+    "name": "PTP_TIMESTAMP_ABN",
+    "description": "PTP time stamp anomaly",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "PUM_TEM_ALM": {
+    "name": "PUM_TEM_ALM",
+    "description": "Working temperature of the pump laser over threshold",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "PUM_BCM_ALM": {
+    "name": "PUM_BCM_ALM",
+    "description": "Working current of pump laser over threshold",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "PUMP_COOL_EXC": {
+    "name": "PUMP_COOL_EXC",
+    "description": "Cooling current of pump laser over threshold",
+    "severity": "Critical",
+    "service_affecting": false
+  },
+  "PUMP_LINK_ULLAGE_HI": {
+    "name": "PUMP_LINK_ULLAGE_HI",
+    "description": "GH Pump laser connection insertion loss alarm",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "PUMP_MIS_MATCH": {
+    "name": "PUMP_MIS_MATCH",
+    "description": "Pump card mismatch",
+    "severity": "Critical",
+    "service_affecting": true
+  },
+  "PUMP_OFFLINE": {
+    "name": "PUMP_OFFLINE",
+    "description": "Pump card offline",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "PWD_ENCRYPT_RISK": {
+    "name": "PWD_ENCRYPT_RISK",
+    "description": "User password encryption mode risk alarm.",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "PW_NO_TRAFFIC": {
+    "name": "PW_NO_TRAFFIC",
+    "description": "PW without traffic alarm",
+    "severity": "Critical",
+    "service_affecting": true
+  },
+  "PWAPS_LOST": {
+    "name": "PWAPS_LOST",
+    "description": "PW APS frame lost",
+    "severity": "Minor",
+    "service_affecting": false
+  },
+  "PWAPS_PATH_MISMATCH": {
+    "name": "PWAPS_PATH_MISMATCH",
+    "description": "Mismatch of PW APS working/protection paths",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "PWAPS_SWITCH_FAIL": {
+    "name": "PWAPS_SWITCH_FAIL",
+    "description": "PW APS protection switching failure",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "PWAPS_TYPE_MISMATC": {
+    "name": "PWAPS_TYPE_MISMATC",
+    "description": "H Mismatch of PW APS protection type",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "PW_APS_DEGRADED": {
+    "name": "PW_APS_DEGRADED",
+    "description": "PW APS protection group is degraded",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "PW_APS_OUTAGE": {
+    "name": "PW_APS_OUTAGE",
+    "description": "PW APS protection group fails",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "PWR_UNBALANCED": {
+    "name": "PWR_UNBALANCED",
+    "description": "Unbalanced optical power flatness",
+    "severity": "Minor",
+    "service_affecting": false
+  },
+  "RACK_CONFLICT_SCREE": {
+    "name": "RACK_CONFLICT_SCREE",
+    "description": "N The subrack ID conflict isolation",
+    "severity": "Critical",
+    "service_affecting": false
+  },
+  "R_LOC": {
+    "name": "R_LOC",
+    "description": "Loss of clock on receiving line",
+    "severity": "Critical",
+    "service_affecting": true
+  },
+  "R_LOF": {
+    "name": "R_LOF",
+    "description": "Loss of frame on receiving line",
+    "severity": "Critical",
+    "service_affecting": true
+  },
+  "R_LOS": {
+    "name": "R_LOS",
+    "description": "Loss of signal on receiving line",
+    "severity": "Critical",
+    "service_affecting": true
+  },
+  "R_OOF": {
+    "name": "R_OOF",
+    "description": "Out of frame on receiving line",
+    "severity": "Critical",
+    "service_affecting": true
+  },
+  "R_SLIP": {
+    "name": "R_SLIP",
+    "description": "Receiving side frame slipping",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "RELAY_ALARM_CRITICA": {
+    "name": "RELAY_ALARM_CRITICA",
+    "description": "L Critical relay alarm",
+    "severity": "Critical",
+    "service_affecting": false
+  },
+  "RELAY_ALARM_IGNORE": {
+    "name": "RELAY_ALARM_IGNORE",
+    "description": "Relay alarm warning",
+    "severity": "Warning",
+    "service_affecting": false
+  },
+  "RELAY_ALARM_MAJOR": {
+    "name": "RELAY_ALARM_MAJOR",
+    "description": "Major relay alarm",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "RELAY_ALARM_Minor": {
+    "name": "RELAY_ALARM_Minor",
+    "description": "Remote signal degraded",
+    "severity": "Minor",
+    "service_affecting": false
+  },
+  "REM_SD": {
+    "name": "REM_SD",
+    "description": "Remote signal degraded",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "REM_SF": {
+    "name": "REM_SF",
+    "description": "Remote signal failure alarm indication",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "REMOTE_FAULT": {
+    "name": "REMOTE_FAULT",
+    "description": "Remote fault",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "RL_CRITICAL_HI": {
+    "name": "RL_CRITICAL_HI",
+    "description": "Critical high return loss alarm",
+    "severity": "Critical",
+    "service_affecting": true
+  },
+  "RL_CRITICAL_LOW": {
+    "name": "RL_CRITICAL_LOW",
+    "description": "Critical low return loss alarm",
+    "severity": "Critical",
+    "service_affecting": true
+  },
+  "RM_RLOS": {
+    "name": "RM_RLOS",
+    "description": "Loss of input reverse pump optical signals",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "RS_CROSSTR": {
+    "name": "RS_CROSSTR",
+    "description": "Regenerator section performance over threshold",
+    "severity": "Minor",
+    "service_affecting": true
+  },
+  "RTC_FAIL": {
+    "name": "RTC_FAIL",
+    "description": "RTC time fail alarm",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "RX_POWER_ABNORMAL": {
+    "name": "RX_POWER_ABNORMAL",
+    "description": "Abnormal received optical power",
+    "severity": "Critical",
+    "service_affecting": true
+  },
+  "RXCFG_WA": {
+    "name": "RXCFG_WA",
+    "description": "VEDATA_MIS The receive wavelength or band attribute settings mismatch on a board and an NE",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "SCC_CHANGE": {
+    "name": "SCC_CHANGE",
+    "description": "SCC board is replaced",
+    "severity": "Critical",
+    "service_affecting": true
+  },
+  "S1_SYN_CHANGE": {
+    "name": "S1_SYN_CHANGE",
+    "description": "Synchronous source changed in S1 mode",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "SCC_LOC": {
+    "name": "SCC_LOC",
+    "description": "SCC loss of clock",
+    "severity": "Critical",
+    "service_affecting": false
+  },
+  "SEC_RADIUS_FAIL": {
+    "name": "SEC_RADIUS_FAIL",
+    "description": "Excessive failures in radius authentication",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "SECU_ALM": {
+    "name": "SECU_ALM",
+    "description": "Security alarm",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "SERVICE_CAPACITY_EX": {
+    "name": "SERVICE_CAPACITY_EX",
+    "description": "CEED_LICENSE The service capacity exceeds the license limit",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "SERVICE_TYPE_EXCEED": {
+    "name": "SERVICE_TYPE_EXCEED",
+    "description": "_LICENSE The service type exceeds the license limit",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "SHELF_POWER_UNCONF": {
+    "name": "SHELF_POWER_UNCONF",
+    "description": "IG The power consumption threshold of a subrack is not configured.",
+    "severity": "Critical",
+    "service_affecting": false
+  },
+  "SHELF_AREA_POWER_O": {
+    "name": "SHELF_AREA_POWER_O",
+    "description": "VER Total optical power consumption of the subrack exceeds the threshold",
+    "severity": "Critical",
+    "service_affecting": false
+  },
+  "SLA": {
+    "name": "SLA",
+    "description": "VE_WORKING The protection board is working",
+    "severity": "Warning",
+    "service_affecting": false
+  },
+  "SM_BDI": {
+    "name": "SM_BDI",
+    "description": "OTU SM section backward defect indication",
+    "severity": "Warning",
+    "service_affecting": false
+  },
+  "SM_BEI": {
+    "name": "SM_BEI",
+    "description": "OTU layer, SM section backward error indication",
+    "severity": "Warning",
+    "service_affecting": true
+  },
+  "SM_BIP8_OVER": {
+    "name": "SM_BIP8_OVER",
+    "description": "OTU layer, SM section bit interleaved parity exceeds threshold",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "SM_BIP8_SD": {
+    "name": "SM_BIP8_SD",
+    "description": "OTU layer, SM section bit interleaved parity deterioration",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "SM_IAE": {
+    "name": "SM_IAE",
+    "description": "OTU layer, SM section incoming alignment error",
+    "severity": "Warning",
+    "service_affecting": true
+  },
+  "SM_TIM": {
+    "name": "SM_TIM",
+    "description": "OTU layer, SM Trail Trace Identifier (TTI) is mismatched",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "SNCP_FAIL": {
+    "name": "SNCP_FAIL",
+    "description": "The SNCP switching failure",
+    "severity": "Critical",
+    "service_affecting": true
+  },
+  "SPAN_LOSS_EXCEED_EO": {
+    "name": "SPAN_LOSS_EXCEED_EO",
+    "description": "L Span fiber loss exceeding EOL",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "SPAN_LOSS_UPPER_GAI": {
+    "name": "SPAN_LOSS_UPPER_GAI",
+    "description": "N Span loss upper than the gain compensation value",
+    "severity": "Minor",
+    "service_affecting": false
+  },
+  "SPAN_LOSS_LOWER_GA": {
+    "name": "SPAN_LOSS_LOWER_GA",
+    "description": "IN Span loss lower than the gain compensation value",
+    "severity": "Minor",
+    "service_affecting": false
+  },
+  "SPAN_LOSS_HIGH": {
+    "name": "SPAN_LOSS_HIGH",
+    "description": "Span loss is excessively high",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "SPAN_LOSS_LOW": {
+    "name": "SPAN_LOSS_LOW",
+    "description": "Span loss is excessively low",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "SO_SK_MISMATCH": {
+    "name": "SO_SK_MISMATCH",
+    "description": "The number of timeslots bundled at the LCAS source is not consistent with the number of timeslots bundled at the LCAS sink",
+    "severity": "Critical",
+    "service_affecting": true
+  },
+  "SPEED_OVER": {
+    "name": "SPEED_OVER",
+    "description": "Data rate exceeding the set limits",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "SRV_SHUTDOWN_LD": {
+    "name": "SRV_SHUTDOWN_LD",
+    "description": "Ethernet service shutdown",
+    "severity": "Warning",
+    "service_affecting": true
+  },
+  "SSL_CERT_NOENC": {
+    "name": "SSL_CERT_NOENC",
+    "description": "The certificate file of SSL is not encrypted",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "SSL_CERT_TO_EXPIRE": {
+    "name": "SSL_CERT_TO_EXPIRE",
+    "description": "SSL certificate file is to expire alarm",
+    "severity": "Critical",
+    "service_affecting": true
+  },
+  "SSM_LOS": {
+    "name": "SSM_LOS",
+    "description": "Loss of SSM quality information",
+    "severity": "Minor",
+    "service_affecting": false
+  },
+  "SSM_QL_FAILED": {
+    "name": "SSM_QL_FAILED",
+    "description": "Received SSM quality worse than the threshold",
+    "severity": "Minor",
+    "service_affecting": false
+  },
+  "STORAGE_FAIL": {
+    "name": "STORAGE_FAIL",
+    "description": "Storage error",
+    "severity": "Critical",
+    "service_affecting": false
+  },
+  "STORM_CUR_QUENUM_": {
+    "name": "STORM_CUR_QUENUM_",
+    "description": "OVER Alarm storm",
+    "severity": "Minor",
+    "service_affecting": false
+  },
+  "SUBNET_RT_CONFLICT": {
+    "name": "SUBNET_RT_CONFLICT",
+    "description": "A subnetwork route conflict",
+    "severity": "Minor",
+    "service_affecting": false
+  },
+  "SUBRACK_TYPE_MISMA": {
+    "name": "SUBRACK_TYPE_MISMA",
+    "description": "TCH The configured subrack does not match the physical subrack",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "SUBRACK_EXCEED": {
+    "name": "SUBRACK_EXCEED",
+    "description": "Number of slave subracks exceeding threshold",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "SUBRACK_COMM_PS": {
+    "name": "SUBRACK_COMM_PS",
+    "description": "Inter-subrack communication protection switching alarm",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "SUBRACK_ID_CONFLICT": {
+    "name": "SUBRACK_ID_CONFLICT",
+    "description": "Conflict of subrack ID",
+    "severity": "Critical",
+    "service_affecting": true
+  },
+  "SUBRACK_ID_MISMATC": {
+    "name": "SUBRACK_ID_MISMATC",
+    "description": "H Mismatch of subrack ID",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "SUBRACK_LOOP": {
+    "name": "SUBRACK_LOOP",
+    "description": "Loop of subrack",
+    "severity": "Critical",
+    "service_affecting": false
+  },
+  "SUM_INPWR_HI": {
+    "name": "SUM_INPWR_HI",
+    "description": "Sum input optical power is too high",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "SUM_INPWR_LOW": {
+    "name": "SUM_INPWR_LOW",
+    "description": "Sum input optical power is excessively low",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "SW_SNCP_PS": {
+    "name": "SW_SNCP_PS",
+    "description": "SW SNCP protection switching",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "SW_SNCP_STA_INDI": {
+    "name": "SW_SNCP_STA_INDI",
+    "description": "The state of the Sub- Wavelength SNCP protection group.",
+    "severity": "Minor",
+    "service_affecting": false
+  },
+  "SWDL_ACTIV": {
+    "name": "SWDL_ACTIV",
+    "description": "ATED_TIM EOUT Activation time out",
+    "severity": "Critical",
+    "service_affecting": false
+  },
+  "SWDL_AUTOMATCH_IN": {
+    "name": "SWDL_AUTOMATCH_IN",
+    "description": "H Automatic match inhibited",
+    "severity": "Minor",
+    "service_affecting": false
+  },
+  "SWDL_BD_MATCH_FAIL": {
+    "name": "SWDL_BD_MATCH_FAIL",
+    "description": "Board software matching failure",
+    "severity": "Minor",
+    "service_affecting": false
+  },
+  "SWDL_BD_NOT_MATCH": {
+    "name": "SWDL_BD_NOT_MATCH",
+    "description": "Board software mismatch alarm",
+    "severity": "Minor",
+    "service_affecting": false
+  },
+  "SWDL_BD_WEAKMATCH": {
+    "name": "SWDL_BD_WEAKMATCH",
+    "description": "Weak matching between board software and NE software",
+    "severity": "Minor",
+    "service_affecting": false
+  },
+  "SWDL_BD_EXCLUDE": {
+    "name": "SWDL_BD_EXCLUDE",
+    "description": "Board excluded from software download during software package loading",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "SWDL_CHGMNG_NOMA": {
+    "name": "SWDL_CHGMNG_NOMA",
+    "description": "TCH Software mismatching alarm after system control board replacement",
+    "severity": "Critical",
+    "service_affecting": false
+  },
+  "SWDL_COMMIT_FAIL": {
+    "name": "SWDL_COMMIT_FAIL",
+    "description": "Commit failure",
+    "severity": "Minor",
+    "service_affecting": false
+  },
+  "SWDL_INPROCESS": {
+    "name": "SWDL_INPROCESS",
+    "description": "NE is loading package",
+    "severity": "Warning",
+    "service_affecting": false
+  },
+  "SWDL_NEPKGCHECK": {
+    "name": "SWDL_NEPKGCHECK",
+    "description": "Loss of file",
+    "severity": "Critical",
+    "service_affecting": false
+  },
+  "SWDL_PKG_NOBDSOFT": {
+    "name": "SWDL_PKG_NOBDSOFT",
+    "description": "Board software cancelled during the loading of package",
+    "severity": "Minor",
+    "service_affecting": false
+  },
+  "SWDL_PKGVER_MM": {
+    "name": "SWDL_PKGVER_MM",
+    "description": "Package version conformance check failed",
+    "severity": "Minor",
+    "service_affecting": false
+  },
+  "SWDL_ROLLBACK_FAIL": {
+    "name": "SWDL_ROLLBACK_FAIL",
+    "description": "NE rollback failed",
+    "severity": "Minor",
+    "service_affecting": false
+  },
+  "SYN_BAD": {
+    "name": "SYN_BAD",
+    "description": "A synchronization source degrade alarm",
+    "severity": "Minor",
+    "service_affecting": false
+  },
+  "SYNC_FAIL": {
+    "name": "SYNC_FAIL",
+    "description": "Batch backup failed",
+    "severity": "Minor",
+    "service_affecting": false
+  },
+  "SYSPARA_CFDB_NOSAM": {
+    "name": "SYSPARA_CFDB_NOSAM",
+    "description": "E Difference between the SCC data and the CF card data",
+    "severity": "Minor",
+    "service_affecting": false
+  },
+  "SYNC_C_LOS": {
+    "name": "SYNC_C_LOS",
+    "description": "The loss of synchronization source level",
+    "severity": "Warning",
+    "service_affecting": false
+  },
+  "SYNC_DISABLE": {
+    "name": "SYNC_DISABLE",
+    "description": "Automatic synchronization of the system control board is disabled",
+    "severity": "Minor",
+    "service_affecting": false
+  },
+  "SYNC_F_M_SWITCH": {
+    "name": "SYNC_F_M_SWITCH",
+    "description": "The forced or manual switching state of a clock source",
+    "severity": "Warning",
+    "service_affecting": false
+  },
+  "SYNC_LOCKOFF": {
+    "name": "SYNC_LOCKOFF",
+    "description": "The clock source in the priority list is locked",
+    "severity": "Warning",
+    "service_affecting": false
+  },
+  "SYSLOG_COMM_FAIL": {
+    "name": "SYSLOG_COMM_FAIL",
+    "description": "The communication between an NE and the syslog server fails",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "T_LOSEX": {
+    "name": "T_LOSEX",
+    "description": "A board has detected the loss of signal in the service bus of the backplane",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "T_SLIP": {
+    "name": "T_SLIP",
+    "description": "Transmitted side frame slipping",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "TD": {
+    "name": "TD",
+    "description": "Transmitter degrade",
+    "severity": "Critical",
+    "service_affecting": true
+  },
+  "TEM_HA": {
+    "name": "TEM_HA",
+    "description": "Laser temperature is too high",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "TEM_LA": {
+    "name": "TEM_LA",
+    "description": "Laser temperature is excessively low",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "TEMP_OVER": {
+    "name": "TEMP_OVER",
+    "description": "Working temperature over threshold",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "TEST_STATUS": {
+    "name": "TEST_STATUS",
+    "description": "The board is in the test status",
+    "severity": "Warning",
+    "service_affecting": false
+  },
+  "TF": {
+    "name": "TF",
+    "description": "Transmission Failure",
+    "severity": "Critical",
+    "service_affecting": true
+  },
+  "THUNDERALM": {
+    "name": "THUNDERALM",
+    "description": "Thunder protection circuit failure",
+    "severity": "Minor",
+    "service_affecting": false
+  },
+  "TIME_LOCK_FAIL": {
+    "name": "TIME_LOCK_FAIL",
+    "description": "Time lock failure alarm",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "TIME_LOS": {
+    "name": "TIME_LOS",
+    "description": "The loss of the timing source level",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "TIME_NO_TRACE_MODE": {
+    "name": "TIME_NO_TRACE_MODE",
+    "description": "The time enters the non- trace mode",
+    "severity": "Minor",
+    "service_affecting": false
+  },
+  "TR_LOC": {
+    "name": "TR_LOC",
+    "description": "The clock of the cross- connect board is faulty",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "TS_CFG_MISMATCH": {
+    "name": "TS_CFG_MISMATCH",
+    "description": "The timeslot configuration mismatch alarm",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "TU_AIS_VC3": {
+    "name": "TU_AIS_VC3",
+    "description": "A TU alarm indication signal in the VC-3 lower order path",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "TU_LOP_VC3": {
+    "name": "TU_LOP_VC3",
+    "description": "An alarm indicating the loss of pointer in the VC-3 lower order path",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "TUNNEL_APS_DEGRADE": {
+    "name": "TUNNEL_APS_DEGRADE",
+    "description": "D Downgrade of APS tunnel protection group",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "VCAT_LOA": {
+    "name": "VCAT_LOA",
+    "description": "Delay of multiframes exceeds the threshold",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "VCAT_LOM_VC3": {
+    "name": "VCAT_LOM_VC3",
+    "description": "The loss of the virtual concatenation multiframe in the VC-3 path",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "VCAT_LOM_VC4": {
+    "name": "VCAT_LOM_VC4",
+    "description": "The loss of the virtual concatenation multiframe in the VC-4 path",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "VCTRUNK_NO_FLOW": {
+    "name": "VCTRUNK_NO_FLOW",
+    "description": "No traffic at VCTRUNK port",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "VLAN_SNCP_PS": {
+    "name": "VLAN_SNCP_PS",
+    "description": "VLAN SNCP switching",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "VOADATA_MIS": {
+    "name": "VOADATA_MIS",
+    "description": "Mismatch of attenuation attribute",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "W_R_FAIL": {
+    "name": "W_R_FAIL",
+    "description": "Writing or reading chip register failed",
+    "severity": "Major",
+    "service_affecting": false
+  },
+  "WA": {
+    "name": "WA",
+    "description": "VELEN_REPEATED Repeated wavelengths found during wavelength locking configuration",
+    "severity": "Critical",
+    "service_affecting": true
+  },
+  "WRG_BD_TYPE": {
+    "name": "WRG_BD_TYPE",
+    "description": "Real board is mismatched with configured board",
+    "severity": "Major",
+    "service_affecting": true
+  },
+  "XC_UNSWITCH": {
+    "name": "XC_UNSWITCH",
+    "description": "The cross-connect matrix of the board is not switched",
+    "severity": "Major",
+    "service_affecting": true
+  }
+}
