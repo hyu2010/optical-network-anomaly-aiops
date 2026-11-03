@@ -1,0 +1,512 @@
+@prefix onm:  <https://optical-aiops.example/ns/rfc9940#> .
+@prefix optx: <https://optical-aiops.example/ns/optical#> .
+@prefix dx:   <https://optical-aiops.example/ns/diagnosis#> .
+@prefix kb:   <https://optical-aiops.example/kb#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+
+# ============================================================================
+#  kb: — diagnostic documentation for the OSN 9800 lab mesh (named graph
+#  g:kb/<release>).  Published by the DocumentationPublication lifecycle
+#  writer.  The catalogue loader adds every alarm type of the vendor
+#  catalogue; this file holds the curated part:
+#    §A location roles and LLM location terms
+#    §B signal-cascade rules
+#    §C fault modes with primary effects
+#    §D curated alarm types (conditions, suppression, possible causes)
+#    §E check catalogue
+#    §F graph-consistency rules
+#  Walk patterns bind ?target from ?anchor.  Rule queries use ?h (bound by
+#  the rule engine to the hypothesis IRI).
+#
+#  Conformance notes (doc 03 §8), recorded where the test bed differs from
+#  the physics:
+#   * board_power_off and ne_power_off emit no ODU-layer consequent action,
+#     so the ODU server-signal-fail cascade (CR4) is Expected, not Required.
+#   * board_power_off on an FIU or OTU board emits LOS at the peer receivers
+#     but no further cascade: those effects carry dx:noCascade true.
+#   * The PPE detector misses steps smaller than 5 dB and reports slopes of
+#     about 0.05 dB/km on long clean paths (CHK_PPE_PROFILE tolerances).
+# ============================================================================
+
+kb:release a owl:Ontology ;
+    owl:imports <https://optical-aiops.example/ns/diagnosis> ;
+    rdfs:label "diag_agent KB for the OSN 9800 lab mesh"@en ;
+    owl:versionInfo "kb-2026.11.0" .
+
+dx:noCascade a owl:DatatypeProperty ; rdfs:domain dx:Effect ; rdfs:range xsd:boolean ;
+    rdfs:comment "The propagator does not close this effect under the cascade rules."@en .
+dx:keywordAnchor a owl:DatatypeProperty ; rdfs:domain dx:Effect ; rdfs:range xsd:boolean ;
+    rdfs:comment "Cause-keyword alarm types (dx:causeKeyword) are predicted Possible at this effect's resources."@en .
+dx:cleanSlopeMaxDbPerKm a owl:DatatypeProperty ; rdfs:domain dx:Check ; rdfs:range xsd:decimal .
+dx:positionToleranceKm a owl:DatatypeProperty ; rdfs:domain dx:Check ; rdfs:range xsd:decimal .
+dx:answersWith a owl:DatatypeProperty ; rdfs:domain dx:Check ; rdfs:range xsd:string ;
+    rdfs:comment "Name of the answer model used by the advisor to predict answer classes."@en .
+
+# ----------------------------------------------------------------------------
+# §A.1 Effect roles (fault location -> where effects appear)
+# ----------------------------------------------------------------------------
+kb:SELF a dx:LocationRole ; dx:termId "self" ; dx:anchorKind "any" ;
+    dx:walkPattern "BIND(?anchor AS ?target)" .
+kb:SELF_RX a dx:LocationRole ; dx:termId "self_rx" ; dx:anchorKind "otu" ;
+    dx:walkPattern "?anchor optx:rxPort ?target ." ; dx:resultClass optx:Port .
+kb:SPAN_RX_PORT a dx:LocationRole ; dx:termId "span_rx_port" ; dx:anchorKind "span" ;
+    dx:walkPattern "?anchor optx:rxPort ?target ." ; dx:resultClass optx:Port .
+kb:SECTION_SPAN_RX_PORTS a dx:LocationRole ; dx:termId "section_span_rx_ports" ; dx:anchorKind "section" ;
+    dx:walkPattern "?s optx:partOfSection ?anchor ; optx:rxPort ?target ." ; dx:resultClass optx:Port .
+kb:RX_OF_SUPPORTED_OTU a dx:LocationRole ; dx:termId "rx_of_supported_otu" ; dx:anchorKind "span" ;
+    dx:walkPattern "?l a optx:OtuLink ; optx:supportedBy ?anchor ; optx:rxPort ?target ." ; dx:resultClass optx:Port .
+kb:RX_OF_SPANS_FROM_NE a dx:LocationRole ; dx:termId "rx_of_spans_from_ne" ; dx:anchorKind "ne" ;
+    dx:walkPattern "?s a optx:OmsSpan ; optx:sourceNE ?anchor ; optx:rxPort ?target ." ; dx:resultClass optx:Port .
+kb:PEER_RX_OF_LINKS_FROM_BOARD a dx:LocationRole ; dx:termId "peer_rx_of_links_from_board" ; dx:anchorKind "board" ;
+    dx:walkPattern "?anchor optx:hasPort ?p . ?l optx:txPort ?p ; optx:rxPort ?target ." ; dx:resultClass optx:Port .
+kb:RX_OF_SPANS_LAUNCHED_BY_AMP a dx:LocationRole ; dx:termId "rx_of_spans_launched_by_amp" ; dx:anchorKind "board" ;
+    dx:walkPattern "?a optx:amplifierBoard ?anchor . ?s optx:launchAmplifier ?a ; optx:rxPort ?target ." ; dx:resultClass optx:Port .
+kb:FAN_OF_NE a dx:LocationRole ; dx:termId "fan_of_ne" ; dx:anchorKind "ne" ;
+    dx:walkPattern "?anchor optx:hostsBoard ?target . ?target a optx:FanBoard ." .
+kb:BOARDS_OF_NE a dx:LocationRole ; dx:termId "boards_of_ne" ; dx:anchorKind "ne" ;
+    dx:walkPattern "?anchor optx:hostsBoard ?target . FILTER NOT EXISTS { ?target a optx:FanBoard }" .
+# PPE roles resolve to the OCh whose drop receiver reports the profile.
+kb:OCH_OVER_SPAN a dx:LocationRole ; dx:termId "och_over_span" ; dx:anchorKind "span" ;
+    dx:walkPattern "?target a optx:OchTunnel ; optx:traverses ?anchor ." ; dx:resultClass optx:OchTunnel .
+kb:OCH_OVER_SUPPORTING_SPAN a dx:LocationRole ; dx:termId "och_over_supporting_span" ; dx:anchorKind "otu" ;
+    dx:walkPattern "?anchor optx:supportedBy ?s . ?target a optx:OchTunnel ; optx:traverses ?s ." ; dx:resultClass optx:OchTunnel .
+kb:OCH_OVER_LAUNCHED_SPANS a dx:LocationRole ; dx:termId "och_over_launched_spans" ; dx:anchorKind "board" ;
+    dx:walkPattern "?a optx:amplifierBoard ?anchor . ?s optx:launchAmplifier ?a . ?target a optx:OchTunnel ; optx:traverses ?s ." ;
+    dx:resultClass optx:OchTunnel .
+kb:OCH_DROPPING_AT_NE_OF_PORT a dx:LocationRole ; dx:termId "och_dropping_at_ne_of_port" ; dx:anchorKind "port" ;
+    dx:walkPattern "?b0 optx:hasPort ?anchor . ?ne optx:hostsBoard ?b0 , ?b . ?target a optx:OchTunnel ; optx:dropBoard ?b ." ;
+    dx:resultClass optx:OchTunnel .
+kb:OCH_TOUCHING_NE a dx:LocationRole ; dx:termId "och_touching_ne" ; dx:anchorKind "ne" ;
+    dx:walkPattern "?target a optx:OchTunnel . { ?target optx:sourceNE ?anchor } UNION { ?target optx:destNE ?anchor }" ;
+    dx:resultClass optx:OchTunnel .
+kb:OCH_TOUCHING_NE_OF_OTU_BOARD a dx:LocationRole ; dx:termId "och_touching_ne_of_otu_board" ; dx:anchorKind "board" ;
+    dx:walkPattern "?anchor a optx:OTUBoard . ?ne optx:hostsBoard ?anchor . ?target a optx:OchTunnel . { ?target optx:sourceNE ?ne } UNION { ?target optx:destNE ?ne }" ;
+    dx:resultClass optx:OchTunnel .
+
+# ----------------------------------------------------------------------------
+# §A.2 Location terms for the LLM proposer (frame anchor -> candidate location)
+# ----------------------------------------------------------------------------
+kb:this_port a dx:LocationTerm ; dx:termId "this_port" ; dx:anchorKind "port" ;
+    dx:meaning "The port the symptom is reported against."@en ;
+    dx:walkPattern "?anchor a optx:Port . BIND(?anchor AS ?target)" ; dx:resultClass optx:Port .
+kb:this_unit a dx:LocationTerm ; dx:termId "this_unit" ; dx:anchorKind "port" ;
+    dx:meaning "The board hosting the reporting port (or the reporting board itself)."@en ;
+    dx:walkPattern "{ ?target optx:hasPort ?anchor } UNION { ?anchor a optx:Board . BIND(?anchor AS ?target) }" ; dx:resultClass optx:Board .
+kb:this_ne a dx:LocationTerm ; dx:termId "this_ne" ; dx:anchorKind "port" ;
+    dx:meaning "The network element hosting the reporting port or board."@en ;
+    dx:walkPattern "{ ?b optx:hasPort ?anchor . ?target optx:hostsBoard ?b } UNION { ?target optx:hostsBoard ?anchor } UNION { ?anchor a optx:NetworkElement . BIND(?anchor AS ?target) }" ;
+    dx:resultClass optx:NetworkElement .
+kb:upstream_span a dx:LocationTerm ; dx:termId "upstream_span" ; dx:anchorKind "port" ;
+    dx:meaning "The directed optical span whose receive end is the reporting port."@en ;
+    dx:walkPattern "?target a optx:OmsSpan ; optx:rxPort ?anchor ." ; dx:resultClass optx:OmsSpan .
+kb:upstream_section a dx:LocationTerm ; dx:termId "upstream_section" ; dx:anchorKind "port" ;
+    dx:meaning "Both fibres (cable section) of the upstream span."@en ;
+    dx:walkPattern "?s a optx:OmsSpan ; optx:rxPort ?anchor ; optx:partOfSection ?target ." ; dx:resultClass optx:OmsSection .
+kb:upstream_amplifier a dx:LocationTerm ; dx:termId "upstream_amplifier" ; dx:anchorKind "port" ;
+    dx:meaning "The amplifier board launching the upstream span."@en ;
+    dx:walkPattern "?s a optx:OmsSpan ; optx:rxPort ?anchor ; optx:launchAmplifier ?a . ?a optx:amplifierBoard ?target ." ; dx:resultClass optx:OABoard .
+kb:upstream_tx_unit a dx:LocationTerm ; dx:termId "upstream_tx_unit" ; dx:anchorKind "port" ;
+    dx:meaning "The board at the far end that transmits into the upstream span or OTU pipe."@en ;
+    dx:walkPattern "?s optx:rxPort ?anchor ; optx:txPort ?p . ?target optx:hasPort ?p ." ; dx:resultClass optx:Board .
+kb:upstream_ne a dx:LocationTerm ; dx:termId "upstream_ne" ; dx:anchorKind "port" ;
+    dx:meaning "The network element at the far end of the upstream span or OTU pipe."@en ;
+    dx:walkPattern "?s optx:rxPort ?anchor ; optx:sourceNE ?target ." ; dx:resultClass optx:NetworkElement .
+kb:supporting_span a dx:LocationTerm ; dx:termId "supporting_span" ; dx:anchorKind "port" ;
+    dx:meaning "For an OTU-layer symptom: the optical span supporting the OTU pipe received at this port."@en ;
+    dx:walkPattern "?l a optx:OtuLink ; optx:rxPort ?anchor ; optx:supportedBy ?target ." ; dx:resultClass optx:OmsSpan .
+kb:otu_pipe a dx:LocationTerm ; dx:termId "otu_pipe" ; dx:anchorKind "port" ;
+    dx:meaning "For an OTU-layer symptom: the OTU pipe (otn-topo link) received at this port."@en ;
+    dx:walkPattern "?target a optx:OtuLink ; optx:rxPort ?anchor ." ; dx:resultClass optx:OtuLink .
+kb:path_to_far_end a dx:LocationTerm ; dx:termId "path_to_far_end" ; dx:anchorKind "port" ;
+    dx:meaning "For a client/ODU symptom: every span on the route of the OCh supporting this ODU."@en ;
+    dx:walkPattern "?u a optx:OduTunnel ; optx:clientPort ?anchor ; optx:supportingTunnel ?o . ?o optx:traverses ?target ." ; dx:resultClass optx:OmsSpan .
+kb:reverse_span a dx:LocationTerm ; dx:termId "reverse_span" ; dx:anchorKind "port" ;
+    dx:meaning "The opposite-direction fibre of the upstream span."@en ;
+    dx:walkPattern "?s a optx:OmsSpan ; optx:rxPort ?anchor ; optx:reverseOf ?target ." ; dx:resultClass optx:OmsSpan .
+kb:shared_element a dx:LocationTerm ; dx:termId "shared" ; dx:anchorKind "any" ;
+    dx:meaning "A shared element E# of the frame (on every hurt service's path)."@en ;
+    dx:walkPattern "BIND(?anchor AS ?target)" .
+
+# ----------------------------------------------------------------------------
+# §B Signal-cascade rules (consequent actions; written once for all modes)
+# ----------------------------------------------------------------------------
+kb:CR1_OTS_LOS_TO_OCH_LOS a dx:CascadeRule ;
+    rdfs:label "Span LOS -> OCh-layer LOS at every OTU pipe the span supports"@en ;
+    dx:fromCondition optx:LossOfSignal ; dx:fromLayer optx:OTS ;
+    dx:toCondition optx:LossOfSignal ; dx:toLayer optx:OCH ;
+    dx:viaPattern "?s a optx:OmsSpan ; optx:rxPort ?anchor . ?l a optx:OtuLink ; optx:supportedBy ?s ; optx:rxPort ?target ." ;
+    dx:strengthTransfer dx:Required ; dx:addDelayMs 5 .
+kb:CR2_OCH_LOS_TO_OTU_SSF a dx:CascadeRule ;
+    dx:fromCondition optx:LossOfSignal ; dx:fromLayer optx:OCH ;
+    dx:toCondition optx:ServerSignalFail ; dx:toLayer optx:OTU ;
+    dx:viaPattern "BIND(?anchor AS ?target)" ; dx:strengthTransfer dx:Required ; dx:addDelayMs 7 .
+kb:CR3_OTU_SSF_TO_BDI a dx:CascadeRule ;
+    rdfs:label "Backward defect indication reported at the upstream transmitter"@en ;
+    dx:fromCondition optx:ServerSignalFail ; dx:fromLayer optx:OTU ;
+    dx:toCondition optx:BackwardDefect ; dx:toLayer optx:OTU ;
+    dx:viaPattern "?l a optx:OtuLink ; optx:rxPort ?anchor ; optx:txPort ?target ." ;
+    dx:strengthTransfer dx:Expected ; dx:addDelayMs 6 .
+kb:CR4_OTU_SSF_TO_ODU_SSF a dx:CascadeRule ;
+    dx:fromCondition optx:ServerSignalFail ; dx:fromLayer optx:OTU ;
+    dx:toCondition optx:ServerSignalFail ; dx:toLayer optx:ODU ;
+    dx:viaPattern "?l a optx:OtuLink ; optx:rxPort ?anchor . ?u a optx:OduTunnel ; optx:traverses ?l ; optx:clientPort ?target ." ;
+    dx:strengthTransfer dx:Expected ; dx:addDelayMs 13 .
+kb:CR5_ODU_SSF_TO_SERVICE_DOWN a dx:CascadeRule ;
+    dx:fromCondition optx:ServerSignalFail ; dx:fromLayer optx:ODU ;
+    dx:toCondition optx:ServiceDown ; dx:toLayer optx:CLIENT ;
+    dx:viaPattern "?u a optx:OduTunnel ; optx:clientPort ?anchor ; optx:carries ?target ." ;
+    dx:strengthTransfer dx:Expected ; dx:addDelayMs 0 .
+kb:CR6_DEGRADED_TO_SERVICE_DEGRADED a dx:CascadeRule ;
+    dx:fromCondition optx:SignalDegraded ; dx:fromLayer optx:OTU ;
+    dx:toCondition optx:ServiceDegraded ; dx:toLayer optx:CLIENT ;
+    dx:viaPattern "?l a optx:OtuLink ; optx:rxPort ?anchor . ?u a optx:OduTunnel ; optx:traverses ?l ; optx:carries ?target ." ;
+    dx:strengthTransfer dx:Possible ; dx:addDelayMs 0 .
+
+# ----------------------------------------------------------------------------
+# §C Fault modes — primary effects only.  Cascades follow from §B;
+#     same-location suppression children and cause-keyword alarms are
+#     predicted Possible by the propagator.
+# ----------------------------------------------------------------------------
+kb:FIBRE_CUT a dx:FaultMode ;
+    rdfs:label "Fibre cut (one direction)"@en ;
+    dx:nature dx:Hard ; dx:appliesTo optx:OmsSpan ; dx:simulatorFault "fiber_cut" ;
+    dx:baseRatePerYear 0.02 ; dx:causeKeyword "fiber" , "los" ;
+    dx:hasParameter [ dx:paramName "position_km" ; dx:paramMin 0.0 ; dx:paramUnit "km" ] ;
+    dx:hasEffect
+        [ dx:predictsCondition optx:LossOfSignal ; dx:atRole kb:SPAN_RX_PORT ; dx:inLayer optx:OTS ;
+          dx:strength dx:Required ; dx:physDelayMs 0 ; dx:lasting true ; dx:keywordAnchor true ] ,
+        [ dx:predictsCondition optx:ProfileStep ; dx:atRole kb:OCH_OVER_SPAN ; dx:inLayer optx:PPE ;
+          dx:strength dx:Required ; dx:lasting true ;
+          dx:ppeSignature [ dx:sigKind "step" ; dx:sigMagnitudeMaxDb -25.0 ; dx:sigPosition "free-in-span" ] ] ;
+    dx:servicesImpact optx:ServiceDown ;
+    dx:incidentCauseName "ietf-incident:loss-of-signal" ;
+    dx:incidentCauseNameExt "diag-agent-incident-ext:fibre-cut" ;
+    dx:incidentCategory "ietf-incident:network" ;
+    dx:resolveAdvice "Dispatch fibre repair to {location}: confirm the break with OTDR from {source_ne}{position_text}, splice or replace the fibre, then verify that {root_alarm} clears at {root_port} and that the affected services recover."@en .
+
+kb:SECTION_CUT a dx:FaultMode ;
+    rdfs:label "Cable-section cut (both directions)"@en ;
+    dx:nature dx:Hard ; dx:appliesTo optx:OmsSection ; dx:baseRatePerYear 0.015 ; dx:causeKeyword "fiber" , "los" ;
+    dx:hasEffect
+        [ dx:predictsCondition optx:LossOfSignal ; dx:atRole kb:SECTION_SPAN_RX_PORTS ; dx:inLayer optx:OTS ;
+          dx:strength dx:Required ; dx:physDelayMs 0 ; dx:lasting true ; dx:keywordAnchor true ] ;
+    dx:servicesImpact optx:ServiceDown ;
+    dx:incidentCauseName "ietf-incident:loss-of-signal" ;
+    dx:incidentCauseNameExt "diag-agent-incident-ext:section-cut" ;
+    dx:incidentCategory "ietf-incident:network" ;
+    dx:resolveAdvice "Dispatch cable repair to section {location}; both fibres are down. OTDR from either end, then verify LOS clears on both receivers."@en .
+
+kb:SPAN_LOSS_INCREASE a dx:FaultMode ;
+    rdfs:label "Added span loss (attenuation increase)"@en ;
+    dx:nature dx:Soft ; dx:appliesTo optx:OmsSpan ; dx:simulatorFault "fiber_attenuation_high" ;
+    dx:baseRatePerYear 0.05 ; dx:causeKeyword "fiber" , "optical_power" ;
+    dx:hasParameter [ dx:paramName "extra_db_per_km" ; dx:paramMin 0.08 ; dx:paramMax 0.50 ; dx:paramUnit "dB/km" ] ;
+    dx:hasEffect
+        [ dx:predictsCondition optx:LowInputPower ; dx:atRole kb:SPAN_RX_PORT ; dx:inLayer optx:OTS ;
+          dx:strength dx:Required ; dx:physDelayMs 0 ; dx:lasting true ; dx:keywordAnchor true ] ,
+        [ dx:predictsCondition optx:PreFecDegraded ; dx:atRole kb:RX_OF_SUPPORTED_OTU ; dx:inLayer optx:OTU ;
+          dx:strength dx:Expected ; dx:physDelayMs 8 ] ,
+        [ dx:predictsCondition optx:ProfileSlope ; dx:atRole kb:OCH_OVER_SPAN ; dx:inLayer optx:PPE ;
+          dx:strength dx:Required ;
+          dx:ppeSignature [ dx:sigKind "slope" ; dx:sigMagnitudeMinDb 0.08 ; dx:sigMagnitudeMaxDb 0.50 ; dx:sigPosition "free-in-span" ] ] ;
+    dx:servicesImpact optx:ServiceDegraded ;
+    dx:incidentCauseName "ietf-incident:loss-of-signal" ;
+    dx:incidentCauseNameExt "diag-agent-incident-ext:span-loss-increase" ;
+    dx:incidentCategory "ietf-incident:network" ;
+    dx:resolveAdvice "Inspect {location} for bends, splices or damage{position_text}; OTDR to locate the added loss, then verify input power recovers at {root_port}."@en .
+
+kb:CONNECTOR_DIRTY a dx:FaultMode ;
+    rdfs:label "Dirty or loose connector"@en ;
+    dx:nature dx:Soft ; dx:appliesTo optx:OmsSpan ; dx:simulatorFault "connector_dirty" ;
+    dx:baseRatePerYear 0.08 ;
+    dx:hasParameter [ dx:paramName "loss_db" ; dx:paramMin 0.5 ; dx:paramMax 12.0 ; dx:paramUnit "dB" ] ;
+    dx:hasEffect
+        [ dx:predictsCondition optx:ProfileStep ; dx:atRole kb:OCH_OVER_SPAN ; dx:inLayer optx:PPE ;
+          dx:strength dx:Required ;
+          dx:ppeSignature [ dx:sigKind "step" ; dx:sigMagnitudeMinDb -12.0 ; dx:sigMagnitudeMaxDb -0.5 ; dx:sigPosition "free-in-span" ] ] ,
+        [ dx:predictsCondition optx:PreFecDegraded ; dx:atRole kb:RX_OF_SUPPORTED_OTU ; dx:inLayer optx:OTU ;
+          dx:strength dx:Possible ; dx:physDelayMs 30 ; dx:keywordAnchor true ] ;
+    dx:servicesImpact optx:ServiceDegraded ;
+    dx:incidentCauseName "ietf-incident:loss-of-signal" ;
+    dx:incidentCauseNameExt "diag-agent-incident-ext:connector-dirty" ;
+    dx:incidentCategory "ietf-incident:network" ;
+    dx:resolveAdvice "Clean and re-seat the connectors on {location}{position_text}; inspect with a fibre microscope, then re-measure the PPE profile."@en .
+
+kb:SDH_B1_ERRORS a dx:FaultMode ;
+    rdfs:label "Regenerator-section bit errors"@en ;
+    dx:nature dx:Soft ; dx:appliesTo optx:OtuLink ; dx:simulatorFault "b1_exc_high" ; dx:baseRatePerYear 0.03 ;
+    dx:causeKeyword "biterr" ;
+    dx:hasEffect
+        [ dx:predictsCondition optx:RegeneratorSectionErrors ; dx:atRole kb:SELF_RX ; dx:inLayer optx:SDH ;
+          dx:strength dx:Required ; dx:keywordAnchor true ] ,
+        [ dx:predictsCondition optx:SignalDegraded ; dx:atRole kb:SELF_RX ; dx:inLayer optx:OTU ; dx:strength dx:Expected ; dx:physDelayMs 10 ] ,
+        [ dx:predictsCondition optx:ProfileClean ; dx:atRole kb:OCH_OVER_SUPPORTING_SPAN ; dx:inLayer optx:PPE ; dx:strength dx:Expected ;
+          dx:ppeSignature [ dx:sigKind "none" ; dx:sigPosition "none" ] ] ;
+    dx:servicesImpact optx:ServiceDegraded ;
+    dx:incidentCauseName "ietf-incident:interface-hardware-failure" ;
+    dx:incidentCauseNameExt "diag-agent-incident-ext:bit-error-degradation" ;
+    dx:incidentCategory "ietf-incident:network" ;
+    dx:resolveAdvice "Check the regenerator section of {location}: receiver optics and line card at {root_port}; loop back to isolate."@en .
+
+kb:SDH_B2_ERRORS a dx:FaultMode ;
+    rdfs:label "Multiplex-section bit errors"@en ;
+    dx:nature dx:Soft ; dx:appliesTo optx:OtuLink ; dx:simulatorFault "b2_exc_high" ; dx:baseRatePerYear 0.03 ;
+    dx:causeKeyword "biterr" ;
+    dx:hasEffect
+        [ dx:predictsCondition optx:MultiplexSectionErrors ; dx:atRole kb:SELF_RX ; dx:inLayer optx:SDH ;
+          dx:strength dx:Required ; dx:keywordAnchor true ] ,
+        [ dx:predictsCondition optx:SignalDegraded ; dx:atRole kb:SELF_RX ; dx:inLayer optx:OTU ; dx:strength dx:Expected ; dx:physDelayMs 10 ] ,
+        [ dx:predictsCondition optx:ProfileClean ; dx:atRole kb:OCH_OVER_SUPPORTING_SPAN ; dx:inLayer optx:PPE ; dx:strength dx:Expected ;
+          dx:ppeSignature [ dx:sigKind "none" ; dx:sigPosition "none" ] ] ;
+    dx:servicesImpact optx:ServiceDegraded ;
+    dx:incidentCauseName "ietf-incident:interface-hardware-failure" ;
+    dx:incidentCauseNameExt "diag-agent-incident-ext:bit-error-degradation" ;
+    dx:incidentCategory "ietf-incident:network" ;
+    dx:resolveAdvice "Check the multiplex section of {location} at {root_port}; loop back to isolate the line card."@en .
+
+kb:FEC_DEGRADATION a dx:FaultMode ;
+    rdfs:label "Pre-FEC BER above threshold"@en ;
+    dx:nature dx:Soft ; dx:appliesTo optx:OtuLink ; dx:simulatorFault "fec_pre_cor_high" ; dx:baseRatePerYear 0.04 ;
+    dx:causeKeyword "biterr" ;
+    dx:hasEffect
+        [ dx:predictsCondition optx:PreFecDegraded ; dx:atRole kb:SELF_RX ; dx:inLayer optx:OTU ;
+          dx:strength dx:Required ; dx:keywordAnchor true ] ,
+        [ dx:predictsCondition optx:SignalDegraded ; dx:atRole kb:SELF_RX ; dx:inLayer optx:OTU ; dx:strength dx:Expected ; dx:physDelayMs 15 ] ,
+        [ dx:predictsCondition optx:ProfileClean ; dx:atRole kb:OCH_OVER_SUPPORTING_SPAN ; dx:inLayer optx:PPE ; dx:strength dx:Expected ;
+          dx:ppeSignature [ dx:sigKind "none" ; dx:sigPosition "none" ] ] ;
+    dx:servicesImpact optx:ServiceDegraded ;
+    dx:incidentCauseName "ietf-incident:interface-hardware-failure" ;
+    dx:incidentCauseNameExt "diag-agent-incident-ext:fec-degradation" ;
+    dx:incidentCategory "ietf-incident:network" ;
+    dx:resolveAdvice "Pre-FEC BER is high on {location} with a clean power profile: check OSNR, dispersion settings and the receiver at {root_port}."@en .
+
+kb:RX_POWER_DRIFT a dx:FaultMode ;
+    rdfs:label "Receiver input power drift"@en ;
+    dx:nature dx:Incipient ; dx:appliesTo optx:Port ; dx:simulatorFault "rx_power_drift" ; dx:baseRatePerYear 0.06 ;
+    dx:causeKeyword "optical_power" ;
+    dx:hasEffect
+        [ dx:predictsCondition optx:InputPowerAbnormal ; dx:atRole kb:SELF ; dx:inLayer optx:OTS ;
+          dx:strength dx:Required ; dx:keywordAnchor true ] ,
+        [ dx:predictsCondition optx:RxOffset ; dx:atRole kb:OCH_DROPPING_AT_NE_OF_PORT ; dx:inLayer optx:PPE ; dx:strength dx:Expected ;
+          dx:ppeSignature [ dx:sigKind "rx_offset" ; dx:sigPosition "receiver" ] ] ;
+    dx:incidentCauseName "ietf-incident:interface-hardware-failure" ;
+    dx:incidentCauseNameExt "diag-agent-incident-ext:rx-power-drift" ;
+    dx:incidentCategory "ietf-incident:line-card" ;
+    dx:resolveAdvice "Receiver power at {location} drifted while the fibre profile is unchanged: check the receiver optics, attenuator and patch cord at {location}."@en .
+
+kb:CONFIG_MISMATCH a dx:FaultMode ;
+    rdfs:label "Trail trace / payload type misconfiguration"@en ;
+    dx:nature dx:Configuration ; dx:appliesTo optx:Port ; dx:simulatorFault "config_mismatch" ; dx:baseRatePerYear 0.04 ;
+    dx:causeKeyword "config" ;
+    dx:hasEffect
+        [ dx:predictsCondition optx:TraceMismatch ; dx:atRole kb:SELF ; dx:inLayer optx:ODU ;
+          dx:strength dx:Required ; dx:keywordAnchor true ] ,
+        [ dx:predictsCondition optx:ProfileClean ; dx:atRole kb:OCH_DROPPING_AT_NE_OF_PORT ; dx:inLayer optx:PPE ; dx:strength dx:Expected ;
+          dx:ppeSignature [ dx:sigKind "none" ; dx:sigPosition "none" ] ] ;
+    dx:servicesImpact optx:ServiceDown ;
+    dx:incidentCauseName "ietf-incident:service-misconfiguration" ;
+    dx:incidentCauseNameExt "diag-agent-incident-ext:configuration-mismatch" ;
+    dx:incidentCategory "ietf-incident:network" ;
+    dx:resolveAdvice "Compare the expected and received trail trace / payload type at {location} and correct the provisioning."@en .
+
+kb:NE_POWER_LOSS a dx:FaultMode ;
+    rdfs:label "Network element power loss"@en ;
+    dx:nature dx:Equipment ; dx:appliesTo optx:NetworkElement ; dx:simulatorFault "ne_power_off" ; dx:baseRatePerYear 0.01 ;
+    dx:causeKeyword "power_supply" ;
+    dx:hasEffect
+        [ dx:predictsCondition optx:EquipmentDown ; dx:atRole kb:SELF ; dx:inLayer optx:EQUIPMENT ;
+          dx:strength dx:Required ; dx:keywordAnchor true ] ,
+        [ dx:predictsCondition optx:LossOfSignal ; dx:atRole kb:RX_OF_SPANS_FROM_NE ; dx:inLayer optx:OTS ;
+          dx:strength dx:Required ; dx:physDelayMs 10 ; dx:lasting true ] ,
+        [ dx:predictsCondition optx:ProfileNull ; dx:atRole kb:OCH_TOUCHING_NE ; dx:inLayer optx:PPE ;
+          dx:strength dx:Expected ; dx:ppeSignature [ dx:sigKind "null" ; dx:sigPosition "none" ] ] ;
+    dx:servicesImpact optx:ServiceDown ;
+    dx:incidentCauseName "ietf-incident:hardware-failure" ;
+    dx:incidentCauseNameExt "diag-agent-incident-ext:ne-power-loss" ;
+    dx:incidentCategory "ietf-incident:power-environment" ;
+    dx:resolveAdvice "Dispatch to site {location}: restore the power feed or the PEM, then verify the NE comes back and the neighbour receivers clear."@en .
+
+kb:BOARD_POWER_LOSS a dx:FaultMode ;
+    rdfs:label "Board power loss / board offline"@en ;
+    dx:nature dx:Equipment ; dx:appliesTo optx:Board ; dx:simulatorFault "board_power_off" ; dx:baseRatePerYear 0.02 ;
+    dx:causeKeyword "power_supply" ;
+    dx:hasEffect
+        [ dx:predictsCondition optx:EquipmentDown ; dx:atRole kb:SELF ; dx:inLayer optx:EQUIPMENT ;
+          dx:strength dx:Required ; dx:keywordAnchor true ] ,
+        [ dx:predictsCondition optx:LossOfSignal ; dx:atRole kb:PEER_RX_OF_LINKS_FROM_BOARD ; dx:inLayer optx:OTS ;
+          dx:strength dx:Required ; dx:physDelayMs 8 ; dx:lasting true ; dx:noCascade true ] ,
+        [ dx:predictsCondition optx:ProfileNull ; dx:atRole kb:OCH_TOUCHING_NE_OF_OTU_BOARD ; dx:inLayer optx:PPE ;
+          dx:strength dx:Expected ; dx:ppeSignature [ dx:sigKind "null" ; dx:sigPosition "none" ] ] ;
+    dx:servicesImpact optx:ServiceDown ;
+    dx:incidentCauseName "ietf-incident:hardware-failure" ;
+    dx:incidentCauseNameExt "diag-agent-incident-ext:board-power-loss" ;
+    dx:incidentCategory "ietf-incident:line-card" ;
+    dx:resolveAdvice "Re-seat or replace board {location}; check its power module, then verify the peer receivers clear."@en .
+
+kb:FAN_FAILURE a dx:FaultMode ;
+    rdfs:label "Fan failure"@en ;
+    dx:nature dx:Equipment ; dx:appliesTo optx:NetworkElement ; dx:simulatorFault "fan_failure" ; dx:baseRatePerYear 0.03 ;
+    dx:causeKeyword "temp" ;
+    dx:hasEffect
+        [ dx:predictsCondition optx:CoolingFailure ; dx:atRole kb:FAN_OF_NE ; dx:inLayer optx:ENVIRONMENT ;
+          dx:strength dx:Required ; dx:keywordAnchor true ] ,
+        [ dx:predictsCondition optx:OverTemperature ; dx:atRole kb:BOARDS_OF_NE ; dx:inLayer optx:ENVIRONMENT ;
+          dx:strength dx:Expected ; dx:physDelayMs 120000 ] ;
+    dx:incidentCauseName "ietf-incident:hardware-failure" ;
+    dx:incidentCauseNameExt "diag-agent-incident-ext:fan-failure" ;
+    dx:incidentCategory "ietf-incident:power-environment" ;
+    dx:resolveAdvice "Replace the fan tray at {location} and watch the board temperatures return to normal."@en .
+
+# Documented by the vendor but NOT injected by the simulator — keeps the agent
+# honest: a look-alike must be separated by evidence, not by catalogue omission.
+kb:AMP_FAIL a dx:FaultMode ;
+    rdfs:label "Optical amplifier failure (no output)"@en ;
+    dx:nature dx:Hard ; dx:appliesTo optx:OABoard ; dx:baseRatePerYear 0.015 ;
+    dx:causeKeyword "optical_power" ;
+    dx:hasEffect
+        [ dx:predictsCondition optx:EquipmentDown ; dx:atRole kb:SELF ; dx:inLayer optx:EQUIPMENT ;
+          dx:strength dx:Required ] ,
+        [ dx:predictsCondition optx:LossOfSignal ; dx:atRole kb:RX_OF_SPANS_LAUNCHED_BY_AMP ; dx:inLayer optx:OTS ;
+          dx:strength dx:Required ; dx:physDelayMs 0 ; dx:lasting true ; dx:keywordAnchor true ] ,
+        [ dx:predictsCondition optx:ProfileStep ; dx:atRole kb:OCH_OVER_LAUNCHED_SPANS ; dx:inLayer optx:PPE ;
+          dx:strength dx:Required ;
+          dx:ppeSignature [ dx:sigKind "step" ; dx:sigMagnitudeMaxDb -25.0 ; dx:sigPosition "span-start" ] ] ;
+    dx:servicesImpact optx:ServiceDown ;
+    dx:incidentCauseName "ietf-incident:hardware-failure" ;
+    dx:incidentCauseNameExt "diag-agent-incident-ext:amplifier-failure" ;
+    dx:incidentCategory "ietf-incident:line-card" ;
+    dx:resolveAdvice "Replace amplifier board {location}, then verify output power and the downstream receivers."@en .
+
+# ----------------------------------------------------------------------------
+# §D Curated alarm types.  The catalogue loader adds every other alarm type,
+#     with its condition, layer, suppression edges and cause keywords.
+# ----------------------------------------------------------------------------
+kb:AT_OTS_LOS a optx:AlarmType ; optx:alarmName "OTS_LOS" ; optx:alarmLayer optx:OTS ;
+    optx:defaultSeverity "Critical" ; optx:reportedAgainst "port" ; optx:indicatesCondition optx:LossOfSignal ;
+    dx:possibleCause kb:FIBRE_CUT , kb:SECTION_CUT , kb:AMP_FAIL , kb:BOARD_POWER_LOSS , kb:NE_POWER_LOSS .
+kb:AT_MUT_LOS a optx:AlarmType ; optx:alarmName "MUT_LOS" ; optx:alarmLayer optx:OTS ;
+    optx:defaultSeverity "Critical" ; optx:reportedAgainst "port" ; optx:indicatesCondition optx:LossOfSignal .
+kb:AT_R_LOS a optx:AlarmType ; optx:alarmName "R_LOS" ; optx:alarmLayer optx:OCH ;
+    optx:defaultSeverity "Critical" ; optx:reportedAgainst "port" ; optx:indicatesCondition optx:LossOfSignal ;
+    dx:possibleCause kb:FIBRE_CUT , kb:BOARD_POWER_LOSS , kb:NE_POWER_LOSS , kb:AMP_FAIL .
+kb:AT_OTU_SSF a optx:AlarmType ; optx:alarmName "OTU_SSF" ; optx:alarmLayer optx:OTU ;
+    optx:defaultSeverity "Warning" ; optx:reportedAgainst "port" ; optx:indicatesCondition optx:ServerSignalFail .
+kb:AT_OTU_BDI a optx:AlarmType ; optx:alarmName "OTU_BDI" ; optx:alarmLayer optx:OTU ;
+    optx:defaultSeverity "Minor" ; optx:reportedAgainst "port" ; optx:indicatesCondition optx:BackwardDefect .
+kb:AT_ODU_PM_SSF a optx:AlarmType ; optx:alarmName "ODU_PM_SSF" ; optx:alarmLayer optx:ODU ;
+    optx:defaultSeverity "Minor" ; optx:reportedAgainst "port" ; optx:indicatesCondition optx:ServerSignalFail .
+kb:AT_IN_PWR_LOW a optx:AlarmType ; optx:alarmName "IN_PWR_LOW" ; optx:alarmLayer optx:OTS ;
+    optx:reportedAgainst "port" ; optx:indicatesCondition optx:LowInputPower ;
+    dx:possibleCause kb:SPAN_LOSS_INCREASE , kb:RX_POWER_DRIFT , kb:CONNECTOR_DIRTY .
+kb:AT_IN_PWR_HIGH a optx:AlarmType ; optx:alarmName "IN_PWR_HIGH" ; optx:alarmLayer optx:OTS ;
+    optx:reportedAgainst "port" ; optx:indicatesCondition optx:HighInputPower ; dx:possibleCause kb:RX_POWER_DRIFT .
+kb:AT_IN_PWR_ABN a optx:AlarmType ; optx:alarmName "IN_PWR_ABN" ; optx:alarmLayer optx:OTS ;
+    optx:reportedAgainst "port" ; optx:indicatesCondition optx:InputPowerAbnormal .
+kb:AT_BEFFEC_EXC a optx:AlarmType ; optx:alarmName "BEFFEC_EXC" ; optx:alarmLayer optx:OTU ;
+    optx:reportedAgainst "port" ; optx:indicatesCondition optx:PreFecDegraded ;
+    dx:possibleCause kb:FEC_DEGRADATION , kb:SPAN_LOSS_INCREASE , kb:CONNECTOR_DIRTY .
+kb:AT_FEC_BEF_COR_ER a optx:AlarmType ; optx:alarmName "FEC_BEF_COR_ER" ; optx:alarmLayer optx:OTU ;
+    optx:reportedAgainst "port" ; optx:indicatesCondition optx:PreFecDegraded .
+kb:AT_OTU_DEG a optx:AlarmType ; optx:alarmName "OTU_DEG" ; optx:alarmLayer optx:OTU ;
+    optx:defaultSeverity "Minor" ; optx:reportedAgainst "port" ; optx:indicatesCondition optx:SignalDegraded .
+kb:AT_B1_EXC a optx:AlarmType ; optx:alarmName "B1_EXC" ; optx:alarmLayer optx:SDH ;
+    optx:defaultSeverity "Minor" ; optx:indicatesCondition optx:RegeneratorSectionErrors ; dx:possibleCause kb:SDH_B1_ERRORS .
+kb:AT_B2_EXC a optx:AlarmType ; optx:alarmName "B2_EXC" ; optx:alarmLayer optx:SDH ;
+    optx:defaultSeverity "Major" ; optx:indicatesCondition optx:MultiplexSectionErrors ; dx:possibleCause kb:SDH_B2_ERRORS .
+kb:AT_OPU_PLM a optx:AlarmType ; optx:alarmName "OPU_PLM" ; optx:alarmLayer optx:ODU ;
+    optx:indicatesCondition optx:TraceMismatch ; dx:possibleCause kb:CONFIG_MISMATCH .
+kb:AT_OTU_TIM a optx:AlarmType ; optx:alarmName "OTU_TIM" ; optx:alarmLayer optx:OTU ;
+    optx:indicatesCondition optx:TraceMismatch ; dx:possibleCause kb:CONFIG_MISMATCH .
+kb:AT_ODU_PM_TIM a optx:AlarmType ; optx:alarmName "ODU_PM_TIM" ; optx:alarmLayer optx:ODU ;
+    optx:indicatesCondition optx:TraceMismatch ; dx:possibleCause kb:CONFIG_MISMATCH .
+kb:AT_BD_OFFLINE a optx:AlarmType ; optx:alarmName "BD_OFFLINE" ; optx:alarmLayer optx:EQUIPMENT ;
+    optx:defaultSeverity "Critical" ; optx:reportedAgainst "board" ; optx:indicatesCondition optx:EquipmentDown ;
+    dx:possibleCause kb:BOARD_POWER_LOSS , kb:AMP_FAIL .
+kb:AT_POWER_ABNORMAL a optx:AlarmType ; optx:alarmName "POWER_ABNORMAL" ; optx:alarmLayer optx:EQUIPMENT ;
+    optx:defaultSeverity "Critical" ; optx:reportedAgainst "ne" ; optx:indicatesCondition optx:EquipmentDown ;
+    dx:possibleCause kb:NE_POWER_LOSS .
+kb:AT_HARD_BAD a optx:AlarmType ; optx:alarmName "HARD_BAD" ; optx:alarmLayer optx:EQUIPMENT ;
+    optx:defaultSeverity "Critical" ; optx:reportedAgainst "board" ; optx:indicatesCondition optx:EquipmentDown ;
+    dx:possibleCause kb:AMP_FAIL , kb:BOARD_POWER_LOSS .
+kb:AT_FAN_FAIL a optx:AlarmType ; optx:alarmName "FAN_FAIL" ; optx:alarmLayer optx:ENVIRONMENT ;
+    optx:defaultSeverity "Major" ; optx:reportedAgainst "board" ; optx:indicatesCondition optx:CoolingFailure ;
+    dx:possibleCause kb:FAN_FAILURE .
+kb:AT_TEMP_OVER a optx:AlarmType ; optx:alarmName "TEMP_OVER" ; optx:alarmLayer optx:ENVIRONMENT ;
+    optx:defaultSeverity "Major" ; optx:reportedAgainst "board" ; optx:indicatesCondition optx:OverTemperature ;
+    dx:possibleCause kb:FAN_FAILURE .
+
+# ----------------------------------------------------------------------------
+# §E Check catalogue (6 remote, 5 field)
+# ----------------------------------------------------------------------------
+kb:CHK_PPE_PROFILE a dx:Check ; dx:checkId "CHK_PPE_PROFILE" ; dx:minutes 1 ; dx:remote true ;
+    dx:serviceInterrupting false ; dx:targetClass optx:OchTunnel ; dx:answersWith "ppe" ;
+    dx:observesCondition optx:ProfileStep , optx:ProfileSlope , optx:ProfileNull , optx:RxOffset , optx:ProfileClean ;
+    dx:answerTolerance "offset 2*delta_z (0.4 km at 200 m); magnitude 1 dB; slope 0.02 dB/km" ;
+    dx:positionToleranceKm 0.4 ; dx:cleanSlopeMaxDbPerKm 0.08 ; dx:tau 0.7 ;
+    rdfs:comment "Request/read the drop receiver's longitudinal power profile; returns detector anomalies (is_root=0 only)."@en .
+kb:CHK_ALARM_AUDIT a dx:Check ; dx:checkId "CHK_ALARM_AUDIT" ; dx:minutes 2 ; dx:remote true ;
+    dx:serviceInterrupting false ; dx:targetClass optx:NetworkElement ; dx:tau 1.0 ; dx:answersWith "audit" ;
+    rdfs:comment "Forces an immediate poll of all layers at one NE, so absence becomes evidence without waiting for the 120 s / 300 s cadence."@en .
+kb:CHK_REVERSE_FIBRE a dx:Check ; dx:checkId "CHK_REVERSE_FIBRE" ; dx:minutes 1 ; dx:remote true ;
+    dx:serviceInterrupting false ; dx:targetClass optx:OmsSpan ; dx:tau 1.0 ; dx:answersWith "reverse" ;
+    rdfs:comment "Reads alarm state on the opposite fibre: separates a single-fibre cut from a section cut."@en .
+kb:CHK_SERVICE_STATE a dx:Check ; dx:checkId "CHK_SERVICE_STATE" ; dx:minutes 1 ; dx:remote true ;
+    dx:serviceInterrupting false ; dx:targetClass optx:OduTunnel ; dx:tau 1.0 ; dx:answersWith "service" .
+kb:CHK_TRAIL_TRACE_AUDIT a dx:Check ; dx:checkId "CHK_TRAIL_TRACE_AUDIT" ; dx:minutes 3 ; dx:remote true ;
+    dx:serviceInterrupting false ; dx:targetClass optx:Port ; dx:tau 1.0 ; dx:answersWith "trace" ;
+    rdfs:comment "Compares expected vs received TTI/PT at an OTU port."@en .
+kb:CHK_WAIT a dx:Check ; dx:checkId "CHK_WAIT" ; dx:minutes 0 ; dx:remote true ;
+    dx:serviceInterrupting false ; dx:tau 1.0 ; dx:answersWith "wait" ;
+    rdfs:comment "Wait until a pending observation window closes; minutes computed from the window."@en .
+kb:CHK_OTDR a dx:Check ; dx:checkId "CHK_OTDR" ; dx:minutes 45 ; dx:remote false ;
+    dx:serviceInterrupting false ; dx:targetClass optx:OmsSpan ; dx:answerTolerance "position 0.05 km; loss 0.1 dB" ;
+    dx:tau 1.0 ; dx:answersWith "otdr" .
+kb:CHK_CONNECTOR_INSPECT a dx:Check ; dx:checkId "CHK_CONNECTOR_INSPECT" ; dx:minutes 20 ; dx:remote false ;
+    dx:serviceInterrupting false ; dx:targetClass optx:OmsSpan ; dx:tau 1.0 ; dx:answersWith "connector" .
+kb:CHK_BOARD_RESEAT a dx:Check ; dx:checkId "CHK_BOARD_RESEAT" ; dx:minutes 30 ; dx:remote false ;
+    dx:serviceInterrupting true ; dx:targetClass optx:Board ; dx:tau 1.0 ; dx:answersWith "reseat" .
+kb:CHK_LOOPBACK a dx:Check ; dx:checkId "CHK_LOOPBACK" ; dx:minutes 15 ; dx:remote false ;
+    dx:serviceInterrupting true ; dx:targetClass optx:Port ; dx:tau 1.0 ; dx:answersWith "loopback" .
+kb:CHK_FAN_INSPECT a dx:Check ; dx:checkId "CHK_FAN_INSPECT" ; dx:minutes 10 ; dx:remote false ;
+    dx:serviceInterrupting false ; dx:targetClass optx:NetworkElement ; dx:tau 1.0 ; dx:answersWith "fan" .
+
+# ----------------------------------------------------------------------------
+# §F Graph-consistency rules (4 nats per contradicted rule, at most two count).
+#     ASK = true means the hypothesis ?h is CONTRADICTED.
+# ----------------------------------------------------------------------------
+kb:R1_RequiredEffects a dx:ConsistencyRule ; dx:ruleId "R1" ; dx:penaltyNats 4.0 ;
+    rdfs:label "Required effects whose window has closed were seen by a live instrument"@en ;
+    dx:askQuery """ASK { ?p dx:ofHypothesis ?h ; dx:predStrength dx:Required ;
+                       dx:windowClosed true ; dx:instrumentAlive true .
+                    FILTER NOT EXISTS { ?p dx:matchedBy ?s } }""" .
+kb:R2_Services a dx:ConsistencyRule ; dx:ruleId "R2" ; dx:penaltyNats 4.0 ;
+    rdfs:label "Every observed service-down is predicted by the hypothesis"@en ;
+    dx:askQuery """ASK { ?s dx:symptomKind "service-down" ; dx:aboutResource ?svc .
+                     FILTER NOT EXISTS { ?p dx:ofHypothesis ?h ; dx:predCondition optx:ServiceDown ; dx:predAt ?svc } }""" .
+kb:R3_Coverage a dx:ConsistencyRule ; dx:ruleId "R3" ; dx:penaltyNats 4.0 ;
+    rdfs:label "At least 70% of relevant symptoms are explained"@en ;
+    dx:askQuery """ASK { { SELECT (COUNT(?s) AS ?n) WHERE { ?s a dx:FrameSymptom ; dx:relevant true } }
+                     { SELECT (COUNT(?e) AS ?k) WHERE { ?e a dx:FrameSymptom ; dx:relevant true ; dx:explainedBy ?h } }
+                     FILTER (?n > 0 && ?k < 0.7 * ?n) }""" .
+kb:R4_Documented a dx:ConsistencyRule ; dx:ruleId "R4" ; dx:penaltyNats 4.0 ;
+    rdfs:label "The mode is documented for the location's resource class"@en ;
+    dx:askQuery """ASK { ?h dx:mode ?m ; dx:location ?loc . ?m dx:appliesTo ?cls .
+                     FILTER NOT EXISTS { ?loc a/rdfs:subClassOf* ?cls } }""" .
+kb:R5_SharedRisk a dx:ConsistencyRule ; dx:ruleId "R5" ; dx:penaltyNats 4.0 ;
+    rdfs:label "A single hard cause lies on every down service's path"@en ;
+    dx:askQuery """ASK { ?h dx:mode/dx:nature dx:Hard ; dx:location ?loc .
+                     ?s dx:symptomKind "service-down" ; dx:aboutResource ?svc .
+                     FILTER NOT EXISTS { ?svc dx:dependsOn ?loc } }""" .
+kb:R6_Monitoring a dx:ConsistencyRule ; dx:ruleId "R6" ; dx:penaltyNats 4.0 ;
+    rdfs:label "A resource predicted dead did not itself report (port-level alarms only: board- and NE-level alarms come from the controller)"@en ;
+    dx:askQuery """ASK { ?p dx:ofHypothesis ?h ; dx:predCondition optx:EquipmentDown ; dx:predAt ?r .
+                     ?s a dx:FrameSymptom ; dx:reportedBy ?x ; dx:symptomKind "alarm" .
+                     ?x a optx:Port ; onm:partOf+ ?r . }""" .
+kb:R7_PpeLocation a dx:ConsistencyRule ; dx:ruleId "R7" ; dx:penaltyNats 4.0 ;
+    rdfs:label "A located PPE step/slope lies where the hypothesis says"@en ;
+    dx:askQuery """ASK { ?a a dx:FrameSymptom ; dx:symptomKind "ppe" ; dx:ppeKind ?k .
+                     FILTER (?k IN ("step","slope"))
+                     FILTER NOT EXISTS { ?p dx:ofHypothesis ?h ; dx:matchedBy ?a } }""" .

@@ -1,0 +1,390 @@
+module diag-agent-incident-ext {
+  yang-version 1.1;
+  namespace "urn:example:yang:diag-agent-incident-ext";
+  prefix dax;
+
+  import ietf-yang-types {
+    prefix yang;
+  }
+  import ietf-inet-types {
+    prefix inet;
+  }
+  import ietf-incident {
+    prefix inc;
+  }
+
+  organization
+    "optical-network-anomaly-aiops";
+  contact
+    "diag_agent maintainers";
+  description
+    "Extensions to ietf-incident (draft-ietf-nmop-network-incident-yang-20)
+     used by the diag_agent Incident Server in 'extended' payload mode.
+
+     - Optical cause-name identities derived from the base cause names.
+     - A PPE event type derived from inc:metric, so the 'metric' case of
+       event-type-info applies to PPE anomalies.
+     - ticket-no on the RPCs and the notification (draft Appendix A.3).
+     - task-id output of incident-diagnose and the incident diagnosis
+       task list (draft Appendix A.4).
+     - diag_agent diagnosis information: onset estimate, leader and
+       none-of-these probabilities, ranked candidates and a reference to
+       the diagnosis tree.
+
+     A strict ietf-incident client can ignore every node defined here.";
+
+  revision 2026-11-02 {
+    description
+      "Initial revision.";
+  }
+
+  /* ------------------------------------------------------------------
+   * Cause names (base inc:cause-name hierarchy)
+   * ------------------------------------------------------------------ */
+
+  identity fibre-cut {
+    base inc:loss-of-signal;
+    description
+      "A break of one fibre of an OMS span (fault mode FIBRE_CUT).";
+  }
+
+  identity section-cut {
+    base inc:loss-of-signal;
+    description
+      "A break of both fibres of an OMS section (fault mode SECTION_CUT).";
+  }
+
+  identity span-loss-increase {
+    base inc:cause-name;
+    description
+      "Excess attenuation on an OMS span (SPAN_LOSS_INCREASE).";
+  }
+
+  identity connector-dirty {
+    base inc:cause-name;
+    description
+      "A dirty or damaged connector producing a discrete loss step
+       (CONNECTOR_DIRTY).";
+  }
+
+  identity bit-error-degradation {
+    base inc:cause-name;
+    description
+      "SDH B1/B2 bit errors on an OTU link (SDH_B1_ERRORS,
+       SDH_B2_ERRORS).";
+  }
+
+  identity fec-degradation {
+    base inc:cause-name;
+    description
+      "Excess pre-FEC corrections on an OTU link (FEC_DEGRADATION).";
+  }
+
+  identity rx-power-drift {
+    base inc:cause-name;
+    description
+      "Receiver input power drifting out of range (RX_POWER_DRIFT).";
+  }
+
+  identity configuration-mismatch {
+    base inc:service-misconfiguration;
+    description
+      "Trail-trace or payload-type mismatch (CONFIG_MISMATCH).";
+  }
+
+  identity amplifier-failure {
+    base inc:hardware-failure;
+    description
+      "Failure of the optical amplifier launching a span (AMP_FAIL).";
+  }
+
+  identity board-power-loss {
+    base inc:hardware-failure;
+    description
+      "Loss of power on one board (BOARD_POWER_LOSS).";
+  }
+
+  identity ne-power-loss {
+    base inc:hardware-failure;
+    description
+      "Loss of power on a network element (NE_POWER_LOSS).";
+  }
+
+  identity fan-failure {
+    base inc:hardware-failure;
+    description
+      "Cooling failure of a network element (FAN_FAILURE).";
+  }
+
+  /* ------------------------------------------------------------------
+   * Event types
+   * ------------------------------------------------------------------ */
+
+  identity ppe-anomaly {
+    base inc:metric;
+    description
+      "An anomaly found by the power-profile estimation (PPE) detector
+       on the longitudinal power profile of an optical channel.  The
+       metric case of event-type-info carries the resource (the OCh),
+       the metric name (e.g. 'ppe-step-db') and the observed value.";
+  }
+
+  /* ------------------------------------------------------------------
+   * Types
+   * ------------------------------------------------------------------ */
+
+  typedef probability {
+    type decimal64 {
+      fraction-digits 6;
+      range "0 .. 1";
+    }
+    description
+      "A probability.";
+  }
+
+  typedef task-state {
+    type enumeration {
+      enum created;
+      enum diagnosing;
+      enum diagnosed;
+      enum finished;
+    }
+    description
+      "Diagnosis task states (draft Appendix A.4).";
+  }
+
+  typedef diagnosis-result {
+    type enumeration {
+      enum succeeded {
+        description
+          "The ledger committed to a probable cause.";
+      }
+      enum failed {
+        description
+          "No commitment: the most probable set was reported
+           ('I don't know'), or a limit was reached.";
+      }
+    }
+    description
+      "Diagnosis result (draft Appendix A.4).";
+  }
+
+  typedef decision {
+    type enumeration {
+      enum in-progress;
+      enum committed;
+      enum set-reported;
+      enum probably-not-considered {
+        description
+          "No commitment and the none-of-these mass is at least 0.2.";
+      }
+      enum limit-reached;
+    }
+    description
+      "The state of the diag_agent decision procedure.";
+  }
+
+  /* ------------------------------------------------------------------
+   * Groupings
+   * ------------------------------------------------------------------ */
+
+  grouping diagnosis-task-info {
+    description
+      "Diagnosis task attributes (draft Appendix A.4).";
+    leaf task-id {
+      type string;
+      description
+        "Task identifier allocated by the Incident Server.";
+    }
+    leaf-list incident-no {
+      type inc:incident-ref;
+      description
+        "Incidents diagnosed by the task.";
+    }
+    leaf ticket-no {
+      type string;
+      description
+        "Correlated trouble ticket.";
+    }
+    leaf start-time {
+      type yang:date-and-time;
+    }
+    leaf end-time {
+      type yang:date-and-time;
+    }
+    leaf task-state {
+      type task-state;
+    }
+    leaf diagnosis-result {
+      type diagnosis-result;
+    }
+    leaf diagnosis-result-description {
+      type string;
+    }
+    container probable-causes {
+      list probable-cause {
+        key "node-ref cause-name";
+        uses inc:resources-info {
+          augment "resource" {
+            uses inc:probable-cause-info;
+          }
+        }
+        uses inc:probable-cause-info;
+        description
+          "Probable causes found by the task.";
+      }
+    }
+    container probable-events {
+      list probable-event {
+        key "type event-id";
+        leaf type {
+          type identityref {
+            base inc:event-type;
+          }
+        }
+        leaf event-id {
+          type string;
+        }
+        description
+          "Events supporting the probable causes.";
+      }
+    }
+    leaf repair-advices {
+      type string;
+    }
+  }
+
+  grouping diagnosis-summary {
+    description
+      "Summary of the diag_agent decision procedure.";
+    leaf decision {
+      type decision;
+    }
+    leaf leader-probability {
+      type probability;
+    }
+    leaf nota-probability {
+      type probability;
+      description
+        "Probability that the cause is none of the hypotheses
+         considered.";
+    }
+    leaf tree-uri {
+      type inet:uri;
+      description
+        "Where the diagnosis tree can be retrieved.";
+    }
+  }
+
+  /* ------------------------------------------------------------------
+   * Incident data augmentation
+   * ------------------------------------------------------------------ */
+
+  augment "/inc:incidents/inc:incident" {
+    description
+      "diag_agent diagnosis information and tasks.";
+    leaf ticket-no {
+      type string;
+      description
+        "Trouble ticket correlated with this incident (Appendix A.3).";
+    }
+    container diagnosis-info {
+      uses diagnosis-summary;
+      leaf onset-estimate-start {
+        type yang:date-and-time;
+        description
+          "Lower bound of the estimated fault onset.";
+      }
+      leaf onset-estimate-end {
+        type yang:date-and-time;
+        description
+          "Upper bound of the estimated fault onset.";
+      }
+      leaf kb-release {
+        type string;
+      }
+      leaf llm-profile {
+        type string;
+      }
+      list candidate {
+        key "rank";
+        leaf rank {
+          type uint8;
+        }
+        leaf fault-mode {
+          type string;
+          description
+            "Documented fault mode, e.g. 'FIBRE_CUT'.";
+        }
+        leaf location {
+          type string;
+          description
+            "Resource identifier of the hypothesis location.";
+        }
+        leaf probability {
+          type probability;
+        }
+        description
+          "Ranked hypotheses after the last ledger update.";
+      }
+    }
+    container incident-diagnosis-tasks {
+      list incident-diagnosis-task {
+        key "task-id";
+        uses diagnosis-task-info;
+        description
+          "Diagnosis tasks created by incident-diagnose.";
+      }
+    }
+  }
+
+  /* ------------------------------------------------------------------
+   * RPC augmentation (Appendix A.3 / A.4)
+   * ------------------------------------------------------------------ */
+
+  augment "/inc:incident-acknowledge/inc:input" {
+    leaf ticket-no {
+      type string;
+    }
+  }
+
+  augment "/inc:incident-diagnose/inc:input" {
+    leaf ticket-no {
+      type string;
+    }
+  }
+
+  augment "/inc:incident-diagnose/inc:output" {
+    leaf task-id {
+      type string;
+      description
+        "The diagnosis task created; its result is reported by
+         incident-notification and diagnosis-task-notification.";
+    }
+  }
+
+  augment "/inc:incident-resolve/inc:input" {
+    leaf ticket-no {
+      type string;
+    }
+  }
+
+  /* ------------------------------------------------------------------
+   * Notifications
+   * ------------------------------------------------------------------ */
+
+  augment "/inc:incident-notification" {
+    leaf ticket-no {
+      type string;
+    }
+    container diagnosis-summary {
+      uses diagnosis-summary;
+    }
+  }
+
+  notification diagnosis-task-notification {
+    description
+      "Sent when a diagnosis task changes state (Appendix A.4).";
+    uses diagnosis-task-info;
+  }
+}

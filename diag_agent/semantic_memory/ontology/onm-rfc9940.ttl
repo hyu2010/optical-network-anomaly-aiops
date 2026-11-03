@@ -1,0 +1,195 @@
+@prefix onm:  <https://optical-aiops.example/ns/rfc9940#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dct:  <http://purl.org/dc/terms/> .
+
+# ============================================================================
+#  onm: — Upper ontology for Network Fault and Problem Management
+#  Source: RFC 9940 "Some Key Terms for Network Fault and Problem Management"
+#  (§3.2 Core Terms, §3.3 Other Terms, §4 Workflows).  This layer carries NO
+#  fault knowledge; it only fixes the meaning of the terms every lower layer
+#  (optical domain, diagnostic knowledge, instances) is reconciled to.
+# ============================================================================
+
+<https://optical-aiops.example/ns/rfc9940>
+    a owl:Ontology ;
+    rdfs:label "RFC 9940 key terms (upper layer)"@en ;
+    dct:source <https://www.rfc-editor.org/rfc/rfc9940> ;
+    owl:versionInfo "1.0.0" .
+
+# ----------------------------------------------------------------------------
+# Context (§3.1) — processes; modelled as classes of activities
+# ----------------------------------------------------------------------------
+onm:Process a owl:Class ;
+    rdfs:comment "Context process of §3.1 (telemetry -> monitoring -> analytics -> observability)."@en .
+onm:NetworkTelemetry      a owl:Class ; rdfs:subClassOf onm:Process .
+onm:NetworkMonitoring     a owl:Class ; rdfs:subClassOf onm:Process .
+onm:NetworkAnalytics      a owl:Class ; rdfs:subClassOf onm:Process .
+onm:NetworkObservability  a owl:Class ; rdfs:subClassOf onm:Process .
+onm:feeds a owl:ObjectProperty ; rdfs:domain onm:Process ; rdfs:range onm:Process ;
+    rdfs:comment "Cascade: Telemetry feeds Monitoring feeds Analytics feeds Observability."@en .
+
+# ----------------------------------------------------------------------------
+# Resource, Characteristic, Value (§3.2, Figure 1)
+# ----------------------------------------------------------------------------
+onm:NetworkSystem a owl:Class ;
+    rdfs:comment "The network system that comprises Resources (1:n, Figure 1)."@en .
+
+onm:Resource a owl:Class ;
+    skos:definition "An element of a network system. Recursive: a Resource may be a collection of other Resources."@en .
+
+onm:hasResource a owl:ObjectProperty ;
+    rdfs:domain onm:NetworkSystem ; rdfs:range onm:Resource .
+
+onm:hasPart a owl:ObjectProperty , owl:TransitiveProperty ;
+    rdfs:domain onm:Resource ; rdfs:range onm:Resource ;
+    rdfs:comment "Resource recursion (e.g. a node comprises interfaces)."@en .
+onm:partOf a owl:ObjectProperty , owl:TransitiveProperty ; owl:inverseOf onm:hasPart .
+
+onm:Characteristic a owl:Class ;
+    skos:definition "An observable or measurable aspect or behavior associated with a Resource (a Metric is a measurable Characteristic)."@en .
+
+onm:hasCharacteristic a owl:ObjectProperty ;
+    rdfs:domain onm:Resource ; rdfs:range onm:Characteristic .
+onm:characteristicOf a owl:ObjectProperty , owl:FunctionalProperty ;
+    owl:inverseOf onm:hasCharacteristic .
+
+onm:Value a owl:Class ;
+    skos:definition "A measure of a Characteristic associated with a Resource: a categorization, an integer count/gauge, or a reading of a continuous variable."@en .
+
+onm:hasValue a owl:ObjectProperty ; rdfs:domain onm:Characteristic ; rdfs:range onm:Value .
+onm:valueOf  a owl:ObjectProperty , owl:FunctionalProperty ; owl:inverseOf onm:hasValue .
+onm:literalValue a owl:DatatypeProperty ; rdfs:domain onm:Value .
+onm:unit         a owl:DatatypeProperty ; rdfs:domain onm:Value ; rdfs:range xsd:string .
+onm:observedAt   a owl:DatatypeProperty ; rdfs:range xsd:dateTime ;
+    rdfs:comment "Time at which a Value / Event / State was Detected."@en .
+
+# ----------------------------------------------------------------------------
+# Change, Event (§3.2, Figure 2)
+# ----------------------------------------------------------------------------
+onm:Change a owl:Class ;
+    skos:definition "Variation in the Value of a Characteristic associated with a Resource; may arise over a period of time."@en .
+onm:Event a owl:Class ;
+    skos:definition "Variation in Value of a Characteristic of a Resource at a distinct moment in time (negligible period). An Event may be the observation of a Change."@en .
+
+onm:changeOf  a owl:ObjectProperty ; rdfs:range onm:Characteristic ;
+    rdfs:comment "The Characteristic whose Value varied (domain: Change or Event)."@en .
+onm:fromValue a owl:ObjectProperty ; rdfs:range onm:Value .
+onm:toValue   a owl:ObjectProperty ; rdfs:range onm:Value .
+onm:startTime a owl:DatatypeProperty ; rdfs:range xsd:dateTime .
+onm:endTime   a owl:DatatypeProperty ; rdfs:range xsd:dateTime .
+onm:eventTime a owl:DatatypeProperty , owl:FunctionalProperty ;
+    rdfs:domain onm:Event ; rdfs:range xsd:dateTime .
+onm:observationOf a owl:ObjectProperty ; rdfs:domain onm:Event ; rdfs:range onm:Change ;
+    rdfs:comment "An Event may be the observation of a Change."@en .
+
+# ----------------------------------------------------------------------------
+# Condition, State (§3.2)
+# ----------------------------------------------------------------------------
+onm:Condition a owl:Class ;
+    skos:definition "An interpretation of the Values of a set of one or more Characteristics of a Resource, w.r.t. working order or another aspect relevant to the Resource purpose (e.g. 'low available memory', 'loss of signal')."@en .
+onm:interprets a owl:ObjectProperty ; rdfs:domain onm:Condition ; rdfs:range onm:Characteristic .
+onm:conditionOf a owl:ObjectProperty ; rdfs:domain onm:Condition ; rdfs:range onm:Resource .
+
+onm:State a owl:Class ; rdfs:subClassOf onm:Condition ;
+    skos:definition "A particular Condition that a Resource has at a specific time (determined by summarizing measurement over time — State compression)."@en .
+onm:inState a owl:ObjectProperty ; rdfs:domain onm:Resource ; rdfs:range onm:State .
+onm:stateOf a owl:ObjectProperty ; owl:inverseOf onm:inState .
+
+# ----------------------------------------------------------------------------
+# Detect, Relevance, Occurrence (§3.2)
+# ----------------------------------------------------------------------------
+onm:Detection a owl:Class ;
+    skos:definition "Noticing the presence of something (State, Change, Event, activity), from the perspective of an observer such as a monitoring system."@en .
+onm:detected   a owl:ObjectProperty ; rdfs:domain onm:Detection .
+onm:detectedBy a owl:ObjectProperty ; rdfs:range onm:Detection ; owl:inverseOf onm:detected .
+onm:observer   a owl:ObjectProperty ; rdfs:domain onm:Detection ; rdfs:range onm:Resource ;
+    rdfs:comment "The monitoring Resource/instrument that Detected."@en .
+
+onm:RelevanceAssessment a owl:Class ;
+    skos:definition "Consideration of an Event, State or Value, through policy relative to a perspective/intent and to other Events/States/Values, to decide whether it is of note."@en .
+onm:assesses  a owl:ObjectProperty ; rdfs:domain onm:RelevanceAssessment .
+onm:isRelevant a owl:DatatypeProperty ; rdfs:domain onm:RelevanceAssessment ; rdfs:range xsd:boolean .
+onm:policy    a owl:DatatypeProperty ; rdfs:domain onm:RelevanceAssessment ; rdfs:range xsd:string .
+
+onm:Occurrence a owl:Class ;
+    skos:definition "A Relevant Event or a particular Relevant Change; may aggregate or abstract multiple fine-grained Events or Changes; recursive with Resources."@en .
+onm:aggregates a owl:ObjectProperty ; rdfs:domain onm:Occurrence ;
+    rdfs:comment "Range: Event or Change (or a finer Occurrence)."@en .
+onm:occursOn a owl:ObjectProperty ; rdfs:domain onm:Occurrence ; rdfs:range onm:Resource .
+
+# ----------------------------------------------------------------------------
+# Fault, Problem, Cause, Incident (§3.2, Figures 3-5)
+# ----------------------------------------------------------------------------
+onm:Fault a owl:Class ; rdfs:subClassOf onm:Occurrence ;
+    skos:definition "An Occurrence that is not desired/required; happens at a moment in time; can potentially be associated with a Cause."@en .
+
+onm:Problem a owl:Class ; rdfs:subClassOf onm:State ;
+    skos:definition "A State that is undesirable and may require remedial action; cannot necessarily be associated with a Cause; has a historic aspect."@en .
+onm:resolutionStatus a owl:DatatypeProperty ; rdfs:domain onm:Problem ; rdfs:range xsd:string ;
+    rdfs:comment "unresolved | resolved — per perspective (§3.2 Problem notes)."@en .
+onm:perspective a owl:DatatypeProperty ; rdfs:range xsd:string .
+
+onm:Cause a owl:Class ;
+    skos:definition "The Events (Detected or otherwise) that gave rise to a Fault/Problem."@en .
+onm:hasCause   a owl:ObjectProperty ; rdfs:range onm:Cause ;
+    rdfs:comment "Domain: Fault or Problem."@en .
+onm:causeEvent a owl:ObjectProperty ; rdfs:domain onm:Cause ; rdfs:range onm:Event .
+onm:givesRiseTo a owl:ObjectProperty ; rdfs:domain onm:Cause ;
+    rdfs:comment "Cause -> Fault/Problem it gave rise to."@en .
+
+onm:indicatesState a owl:ObjectProperty ; rdfs:domain onm:Fault ; rdfs:range onm:State ;
+    rdfs:comment "A Fault may be indicative of a current or future undesired State (Figure 3: Fault -> Problem)."@en .
+
+onm:Incident a owl:Class ; rdfs:subClassOf onm:Occurrence ;
+    skos:altLabel "Network Incident"@en ;
+    skos:definition "An undesired Occurrence such as an unexpected interruption/degradation/below-target performance of a network service; results from one or more Problems."@en .
+onm:resultsFrom a owl:ObjectProperty ; rdfs:domain onm:Incident ; rdfs:range onm:Problem .
+onm:contributesTo a owl:ObjectProperty ; owl:inverseOf onm:resultsFrom .
+onm:affectsService a owl:ObjectProperty ; rdfs:domain onm:Incident ; rdfs:range onm:Resource .
+
+# ----------------------------------------------------------------------------
+# Symptom, Anomaly, Alert, Alarm (§3.2)
+# ----------------------------------------------------------------------------
+onm:Symptom a owl:Class ;
+    skos:definition "An observable Value, Change, State, Event or Condition considered as an indication of a Problem or potential Problem."@en .
+onm:observable a owl:ObjectProperty , owl:FunctionalProperty ; rdfs:domain onm:Symptom ;
+    rdfs:comment "The Value/Change/State/Event/Condition playing the Symptom role."@en .
+onm:indicates a owl:ObjectProperty ; rdfs:domain onm:Symptom ; rdfs:range onm:Problem .
+
+onm:Anomaly a owl:Class ;
+    skos:altLabel "Network Anomaly"@en ;
+    skos:definition "An unusual or unexpected Event or pattern in network data that deviates from normal, expected behavior."@en .
+onm:deviatesFrom a owl:ObjectProperty ; rdfs:domain onm:Anomaly ; rdfs:range onm:Value ;
+    rdfs:comment "The expected/baseline Value the observation deviates from."@en .
+
+onm:Alert a owl:Class ;
+    skos:definition "An indication of a Fault."@en .
+onm:alertFor a owl:ObjectProperty ; rdfs:domain onm:Alert ; rdfs:range onm:Fault .
+
+onm:Alarm a owl:Class ; rdfs:subClassOf onm:State ;
+    skos:definition "As in RFC 8632: an undesirable State in a Resource that requires corrective action; the transition to it may issue an Alert."@en .
+onm:issuesAlert a owl:ObjectProperty ; rdfs:domain onm:Alarm ; rdfs:range onm:Alert .
+onm:alarmedResource a owl:ObjectProperty , owl:FunctionalProperty ;
+    rdfs:domain onm:Alarm ; rdfs:range onm:Resource .
+
+# ----------------------------------------------------------------------------
+# Other terms (§3.3)
+# ----------------------------------------------------------------------------
+onm:IntermittentState a owl:Class ; rdfs:subClassOf onm:State ;
+    skos:definition "A State that is not continuous but keeps recurring in some time frame."@en .
+onm:TransientState a owl:Class ; rdfs:subClassOf onm:State ;
+    skos:definition "A State that is not continuous and occurs once in some time frame."@en .
+onm:RecurrentProblem a owl:Class ; rdfs:subClassOf onm:Problem ;
+    skos:definition "A Problem that is actively resolved but returns."@en .
+
+# ----------------------------------------------------------------------------
+# Disjointness that protects reconciliation (Cause is not a Condition, etc.)
+# ----------------------------------------------------------------------------
+[] a owl:AllDisjointClasses ;
+   owl:members ( onm:Resource onm:Characteristic onm:Value onm:Condition onm:Cause onm:Symptom onm:Alert onm:Detection ) .
+onm:Event owl:disjointWith onm:Condition .
+onm:Change owl:disjointWith onm:Condition .

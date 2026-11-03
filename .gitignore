@@ -112,6 +112,9 @@ venv.bak/
 *.csv.gz
 events.ndjson.*
 *.ttl
+!docs/design/ontology/*.ttl
+!diag_agent/semantic_memory/**/*.ttl
+!tests/diag_agent/fixtures/*.db
 *.graph.json
 data/alarm*.json
 ~*.pptx
@@ -124,3 +127,6 @@ copilot_questions.txt
 # git cannot re-include files under a wholly-ignored directory path.
 data/ml/cache/*
 !data/ml/cache/runs/
+
+# diag_agent runtime state (semantic.trig, generated YANG, stores, LLM cache) — regenerable
+data/diag_agent/

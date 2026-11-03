@@ -1,0 +1,98 @@
+@prefix ma: <http://example.org/modal-agent#> .
+@prefix node: <http://example.org/demo/node#> .
+@prefix svc: <http://example.org/demo/service#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+
+# ---- Schema: classes ----
+ma:ModalAgent a owl:Class ;
+    rdfs:label "ModalAgent" .
+ma:Referent a owl:Class ;
+    rdfs:label "Referent" .
+ma:Component a owl:Class ;
+    rdfs:subClassOf ma:Referent ;
+    rdfs:label "Component" .
+ma:Service a owl:Class ;
+    rdfs:subClassOf ma:Referent ;
+    rdfs:label "Service" .
+ma:DataKind a owl:Class ;
+    rdfs:label "DataKind" .
+ma:DataFunction a owl:Class ;
+    rdfs:label "DataFunction" .
+ma:GenerationMode a owl:Class ;
+    rdfs:label "GenerationMode" .
+ma:NaturalLanguageAttribute a owl:Class ;
+    rdfs:label "NaturalLanguageAttribute" .
+
+# ---- Schema: object properties ----
+ma:monitors a owl:ObjectProperty ;
+    rdfs:domain ma:ModalAgent ;
+    rdfs:range ma:Component .
+ma:onService a owl:ObjectProperty ;
+    rdfs:domain ma:ModalAgent ;
+    rdfs:range ma:Service .
+ma:reportsDataKind a owl:ObjectProperty ;
+    rdfs:domain ma:ModalAgent ;
+    rdfs:range ma:DataKind .
+ma:performsFunction a owl:ObjectProperty ;
+    rdfs:domain ma:ModalAgent ;
+    rdfs:range ma:DataFunction .
+ma:hasGenerationMode a owl:ObjectProperty ;
+    rdfs:domain ma:ModalAgent ;
+    rdfs:range ma:GenerationMode .
+ma:describedBy a owl:ObjectProperty ;
+    rdfs:domain ma:ModalAgent ;
+    rdfs:range ma:NaturalLanguageAttribute .
+
+# ---- Schema individuals: functions & generation modes ----
+ma:Measurement a ma:DataFunction ; rdfs:label "Measurement" .
+ma:Localisation a ma:DataFunction ; rdfs:label "Localisation" .
+ma:Detection a ma:DataFunction ; rdfs:label "Detection" .
+ma:Triggered a ma:GenerationMode ; rdfs:label "Triggered" .
+ma:Pushed a ma:GenerationMode ; rdfs:label "Pushed" .
+
+# ---- Referents: components (NEs) ----
+node:A a ma:Component ; rdfs:label "A" .
+node:B a ma:Component ; rdfs:label "B" .
+node:C a ma:Component ; rdfs:label "C" .
+node:D a ma:Component ; rdfs:label "D" .
+node:E a ma:Component ; rdfs:label "E" .
+node:F a ma:Component ; rdfs:label "F" .
+
+# ---- Referents: services (OCh tunnels) ----
+svc:och_ch1 a ma:Service ; rdfs:label "och_ch1" .
+svc:och_ch2 a ma:Service ; rdfs:label "och_ch2" .
+svc:och_ch3 a ma:Service ; rdfs:label "och_ch3" .
+svc:och_ch4 a ma:Service ; rdfs:label "och_ch4" .
+svc:och_ch5 a ma:Service ; rdfs:label "och_ch5" .
+svc:och_ch6 a ma:Service ; rdfs:label "och_ch6" .
+
+# ---- Data kinds ----
+ma:dk_power_profile a ma:DataKind ; rdfs:label "optical power profile P(z)" ; ma:unit "dBm vs km" .
+
+# ---- Individuals: onboarded data sources (modal agents) ----
+ma:agent_ppe_agent_A a ma:ModalAgent ;
+    rdfs:label "ppe_agent@A" ;
+    ma:status "active" ;
+    ma:monitors node:A ;
+    ma:onService svc:och_ch1 ;
+    ma:onService svc:och_ch2 ;
+    ma:reportsDataKind ma:dk_power_profile ;
+    ma:performsFunction ma:Localisation ;
+    ma:hasGenerationMode ma:Triggered ;
+    ma:providesSkill "locate_optical_fault" ;
+    ma:describedBy ma:nl_ppe_agent_A .
+ma:nl_ppe_agent_A a ma:NaturalLanguageAttribute ; rdfs:label "New instrument online at node A. I reconstruct the optical power profile P(z) of each OCh dropping here and flag where along the fibre the power departs from baseline, computed when queried." .
+ma:agent_ppe_agent_B a ma:ModalAgent ;
+    rdfs:label "ppe_agent@B" ;
+    ma:status "active" ;
+    ma:monitors node:B ;
+    ma:onService svc:och_ch2 ;
+    ma:onService svc:och_ch4 ;
+    ma:reportsDataKind ma:dk_power_profile ;
+    ma:performsFunction ma:Localisation ;
+    ma:hasGenerationMode ma:Triggered ;
+    ma:providesSkill "locate_optical_fault" ;
+    ma:describedBy ma:nl_ppe_agent_B .
+ma:nl_ppe_agent_B a ma:NaturalLanguageAttribute ; rdfs:label "New instrument online at node B. I reconstruct the optical power profile P(z) of each OCh dropping here and flag where along the fibre the power departs from baseline, computed when queried." .

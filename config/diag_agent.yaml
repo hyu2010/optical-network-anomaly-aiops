@@ -1,0 +1,96 @@
+# diag_agent configuration (doc 05 §6.2).
+# Precedence, highest first: CLI flags > process environment > .env > this file.
+# ${VAR:-default} is interpolated from the environment (after .env is loaded).
+# Nested overrides: DIAG__AGENT__LEDGER__COMMIT_P=0.85 sets agent.ledger.commit_p.
+
+llm:
+  profile: ${DIAG_LLM_PROFILE:-env}          # env | deepseek | local_vllm | ollama | none
+  roles:
+    proposer:     { temperature: 0.2, max_tokens: 2000 }
+    orchestrator: { temperature: 0.0, max_tokens: 400 }
+    narrator:     { temperature: 0.3, max_tokens: 800 }
+    interface:    { temperature: 0.3, max_tokens: 800, profile: null }
+  profiles:
+    env:            # exactly the .env.example convention
+      base_url: ${VLLM_API_BASE:-}
+      model:    ${VLLM_MODEL:-}
+      api_key:  ${VLLM_API_KEY:-}
+      structured_output: json_mode
+      tools: native
+      timeout_s: 90
+      max_retries: 2
+    deepseek:
+      base_url: https://api.deepseek.com/v1
+      model: ${DEEPSEEK_MODEL:-deepseek-v4-flash}
+      api_key: ${DEEPSEEK_API_KEY:-${VLLM_API_KEY:-}}
+      structured_output: json_mode
+      tools: native
+      timeout_s: 90
+      max_retries: 2
+    local_vllm:
+      base_url: ${VLLM_API_BASE:-http://192.168.198.141:8000/v1}
+      model: ${VLLM_MODEL:-qwen3.5-9B-awq-4bit}
+      api_key: ${VLLM_API_KEY:-test123}
+      structured_output: json_schema
+      tools: native
+      extra_body: { chat_template_kwargs: { enable_thinking: false } }
+      timeout_s: 120
+      max_retries: 1
+    ollama:
+      base_url: http://localhost:11434/v1
+      model: qwen3:8b
+      api_key: ollama
+      structured_output: json_mode
+      tools: prompted
+      timeout_s: 120
+      max_retries: 1
+    none: {}
+  cache:
+    enabled: true
+    path: data/diag_agent/llm_cache.sqlite
+    mode: read_write                   # read_write | read_only | off
+
+agent:
+  lines: [walk, correlation, analogy, llm]
+  line_weights: { walk: 1.0, correlation: 1.0, analogy: 1.0, llm: 1.0, specialised: 0.25 }
+  frame: { hold_s: 32, view: raw, scope_hops: 2 }
+  ppe_access: on_demand                # on_demand | streamed
+  ledger:
+    clip_nats: 8
+    commit_p: 0.80
+    nota_max: 0.20
+    residual_nats: 4.5
+    set_mass: 0.90
+    regenerate_nota: 0.25
+    stall_bits: 0.10
+    stall_terms: 3
+    confirm_remote_h: 0.1              # a Required prediction testable by a remote check this cheap is tested before commit
+  advisor: { gate_hours: 0.5, gate_p: 0.05, site_hours: 2, interrupt_hours: 1,
+             max_checks: 12, max_effort_h: 8, max_returns: 3, forward_depth: 2, forward_min_mass: 0.01 }
+  proposer: { max_tool_calls: 8, max_neighbors: 30 }
+  orchestrator: true
+  narrator: true
+
+substrate:
+  mode: replay
+  incidents_db: ${FMA_INCIDENTS_DB:-data/incidents.db}
+  yang_dir: ${FMA_YANG_DIR:-data/yang}
+  catalog_dir: data
+  simulator_url: http://127.0.0.1:5000
+
+memory:
+  semantic: { path: data/diag_agent/semantic.trig, kb_release: kb-2026.11.0 }
+  episodic: { path: data/diag_agent/episodes.sqlite, k: 20 }
+  checkpoints: data/diag_agent/checkpoints.sqlite
+
+incident_server:
+  host: 127.0.0.1
+  port: 8040
+  payload_mode: extended               # strict | extended
+  auto_diagnose: true
+  resolve_timeout_h: 4
+  network_refs: { optical: optical-topo, otn: otn-topo }
+  incident_no_start: 1001
+  validate: debug                      # always | debug | sample | off
+  store: data/diag_agent/incidents.sqlite
+  tokens: {}                           # bearer token -> "read ack diagnose resolve"; empty = no auth

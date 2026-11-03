@@ -1,0 +1,33 @@
+{
+  "diag-agent-incident-ext:diagnosis-task-notification": {
+    "task-id": "dx-1001-1",
+    "incident-no": ["1001"],
+    "ticket-no": "TT-20261102-0042",
+    "start-time": "2026-11-02T09:30:35.600Z",
+    "end-time": "2026-11-02T09:31:35.600Z",
+    "task-state": "finished",
+    "diagnosis-result": "succeeded",
+    "diagnosis-result-description": "Committed after 2 decision cycles and 1 remote check (CHK_PPE_PROFILE on och_ch2, 1 min).",
+    "probable-causes": {
+      "probable-cause": [
+        {
+          "node-ref": "B",
+          "network-ref": "optical-topo",
+          "cause-name": "diag-agent-incident-ext:fibre-cut",
+          "detail": "FIBRE_CUT at span_OMS3_BC; P = 0.99287.",
+          "resource": [
+            {"name": "span_OMS3_BC", "cause-name": "diag-agent-incident-ext:fibre-cut",
+             "detail": "Break 31.4 +/- 0.4 km from B."}
+          ]
+        }
+      ]
+    },
+    "probable-events": {
+      "probable-event": [
+        {"type": "ietf-incident:alarm", "event-id": "alm-42-811"},
+        {"type": "diag-agent-incident-ext:ppe-anomaly", "event-id": "ppe-42-och_ch2-0"}
+      ]
+    },
+    "repair-advices": "Confirm with OTDR from B (expected 31.4 km); splice or replace; verify OTS_LOS clears at C.FIU.line_from_B."
+  }
+}

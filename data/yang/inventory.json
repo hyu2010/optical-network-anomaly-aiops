@@ -1,0 +1,332 @@
+{
+  "_comment": "v3 — inventory for the 6 lab-mesh hub NEs (A..F). Each chassis carries WSS + OAU + FIU + SCC + FAN. Topology: 8 OMS line systems forming a fully-connected mesh — OMS1=A-C, OMS2=A-B, OMS3=B-C, OMS4=C-D, OMS5=B-D, OMS6=D-E, OMS7=E-F, OMS8=F-C.",
+
+  "ietf-network-hardware-inventory:network-hardware-inventory": {
+
+    "equipment-rooms": {
+      "equipment-room": [{
+        "name": "DC-Lab",
+        "rack": [{
+          "name": "rack-1",
+          "contained-chassis": [
+            { "chassis-ref": "A.chassis" }, { "chassis-ref": "B.chassis" },
+            { "chassis-ref": "C.chassis" }, { "chassis-ref": "D.chassis" },
+            { "chassis-ref": "E.chassis" }, { "chassis-ref": "F.chassis" }
+          ]
+        }]
+      }]
+    },
+
+    "network-elements": {
+      "network-element": [
+
+        {
+          "uuid": "A", "name": "A",
+          "_comment": "Hub A — host_ne = NE_IP1 (70.31.65.95). Terminates OMS1, OMS2.",
+          "components": { "component": [
+            { "uuid": "A.chassis", "name": "A.chassis", "class": "iana-hardware:chassis",
+              "mfg-name": "Huawei", "part-number": "OptiX OSN 9800",
+              "is-fru": false, "hardware-rev": "01", "software-rev": "V100R022C00",
+              "contained-child-component": [
+                { "child-uuid": "A.WSS" }, { "child-uuid": "A.OTU" }, { "child-uuid": "A.OA" },
+                { "child-uuid": "A.FIU" }, { "child-uuid": "A.SCC" }, { "child-uuid": "A.FAN" } ],
+              "network-fault-mgmt-state:state": { "power-state": "on", "fan-state": "ok" } },
+            { "uuid": "A.WSS", "name": "A.WSS", "class": "iana-hardware:module", "parent": "A.chassis", "is-fru": true,
+              "mfg-name": "Huawei", "part-number": "TN56WSD9",
+              "network-fault-mgmt-state:state": { "power-state": "on" } },
+            { "uuid": "A.OTU", "name": "A.OTU", "class": "iana-hardware:module", "parent": "A.chassis", "is-fru": true,
+              "mfg-name": "Huawei", "part-number": "TN56NS3", "nfms:ppe-enabled": true,
+              "contained-child-component": [
+                { "child-uuid": "A.OTU.line_to_B" }, { "child-uuid": "A.OTU.line_from_B" },
+                { "child-uuid": "A.OTU.line_to_C" }, { "child-uuid": "A.OTU.line_from_C" },
+                { "child-uuid": "A.OTU.client_ch1" }, { "child-uuid": "A.OTU.client_ch2" } ],
+              "network-fault-mgmt-state:state": { "power-state": "on" } },
+            { "uuid": "A.OTU.line_to_B",   "name": "line_to_B",   "class": "iana-hardware:port", "parent": "A.OTU" },
+            { "uuid": "A.OTU.line_from_B", "name": "line_from_B", "class": "iana-hardware:port", "parent": "A.OTU" },
+            { "uuid": "A.OTU.line_to_C",   "name": "line_to_C",   "class": "iana-hardware:port", "parent": "A.OTU" },
+            { "uuid": "A.OTU.line_from_C", "name": "line_from_C", "class": "iana-hardware:port", "parent": "A.OTU" },
+            { "uuid": "A.OTU.client_ch1",  "name": "client_ch1",  "class": "iana-hardware:port", "parent": "A.OTU" },
+            { "uuid": "A.OTU.client_ch2",  "name": "client_ch2",  "class": "iana-hardware:port", "parent": "A.OTU" },
+            { "uuid": "A.OA",  "name": "A.OA",  "class": "iana-hardware:module", "parent": "A.chassis", "is-fru": true,
+              "mfg-name": "Huawei", "part-number": "TN12OAU25S", "nfms:edfa-gain-db": 12.0, "nfms:edfa-noise-figure-db": 5.0, "nfms:edfa-z-km": 0.0,
+              "network-fault-mgmt-state:state": { "power-state": "on" } },
+            { "uuid": "A.FIU", "name": "A.FIU", "class": "iana-hardware:module", "parent": "A.chassis", "is-fru": true,
+              "mfg-name": "Huawei", "part-number": "TN11FIU",
+              "contained-child-component": [
+                { "child-uuid": "A.FIU.line_to_B" }, { "child-uuid": "A.FIU.line_from_B" },
+                { "child-uuid": "A.FIU.line_to_C" }, { "child-uuid": "A.FIU.line_from_C" } ],
+              "network-fault-mgmt-state:state": { "power-state": "on" } },
+            { "uuid": "A.FIU.line_to_B",   "name": "line_to_B",   "class": "iana-hardware:port", "parent": "A.FIU" },
+            { "uuid": "A.FIU.line_from_B", "name": "line_from_B", "class": "iana-hardware:port", "parent": "A.FIU" },
+            { "uuid": "A.FIU.line_to_C",   "name": "line_to_C",   "class": "iana-hardware:port", "parent": "A.FIU" },
+            { "uuid": "A.FIU.line_from_C", "name": "line_from_C", "class": "iana-hardware:port", "parent": "A.FIU" },
+            { "uuid": "A.SCC", "name": "A.SCC", "class": "iana-hardware:module", "parent": "A.chassis", "is-fru": true,
+              "mfg-name": "Huawei", "part-number": "TN51SCC",
+              "network-fault-mgmt-state:state": { "power-state": "on" } },
+            { "uuid": "A.FAN", "name": "A.FAN", "class": "iana-hardware:fan",    "parent": "A.chassis", "is-fru": true,
+              "mfg-name": "Huawei", "part-number": "TN11FAN",
+              "network-fault-mgmt-state:state": { "power-state": "on", "fan-state": "ok" } }
+          ]}
+        },
+
+        {
+          "uuid": "B", "name": "B",
+          "_comment": "Hub B — host_ne = NE_IP1. Pure transit (no client TPs). Terminates OMS2, OMS3, OMS5.",
+          "components": { "component": [
+            { "uuid": "B.chassis", "name": "B.chassis", "class": "iana-hardware:chassis",
+              "mfg-name": "Huawei", "part-number": "OptiX OSN 9800", "is-fru": false,
+              "contained-child-component": [
+                { "child-uuid": "B.WSS" }, { "child-uuid": "B.OTU" }, { "child-uuid": "B.OA" },
+                { "child-uuid": "B.FIU" }, { "child-uuid": "B.SCC" }, { "child-uuid": "B.FAN" } ],
+              "network-fault-mgmt-state:state": { "power-state": "on", "fan-state": "ok" } },
+            { "uuid": "B.WSS", "name": "B.WSS", "class": "iana-hardware:module", "parent": "B.chassis", "is-fru": true,
+              "mfg-name": "Huawei", "part-number": "TN56WSD9",
+              "network-fault-mgmt-state:state": { "power-state": "on" } },
+            { "uuid": "B.OTU", "name": "B.OTU", "class": "iana-hardware:module", "parent": "B.chassis", "is-fru": true,
+              "mfg-name": "Huawei", "part-number": "TN56NS3", "nfms:ppe-enabled": true,
+              "contained-child-component": [
+                { "child-uuid": "B.OTU.line_to_A" }, { "child-uuid": "B.OTU.line_from_A" },
+                { "child-uuid": "B.OTU.line_to_C" }, { "child-uuid": "B.OTU.line_from_C" },
+                { "child-uuid": "B.OTU.line_to_D" }, { "child-uuid": "B.OTU.line_from_D" } ],
+              "network-fault-mgmt-state:state": { "power-state": "on" } },
+            { "uuid": "B.OTU.line_to_A",   "name": "line_to_A",   "class": "iana-hardware:port", "parent": "B.OTU" },
+            { "uuid": "B.OTU.line_from_A", "name": "line_from_A", "class": "iana-hardware:port", "parent": "B.OTU" },
+            { "uuid": "B.OTU.line_to_C",   "name": "line_to_C",   "class": "iana-hardware:port", "parent": "B.OTU" },
+            { "uuid": "B.OTU.line_from_C", "name": "line_from_C", "class": "iana-hardware:port", "parent": "B.OTU" },
+            { "uuid": "B.OTU.line_to_D",   "name": "line_to_D",   "class": "iana-hardware:port", "parent": "B.OTU" },
+            { "uuid": "B.OTU.line_from_D", "name": "line_from_D", "class": "iana-hardware:port", "parent": "B.OTU" },
+            { "uuid": "B.OA",  "name": "B.OA",  "class": "iana-hardware:module", "parent": "B.chassis", "is-fru": true, "mfg-name": "Huawei", "part-number": "TN12OAU25S", "nfms:edfa-gain-db": 12.0, "nfms:edfa-noise-figure-db": 5.0, "nfms:edfa-z-km": 0.0,
+              "network-fault-mgmt-state:state": { "power-state": "on" } },
+            { "uuid": "B.FIU", "name": "B.FIU", "class": "iana-hardware:module", "parent": "B.chassis", "is-fru": true, "mfg-name": "Huawei", "part-number": "TN11FIU",
+              "contained-child-component": [
+                { "child-uuid": "B.FIU.line_to_A" }, { "child-uuid": "B.FIU.line_from_A" },
+                { "child-uuid": "B.FIU.line_to_C" }, { "child-uuid": "B.FIU.line_from_C" },
+                { "child-uuid": "B.FIU.line_to_D" }, { "child-uuid": "B.FIU.line_from_D" } ],
+              "network-fault-mgmt-state:state": { "power-state": "on" } },
+            { "uuid": "B.FIU.line_to_A",   "name": "line_to_A",   "class": "iana-hardware:port", "parent": "B.FIU" },
+            { "uuid": "B.FIU.line_from_A", "name": "line_from_A", "class": "iana-hardware:port", "parent": "B.FIU" },
+            { "uuid": "B.FIU.line_to_C",   "name": "line_to_C",   "class": "iana-hardware:port", "parent": "B.FIU" },
+            { "uuid": "B.FIU.line_from_C", "name": "line_from_C", "class": "iana-hardware:port", "parent": "B.FIU" },
+            { "uuid": "B.FIU.line_to_D",   "name": "line_to_D",   "class": "iana-hardware:port", "parent": "B.FIU" },
+            { "uuid": "B.FIU.line_from_D", "name": "line_from_D", "class": "iana-hardware:port", "parent": "B.FIU" },
+            { "uuid": "B.SCC", "name": "B.SCC", "class": "iana-hardware:module", "parent": "B.chassis", "is-fru": true, "mfg-name": "Huawei", "part-number": "TN51SCC",
+              "network-fault-mgmt-state:state": { "power-state": "on" } },
+            { "uuid": "B.FAN", "name": "B.FAN", "class": "iana-hardware:fan",    "parent": "B.chassis", "is-fru": true, "mfg-name": "Huawei", "part-number": "TN11FAN",
+              "network-fault-mgmt-state:state": { "power-state": "on", "fan-state": "ok" } }
+          ]}
+        },
+
+        {
+          "uuid": "C", "name": "C",
+          "_comment": "Hub C — host_ne = NE_IP2 (70.31.65.96). Terminates OMS1, OMS3, OMS4, OMS8 (cross-mesh to F). Sinks ch1..ch4 and sources ch6.",
+          "components": { "component": [
+            { "uuid": "C.chassis", "name": "C.chassis", "class": "iana-hardware:chassis",
+              "mfg-name": "Huawei", "part-number": "OptiX OSN 9800", "is-fru": false,
+              "contained-child-component": [
+                { "child-uuid": "C.WSS" }, { "child-uuid": "C.OTU" }, { "child-uuid": "C.OA" },
+                { "child-uuid": "C.FIU" }, { "child-uuid": "C.SCC" }, { "child-uuid": "C.FAN" } ],
+              "network-fault-mgmt-state:state": { "power-state": "on", "fan-state": "ok" } },
+            { "uuid": "C.WSS", "name": "C.WSS", "class": "iana-hardware:module", "parent": "C.chassis", "is-fru": true,
+              "mfg-name": "Huawei", "part-number": "TN56WSD9",
+              "network-fault-mgmt-state:state": { "power-state": "on" } },
+            { "uuid": "C.OTU", "name": "C.OTU", "class": "iana-hardware:module", "parent": "C.chassis", "is-fru": true,
+              "mfg-name": "Huawei", "part-number": "TN56NS3", "nfms:ppe-enabled": true,
+              "contained-child-component": [
+                { "child-uuid": "C.OTU.line_to_A" }, { "child-uuid": "C.OTU.line_from_A" },
+                { "child-uuid": "C.OTU.line_to_B" }, { "child-uuid": "C.OTU.line_from_B" },
+                { "child-uuid": "C.OTU.line_to_D" }, { "child-uuid": "C.OTU.line_from_D" },
+                { "child-uuid": "C.OTU.line_to_F" }, { "child-uuid": "C.OTU.line_from_F" },
+                { "child-uuid": "C.OTU.client_ch1" }, { "child-uuid": "C.OTU.client_ch2" },
+                { "child-uuid": "C.OTU.client_ch3" }, { "child-uuid": "C.OTU.client_ch4" },
+                { "child-uuid": "C.OTU.client_ch6" },
+                { "child-uuid": "C.OTU.rx_ch1" }, { "child-uuid": "C.OTU.rx_ch2" },
+                { "child-uuid": "C.OTU.rx_ch3" }, { "child-uuid": "C.OTU.rx_ch4" } ],
+              "network-fault-mgmt-state:state": { "power-state": "on" } },
+            { "uuid": "C.OTU.line_to_A",   "name": "line_to_A",   "class": "iana-hardware:port", "parent": "C.OTU" },
+            { "uuid": "C.OTU.line_from_A", "name": "line_from_A", "class": "iana-hardware:port", "parent": "C.OTU" },
+            { "uuid": "C.OTU.line_to_B",   "name": "line_to_B",   "class": "iana-hardware:port", "parent": "C.OTU" },
+            { "uuid": "C.OTU.line_from_B", "name": "line_from_B", "class": "iana-hardware:port", "parent": "C.OTU" },
+            { "uuid": "C.OTU.line_to_D",   "name": "line_to_D",   "class": "iana-hardware:port", "parent": "C.OTU" },
+            { "uuid": "C.OTU.line_from_D", "name": "line_from_D", "class": "iana-hardware:port", "parent": "C.OTU" },
+            { "uuid": "C.OTU.line_to_F",   "name": "line_to_F",   "class": "iana-hardware:port", "parent": "C.OTU" },
+            { "uuid": "C.OTU.line_from_F", "name": "line_from_F", "class": "iana-hardware:port", "parent": "C.OTU" },
+            { "uuid": "C.OTU.client_ch1",  "name": "client_ch1",  "class": "iana-hardware:port", "parent": "C.OTU" },
+            { "uuid": "C.OTU.client_ch2",  "name": "client_ch2",  "class": "iana-hardware:port", "parent": "C.OTU" },
+            { "uuid": "C.OTU.client_ch3",  "name": "client_ch3",  "class": "iana-hardware:port", "parent": "C.OTU" },
+            { "uuid": "C.OTU.client_ch4",  "name": "client_ch4",  "class": "iana-hardware:port", "parent": "C.OTU" },
+            { "uuid": "C.OTU.client_ch6",  "name": "client_ch6",  "class": "iana-hardware:port", "parent": "C.OTU" },
+            { "_comment": "Per-OCH RX ports (Design/00 §4.3 / decision D-3): one RX per dropping OCh. C sinks ch1..ch4 → 4 RX ports; each owns that OCh's end-to-end P(z).",
+              "uuid": "C.OTU.rx_ch1", "name": "rx_ch1", "class": "iana-hardware:port", "parent": "C.OTU", "nfms:rx-och": "och_ch1", "nfms:ppe-enabled": true, "nfms:ppe-delta-z-m": 200 },
+            { "uuid": "C.OTU.rx_ch2", "name": "rx_ch2", "class": "iana-hardware:port", "parent": "C.OTU", "nfms:rx-och": "och_ch2", "nfms:ppe-enabled": true, "nfms:ppe-delta-z-m": 200 },
+            { "uuid": "C.OTU.rx_ch3", "name": "rx_ch3", "class": "iana-hardware:port", "parent": "C.OTU", "nfms:rx-och": "och_ch3", "nfms:ppe-enabled": true, "nfms:ppe-delta-z-m": 200 },
+            { "uuid": "C.OTU.rx_ch4", "name": "rx_ch4", "class": "iana-hardware:port", "parent": "C.OTU", "nfms:rx-och": "och_ch4", "nfms:ppe-enabled": true, "nfms:ppe-delta-z-m": 200 },
+            { "uuid": "C.OA",  "name": "C.OA",  "class": "iana-hardware:module", "parent": "C.chassis", "is-fru": true, "mfg-name": "Huawei", "part-number": "TN12OAU25S", "nfms:edfa-gain-db": 12.0, "nfms:edfa-noise-figure-db": 5.0, "nfms:edfa-z-km": 0.0,
+              "network-fault-mgmt-state:state": { "power-state": "on" } },
+            { "uuid": "C.FIU", "name": "C.FIU", "class": "iana-hardware:module", "parent": "C.chassis", "is-fru": true, "mfg-name": "Huawei", "part-number": "TN11FIU",
+              "contained-child-component": [
+                { "child-uuid": "C.FIU.line_to_A" }, { "child-uuid": "C.FIU.line_from_A" },
+                { "child-uuid": "C.FIU.line_to_B" }, { "child-uuid": "C.FIU.line_from_B" },
+                { "child-uuid": "C.FIU.line_to_D" }, { "child-uuid": "C.FIU.line_from_D" },
+                { "child-uuid": "C.FIU.line_to_F" }, { "child-uuid": "C.FIU.line_from_F" } ],
+              "network-fault-mgmt-state:state": { "power-state": "on" } },
+            { "uuid": "C.FIU.line_to_A",   "name": "line_to_A",   "class": "iana-hardware:port", "parent": "C.FIU" },
+            { "uuid": "C.FIU.line_from_A", "name": "line_from_A", "class": "iana-hardware:port", "parent": "C.FIU" },
+            { "uuid": "C.FIU.line_to_B",   "name": "line_to_B",   "class": "iana-hardware:port", "parent": "C.FIU" },
+            { "uuid": "C.FIU.line_from_B", "name": "line_from_B", "class": "iana-hardware:port", "parent": "C.FIU" },
+            { "uuid": "C.FIU.line_to_D",   "name": "line_to_D",   "class": "iana-hardware:port", "parent": "C.FIU" },
+            { "uuid": "C.FIU.line_from_D", "name": "line_from_D", "class": "iana-hardware:port", "parent": "C.FIU" },
+            { "uuid": "C.FIU.line_to_F",   "name": "line_to_F",   "class": "iana-hardware:port", "parent": "C.FIU" },
+            { "uuid": "C.FIU.line_from_F", "name": "line_from_F", "class": "iana-hardware:port", "parent": "C.FIU" },
+            { "uuid": "C.SCC", "name": "C.SCC", "class": "iana-hardware:module", "parent": "C.chassis", "is-fru": true, "mfg-name": "Huawei", "part-number": "TN51SCC",
+              "network-fault-mgmt-state:state": { "power-state": "on" } },
+            { "uuid": "C.FAN", "name": "C.FAN", "class": "iana-hardware:fan",    "parent": "C.chassis", "is-fru": true, "mfg-name": "Huawei", "part-number": "TN11FAN",
+              "network-fault-mgmt-state:state": { "power-state": "on", "fan-state": "ok" } }
+          ]}
+        },
+
+        {
+          "uuid": "D", "name": "D",
+          "_comment": "Hub D — host_ne = NE_IP2. Terminates OMS4, OMS5, OMS6 (cross-mesh to E). Sources ch3, ch4, ch5.",
+          "components": { "component": [
+            { "uuid": "D.chassis", "name": "D.chassis", "class": "iana-hardware:chassis",
+              "mfg-name": "Huawei", "part-number": "OptiX OSN 9800", "is-fru": false,
+              "contained-child-component": [
+                { "child-uuid": "D.WSS" }, { "child-uuid": "D.OTU" }, { "child-uuid": "D.OA" },
+                { "child-uuid": "D.FIU" }, { "child-uuid": "D.SCC" }, { "child-uuid": "D.FAN" } ],
+              "network-fault-mgmt-state:state": { "power-state": "on", "fan-state": "ok" } },
+            { "uuid": "D.WSS", "name": "D.WSS", "class": "iana-hardware:module", "parent": "D.chassis", "is-fru": true,
+              "mfg-name": "Huawei", "part-number": "TN56WSD9",
+              "network-fault-mgmt-state:state": { "power-state": "on" } },
+            { "uuid": "D.OTU", "name": "D.OTU", "class": "iana-hardware:module", "parent": "D.chassis", "is-fru": true,
+              "mfg-name": "Huawei", "part-number": "TN56NS3", "nfms:ppe-enabled": true,
+              "contained-child-component": [
+                { "child-uuid": "D.OTU.line_to_B" }, { "child-uuid": "D.OTU.line_from_B" },
+                { "child-uuid": "D.OTU.line_to_C" }, { "child-uuid": "D.OTU.line_from_C" },
+                { "child-uuid": "D.OTU.line_to_E" }, { "child-uuid": "D.OTU.line_from_E" },
+                { "child-uuid": "D.OTU.client_ch3" }, { "child-uuid": "D.OTU.client_ch4" },
+                { "child-uuid": "D.OTU.client_ch5" } ],
+              "network-fault-mgmt-state:state": { "power-state": "on" } },
+            { "uuid": "D.OTU.line_to_B",   "name": "line_to_B",   "class": "iana-hardware:port", "parent": "D.OTU" },
+            { "uuid": "D.OTU.line_from_B", "name": "line_from_B", "class": "iana-hardware:port", "parent": "D.OTU" },
+            { "uuid": "D.OTU.line_to_C",   "name": "line_to_C",   "class": "iana-hardware:port", "parent": "D.OTU" },
+            { "uuid": "D.OTU.line_from_C", "name": "line_from_C", "class": "iana-hardware:port", "parent": "D.OTU" },
+            { "uuid": "D.OTU.line_to_E",   "name": "line_to_E",   "class": "iana-hardware:port", "parent": "D.OTU" },
+            { "uuid": "D.OTU.line_from_E", "name": "line_from_E", "class": "iana-hardware:port", "parent": "D.OTU" },
+            { "uuid": "D.OTU.client_ch3",  "name": "client_ch3",  "class": "iana-hardware:port", "parent": "D.OTU" },
+            { "uuid": "D.OTU.client_ch4",  "name": "client_ch4",  "class": "iana-hardware:port", "parent": "D.OTU" },
+            { "uuid": "D.OTU.client_ch5",  "name": "client_ch5",  "class": "iana-hardware:port", "parent": "D.OTU" },
+            { "uuid": "D.OA",  "name": "D.OA",  "class": "iana-hardware:module", "parent": "D.chassis", "is-fru": true, "mfg-name": "Huawei", "part-number": "TN12OAU25S", "nfms:edfa-gain-db": 12.0, "nfms:edfa-noise-figure-db": 5.0, "nfms:edfa-z-km": 0.0,
+              "network-fault-mgmt-state:state": { "power-state": "on" } },
+            { "uuid": "D.FIU", "name": "D.FIU", "class": "iana-hardware:module", "parent": "D.chassis", "is-fru": true, "mfg-name": "Huawei", "part-number": "TN11FIU",
+              "contained-child-component": [
+                { "child-uuid": "D.FIU.line_to_B" }, { "child-uuid": "D.FIU.line_from_B" },
+                { "child-uuid": "D.FIU.line_to_C" }, { "child-uuid": "D.FIU.line_from_C" },
+                { "child-uuid": "D.FIU.line_to_E" }, { "child-uuid": "D.FIU.line_from_E" } ],
+              "network-fault-mgmt-state:state": { "power-state": "on" } },
+            { "uuid": "D.FIU.line_to_B",   "name": "line_to_B",   "class": "iana-hardware:port", "parent": "D.FIU" },
+            { "uuid": "D.FIU.line_from_B", "name": "line_from_B", "class": "iana-hardware:port", "parent": "D.FIU" },
+            { "uuid": "D.FIU.line_to_C",   "name": "line_to_C",   "class": "iana-hardware:port", "parent": "D.FIU" },
+            { "uuid": "D.FIU.line_from_C", "name": "line_from_C", "class": "iana-hardware:port", "parent": "D.FIU" },
+            { "uuid": "D.FIU.line_to_E",   "name": "line_to_E",   "class": "iana-hardware:port", "parent": "D.FIU" },
+            { "uuid": "D.FIU.line_from_E", "name": "line_from_E", "class": "iana-hardware:port", "parent": "D.FIU" },
+            { "uuid": "D.SCC", "name": "D.SCC", "class": "iana-hardware:module", "parent": "D.chassis", "is-fru": true, "mfg-name": "Huawei", "part-number": "TN51SCC",
+              "network-fault-mgmt-state:state": { "power-state": "on" } },
+            { "uuid": "D.FAN", "name": "D.FAN", "class": "iana-hardware:fan",    "parent": "D.chassis", "is-fru": true, "mfg-name": "Huawei", "part-number": "TN11FAN",
+              "network-fault-mgmt-state:state": { "power-state": "on", "fan-state": "ok" } }
+          ]}
+        },
+
+        {
+          "uuid": "E", "name": "E",
+          "_comment": "Hub E — host_ne = NE_IP3 (70.31.65.133). Newly built. Terminates OMS6 (to D, 40 km) and OMS7 (to F, 60 km). Pure transit for ch5 — no client TPs.",
+          "components": { "component": [
+            { "uuid": "E.chassis", "name": "E.chassis", "class": "iana-hardware:chassis",
+              "mfg-name": "Huawei", "part-number": "OptiX OSN 9800", "is-fru": false,
+              "contained-child-component": [
+                { "child-uuid": "E.WSS" }, { "child-uuid": "E.OTU" }, { "child-uuid": "E.OA" },
+                { "child-uuid": "E.FIU" }, { "child-uuid": "E.SCC" }, { "child-uuid": "E.FAN" } ],
+              "network-fault-mgmt-state:state": { "power-state": "on", "fan-state": "ok" } },
+            { "uuid": "E.WSS", "name": "E.WSS", "class": "iana-hardware:module", "parent": "E.chassis", "is-fru": true,
+              "mfg-name": "Huawei", "part-number": "TN56WSD9",
+              "network-fault-mgmt-state:state": { "power-state": "on" } },
+            { "uuid": "E.OTU", "name": "E.OTU", "class": "iana-hardware:module", "parent": "E.chassis", "is-fru": true,
+              "mfg-name": "Huawei", "part-number": "TN56NS3", "nfms:ppe-enabled": true,
+              "contained-child-component": [
+                { "child-uuid": "E.OTU.line_to_D" }, { "child-uuid": "E.OTU.line_from_D" },
+                { "child-uuid": "E.OTU.line_to_F" }, { "child-uuid": "E.OTU.line_from_F" } ],
+              "network-fault-mgmt-state:state": { "power-state": "on" } },
+            { "uuid": "E.OTU.line_to_D",   "name": "line_to_D",   "class": "iana-hardware:port", "parent": "E.OTU" },
+            { "uuid": "E.OTU.line_from_D", "name": "line_from_D", "class": "iana-hardware:port", "parent": "E.OTU" },
+            { "uuid": "E.OTU.line_to_F",   "name": "line_to_F",   "class": "iana-hardware:port", "parent": "E.OTU" },
+            { "uuid": "E.OTU.line_from_F", "name": "line_from_F", "class": "iana-hardware:port", "parent": "E.OTU" },
+            { "uuid": "E.OA",  "name": "E.OA",  "class": "iana-hardware:module", "parent": "E.chassis", "is-fru": true, "mfg-name": "Huawei", "part-number": "TN12OAU21S", "nfms:edfa-gain-db": 12.0, "nfms:edfa-noise-figure-db": 5.0, "nfms:edfa-z-km": 0.0,
+              "_comment": "OA model 21S — used on the new OMS6/7 segments per the lab calibration",
+              "network-fault-mgmt-state:state": { "power-state": "on" } },
+            { "uuid": "E.FIU", "name": "E.FIU", "class": "iana-hardware:module", "parent": "E.chassis", "is-fru": true, "mfg-name": "Huawei", "part-number": "TN11FIU",
+              "contained-child-component": [
+                { "child-uuid": "E.FIU.line_to_D" }, { "child-uuid": "E.FIU.line_from_D" },
+                { "child-uuid": "E.FIU.line_to_F" }, { "child-uuid": "E.FIU.line_from_F" } ],
+              "network-fault-mgmt-state:state": { "power-state": "on" } },
+            { "uuid": "E.FIU.line_to_D",   "name": "line_to_D",   "class": "iana-hardware:port", "parent": "E.FIU" },
+            { "uuid": "E.FIU.line_from_D", "name": "line_from_D", "class": "iana-hardware:port", "parent": "E.FIU" },
+            { "uuid": "E.FIU.line_to_F",   "name": "line_to_F",   "class": "iana-hardware:port", "parent": "E.FIU" },
+            { "uuid": "E.FIU.line_from_F", "name": "line_from_F", "class": "iana-hardware:port", "parent": "E.FIU" },
+            { "uuid": "E.SCC", "name": "E.SCC", "class": "iana-hardware:module", "parent": "E.chassis", "is-fru": true, "mfg-name": "Huawei", "part-number": "TN51SCC",
+              "network-fault-mgmt-state:state": { "power-state": "on" } },
+            { "uuid": "E.FAN", "name": "E.FAN", "class": "iana-hardware:fan",    "parent": "E.chassis", "is-fru": true, "mfg-name": "Huawei", "part-number": "TN11FAN",
+              "network-fault-mgmt-state:state": { "power-state": "on", "fan-state": "ok" } }
+          ]}
+        },
+
+        {
+          "uuid": "F", "name": "F",
+          "_comment": "Hub F — host_ne = NE_IP3. Terminates OMS7 (to E, 60 km) and OMS8 (to C, 80 km). Sinks ch5 and ch6.",
+          "components": { "component": [
+            { "uuid": "F.chassis", "name": "F.chassis", "class": "iana-hardware:chassis",
+              "mfg-name": "Huawei", "part-number": "OptiX OSN 9800", "is-fru": false,
+              "contained-child-component": [
+                { "child-uuid": "F.WSS" }, { "child-uuid": "F.OTU" }, { "child-uuid": "F.OA" },
+                { "child-uuid": "F.FIU" }, { "child-uuid": "F.SCC" }, { "child-uuid": "F.FAN" } ],
+              "network-fault-mgmt-state:state": { "power-state": "on", "fan-state": "ok" } },
+            { "uuid": "F.WSS", "name": "F.WSS", "class": "iana-hardware:module", "parent": "F.chassis", "is-fru": true,
+              "mfg-name": "Huawei", "part-number": "TN56WSD9",
+              "network-fault-mgmt-state:state": { "power-state": "on" } },
+            { "uuid": "F.OTU", "name": "F.OTU", "class": "iana-hardware:module", "parent": "F.chassis", "is-fru": true,
+              "mfg-name": "Huawei", "part-number": "TN56NS3", "nfms:ppe-enabled": true,
+              "contained-child-component": [
+                { "child-uuid": "F.OTU.line_to_E" }, { "child-uuid": "F.OTU.line_from_E" },
+                { "child-uuid": "F.OTU.line_to_C" }, { "child-uuid": "F.OTU.line_from_C" },
+                { "child-uuid": "F.OTU.client_ch5" }, { "child-uuid": "F.OTU.client_ch6" },
+                { "child-uuid": "F.OTU.rx_ch5" }, { "child-uuid": "F.OTU.rx_ch6" } ],
+              "network-fault-mgmt-state:state": { "power-state": "on" } },
+            { "uuid": "F.OTU.line_to_E",   "name": "line_to_E",   "class": "iana-hardware:port", "parent": "F.OTU" },
+            { "uuid": "F.OTU.line_from_E", "name": "line_from_E", "class": "iana-hardware:port", "parent": "F.OTU" },
+            { "uuid": "F.OTU.line_to_C",   "name": "line_to_C",   "class": "iana-hardware:port", "parent": "F.OTU" },
+            { "uuid": "F.OTU.line_from_C", "name": "line_from_C", "class": "iana-hardware:port", "parent": "F.OTU" },
+            { "uuid": "F.OTU.client_ch5",  "name": "client_ch5",  "class": "iana-hardware:port", "parent": "F.OTU" },
+            { "uuid": "F.OTU.client_ch6",  "name": "client_ch6",  "class": "iana-hardware:port", "parent": "F.OTU" },
+            { "_comment": "Per-OCH RX ports: F sinks ch5, ch6 → 2 RX ports.",
+              "uuid": "F.OTU.rx_ch5", "name": "rx_ch5", "class": "iana-hardware:port", "parent": "F.OTU", "nfms:rx-och": "och_ch5", "nfms:ppe-enabled": true, "nfms:ppe-delta-z-m": 200 },
+            { "uuid": "F.OTU.rx_ch6", "name": "rx_ch6", "class": "iana-hardware:port", "parent": "F.OTU", "nfms:rx-och": "och_ch6", "nfms:ppe-enabled": true, "nfms:ppe-delta-z-m": 200 },
+            { "uuid": "F.OA",  "name": "F.OA",  "class": "iana-hardware:module", "parent": "F.chassis", "is-fru": true, "mfg-name": "Huawei", "part-number": "TN12OAU21S", "nfms:edfa-gain-db": 12.0, "nfms:edfa-noise-figure-db": 5.0, "nfms:edfa-z-km": 0.0,
+              "network-fault-mgmt-state:state": { "power-state": "on" } },
+            { "uuid": "F.FIU", "name": "F.FIU", "class": "iana-hardware:module", "parent": "F.chassis", "is-fru": true, "mfg-name": "Huawei", "part-number": "TN11FIU",
+              "contained-child-component": [
+                { "child-uuid": "F.FIU.line_to_E" }, { "child-uuid": "F.FIU.line_from_E" },
+                { "child-uuid": "F.FIU.line_to_C" }, { "child-uuid": "F.FIU.line_from_C" } ],
+              "network-fault-mgmt-state:state": { "power-state": "on" } },
+            { "uuid": "F.FIU.line_to_E",   "name": "line_to_E",   "class": "iana-hardware:port", "parent": "F.FIU" },
+            { "uuid": "F.FIU.line_from_E", "name": "line_from_E", "class": "iana-hardware:port", "parent": "F.FIU" },
+            { "uuid": "F.FIU.line_to_C",   "name": "line_to_C",   "class": "iana-hardware:port", "parent": "F.FIU" },
+            { "uuid": "F.FIU.line_from_C", "name": "line_from_C", "class": "iana-hardware:port", "parent": "F.FIU" },
+            { "uuid": "F.SCC", "name": "F.SCC", "class": "iana-hardware:module", "parent": "F.chassis", "is-fru": true, "mfg-name": "Huawei", "part-number": "TN51SCC",
+              "network-fault-mgmt-state:state": { "power-state": "on" } },
+            { "uuid": "F.FAN", "name": "F.FAN", "class": "iana-hardware:fan",    "parent": "F.chassis", "is-fru": true, "mfg-name": "Huawei", "part-number": "TN11FAN",
+              "network-fault-mgmt-state:state": { "power-state": "on", "fan-state": "ok" } }
+          ]}
+        }
+
+      ]
+    }
+  }
+}

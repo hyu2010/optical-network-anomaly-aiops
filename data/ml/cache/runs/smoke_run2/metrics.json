@@ -1,0 +1,12 @@
+{
+ "best_val_root_acc": 0.7046875,
+ "best_epoch": 5,
+ "train_root_acc": 0.6792253521126761,
+ "val_root_acc": 0.7046875,
+ "val_corr_f1": 0.18870309577457794,
+ "test_root_acc": 0.7278645833333334,
+ "test_corr_f1": 0.15093008147067946,
+ "n_train": 1135,
+ "n_val": 250,
+ "n_test": 249
+}

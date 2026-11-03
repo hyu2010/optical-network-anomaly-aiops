@@ -1,0 +1,6 @@
+{
+  "ietf-incident:input": {
+    "incident-no": ["1001"],
+    "diag-agent-incident-ext:ticket-no": "TT-20261102-0042"
+  }
+}

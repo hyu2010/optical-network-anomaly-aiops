@@ -1,0 +1,7 @@
+{
+ "best_val_root_acc": 0.9796875,
+ "best_epoch": 8,
+ "test_root_acc": 0.99609375,
+ "test_corr_f1": 0.3846419155412153,
+ "ablation": "dt_zeroed"
+}

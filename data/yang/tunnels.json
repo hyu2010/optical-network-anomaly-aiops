@@ -1,0 +1,228 @@
+{
+  "_comment": "v3 — six DWDM channels routed through the lab mesh (per Design/07).\n  ch1 (AC_direct):  A -> OMS1 -> C\n  ch2 (AC_via_B):   A -> OMS2 -> B -> OMS3 -> C\n  ch3 (DC_direct):  D -> OMS4 -> C\n  ch4 (DC_via_B):   D -> OMS5 -> B -> OMS3 -> C   <-- shares OMS3 with ch2 (R4 demo, main mesh)\n  ch5 (DF_2hop):    D -> OMS6 -> E -> OMS7 -> F   <-- exercises the new D-E and E-F links\n  ch6 (CF_direct):  C -> OMS8 -> F                <-- exercises the new cross-mesh F-C link\nSix OCh tunnels (WDM) + six ODU tunnels each tagged with nfms:client-service-name.",
+
+  "ietf-te:te": {
+    "tunnels": {
+
+      "tunnel": [
+
+        { "_comment": "OCh ch1: A -> C via OMS1",
+          "name": "och_ch1",
+          "type": "ietf-wdm-tunnel:wdm-tunnel",
+          "source": "A", "destination": "C",
+          "src-tp-id": "fiu-to-C", "dst-tp-id": "fiu-from-A",
+          "primary-paths": { "primary-path": [{
+            "name": "primary",
+            "explicit-route-objects": { "route-object-include-exclude": [
+              { "index": 1, "explicit-route-usage": "ietf-te-types:route-include-object",
+                "type": { "numbered-link-hop": { "numbered-link-hop": {
+                  "link-tp-id": "A/fiu-to-C",
+                  "supporting-link-ref": { "network-ref": "optical-topo", "link-ref": "span_OMS1_AC" } } } } } ] },
+            "ietf-wdm-tunnel:wdm-constraint": { "otsi-carrier-frequency": "193100",
+              "operational-mode": "ietf-layer0-types:standard-mode",
+              "tx-channel-power": "0.0", "wavelength-assignment": "ietf-layer0-types:fixed-wavelength-assignment" } }] } },
+
+        { "_comment": "OCh ch2: A -> B -> C via OMS2 then OMS3",
+          "name": "och_ch2",
+          "type": "ietf-wdm-tunnel:wdm-tunnel",
+          "source": "A", "destination": "C",
+          "src-tp-id": "fiu-to-B", "dst-tp-id": "fiu-from-B",
+          "primary-paths": { "primary-path": [{
+            "name": "primary",
+            "explicit-route-objects": { "route-object-include-exclude": [
+              { "index": 1, "explicit-route-usage": "ietf-te-types:route-include-object",
+                "type": { "numbered-link-hop": { "numbered-link-hop": {
+                  "link-tp-id": "A/fiu-to-B",
+                  "supporting-link-ref": { "network-ref": "optical-topo", "link-ref": "span_OMS2_AB" } } } } },
+              { "index": 2, "explicit-route-usage": "ietf-te-types:route-include-object",
+                "type": { "numbered-link-hop": { "numbered-link-hop": {
+                  "link-tp-id": "B/fiu-to-C",
+                  "supporting-link-ref": { "network-ref": "optical-topo", "link-ref": "span_OMS3_BC" } } } } } ] },
+            "ietf-wdm-tunnel:wdm-constraint": { "otsi-carrier-frequency": "193150",
+              "operational-mode": "ietf-layer0-types:standard-mode",
+              "tx-channel-power": "0.0", "wavelength-assignment": "ietf-layer0-types:fixed-wavelength-assignment" } }] } },
+
+        { "_comment": "OCh ch3: D -> C via OMS4",
+          "name": "och_ch3",
+          "type": "ietf-wdm-tunnel:wdm-tunnel",
+          "source": "D", "destination": "C",
+          "src-tp-id": "fiu-to-C", "dst-tp-id": "fiu-from-D",
+          "primary-paths": { "primary-path": [{
+            "name": "primary",
+            "explicit-route-objects": { "route-object-include-exclude": [
+              { "index": 1, "explicit-route-usage": "ietf-te-types:route-include-object",
+                "type": { "numbered-link-hop": { "numbered-link-hop": {
+                  "link-tp-id": "D/fiu-to-C",
+                  "supporting-link-ref": { "network-ref": "optical-topo", "link-ref": "span_OMS4_DC" } } } } } ] },
+            "ietf-wdm-tunnel:wdm-constraint": { "otsi-carrier-frequency": "193200",
+              "operational-mode": "ietf-layer0-types:standard-mode",
+              "tx-channel-power": "0.0", "wavelength-assignment": "ietf-layer0-types:fixed-wavelength-assignment" } }] } },
+
+        { "_comment": "OCh ch4: D -> B -> C via OMS5 then OMS3.  *** Shares OMS3 with ch2 (R4 demo). ***",
+          "name": "och_ch4",
+          "type": "ietf-wdm-tunnel:wdm-tunnel",
+          "source": "D", "destination": "C",
+          "src-tp-id": "fiu-to-B", "dst-tp-id": "fiu-from-B",
+          "primary-paths": { "primary-path": [{
+            "name": "primary",
+            "explicit-route-objects": { "route-object-include-exclude": [
+              { "index": 1, "explicit-route-usage": "ietf-te-types:route-include-object",
+                "type": { "numbered-link-hop": { "numbered-link-hop": {
+                  "link-tp-id": "D/fiu-to-B",
+                  "supporting-link-ref": { "network-ref": "optical-topo", "link-ref": "span_OMS5_DB" } } } } },
+              { "index": 2, "explicit-route-usage": "ietf-te-types:route-include-object",
+                "type": { "numbered-link-hop": { "numbered-link-hop": {
+                  "link-tp-id": "B/fiu-to-C",
+                  "supporting-link-ref": { "network-ref": "optical-topo", "link-ref": "span_OMS3_BC" } } } } } ] },
+            "ietf-wdm-tunnel:wdm-constraint": { "otsi-carrier-frequency": "193250",
+              "operational-mode": "ietf-layer0-types:standard-mode",
+              "tx-channel-power": "0.0", "wavelength-assignment": "ietf-layer0-types:fixed-wavelength-assignment" } }] } },
+
+        { "_comment": "OCh ch5: D -> E -> F via OMS6 then OMS7 (2-hop through the new region)",
+          "name": "och_ch5",
+          "type": "ietf-wdm-tunnel:wdm-tunnel",
+          "source": "D", "destination": "F",
+          "src-tp-id": "fiu-to-E", "dst-tp-id": "fiu-from-E",
+          "primary-paths": { "primary-path": [{
+            "name": "primary",
+            "explicit-route-objects": { "route-object-include-exclude": [
+              { "index": 1, "explicit-route-usage": "ietf-te-types:route-include-object",
+                "type": { "numbered-link-hop": { "numbered-link-hop": {
+                  "link-tp-id": "D/fiu-to-E",
+                  "supporting-link-ref": { "network-ref": "optical-topo", "link-ref": "span_OMS6_DE" } } } } },
+              { "index": 2, "explicit-route-usage": "ietf-te-types:route-include-object",
+                "type": { "numbered-link-hop": { "numbered-link-hop": {
+                  "link-tp-id": "E/fiu-to-F",
+                  "supporting-link-ref": { "network-ref": "optical-topo", "link-ref": "span_OMS7_EF" } } } } } ] },
+            "ietf-wdm-tunnel:wdm-constraint": { "otsi-carrier-frequency": "193300",
+              "operational-mode": "ietf-layer0-types:standard-mode",
+              "tx-channel-power": "0.0", "wavelength-assignment": "ietf-layer0-types:fixed-wavelength-assignment" } }] } },
+
+        { "_comment": "OCh ch6: C -> F via OMS8 (cross-mesh single hop)",
+          "name": "och_ch6",
+          "type": "ietf-wdm-tunnel:wdm-tunnel",
+          "source": "C", "destination": "F",
+          "src-tp-id": "fiu-to-F", "dst-tp-id": "fiu-from-C",
+          "primary-paths": { "primary-path": [{
+            "name": "primary",
+            "explicit-route-objects": { "route-object-include-exclude": [
+              { "index": 1, "explicit-route-usage": "ietf-te-types:route-include-object",
+                "type": { "numbered-link-hop": { "numbered-link-hop": {
+                  "link-tp-id": "C/fiu-to-F",
+                  "supporting-link-ref": { "network-ref": "optical-topo", "link-ref": "span_OMS8_CF" } } } } } ] },
+            "ietf-wdm-tunnel:wdm-constraint": { "otsi-carrier-frequency": "193350",
+              "operational-mode": "ietf-layer0-types:standard-mode",
+              "tx-channel-power": "0.0", "wavelength-assignment": "ietf-layer0-types:fixed-wavelength-assignment" } }] } },
+
+        { "_comment": "ODU ch1 (A->C) over och_ch1.",
+          "name": "odu_ch1",
+          "type": "ietf-otn-tunnel:otn-tunnel",
+          "source": "A", "destination": "C",
+          "src-tp-id": "otu-client-ch1", "dst-tp-id": "otu-client-ch1",
+          "te-bandwidth": { "ietf-otn-tunnel:otn": { "rate-type": "ietf-layer1-types:odu-2" } },
+          "primary-paths": { "primary-path": [{
+            "name": "primary",
+            "explicit-route-objects": { "route-object-include-exclude": [
+              { "index": 1, "explicit-route-usage": "ietf-te-types:route-include-object",
+                "type": { "numbered-link-hop": { "numbered-link-hop": {
+                  "link-tp-id": "A/otu-line-to-C",
+                  "supporting-link-ref": { "network-ref": "otn-topo", "link-ref": "otu_OMS1_AC" } } } } } ] } }] },
+          "supporting-tunnel": [{ "tunnel-ref": "och_ch1" }],
+          "network-fault-mgmt-state:client-service-name": "ch1" },
+
+        { "_comment": "ODU ch2 (A->B->C) over och_ch2.",
+          "name": "odu_ch2",
+          "type": "ietf-otn-tunnel:otn-tunnel",
+          "source": "A", "destination": "C",
+          "src-tp-id": "otu-client-ch2", "dst-tp-id": "otu-client-ch2",
+          "te-bandwidth": { "ietf-otn-tunnel:otn": { "rate-type": "ietf-layer1-types:odu-2" } },
+          "primary-paths": { "primary-path": [{
+            "name": "primary",
+            "explicit-route-objects": { "route-object-include-exclude": [
+              { "index": 1, "explicit-route-usage": "ietf-te-types:route-include-object",
+                "type": { "numbered-link-hop": { "numbered-link-hop": {
+                  "link-tp-id": "A/otu-line-to-B",
+                  "supporting-link-ref": { "network-ref": "otn-topo", "link-ref": "otu_OMS2_AB" } } } } },
+              { "index": 2, "explicit-route-usage": "ietf-te-types:route-include-object",
+                "type": { "numbered-link-hop": { "numbered-link-hop": {
+                  "link-tp-id": "B/otu-line-to-C",
+                  "supporting-link-ref": { "network-ref": "otn-topo", "link-ref": "otu_OMS3_BC" } } } } } ] } }] },
+          "supporting-tunnel": [{ "tunnel-ref": "och_ch2" }],
+          "network-fault-mgmt-state:client-service-name": "ch2" },
+
+        { "_comment": "ODU ch3 (D->C) over och_ch3.",
+          "name": "odu_ch3",
+          "type": "ietf-otn-tunnel:otn-tunnel",
+          "source": "D", "destination": "C",
+          "src-tp-id": "otu-client-ch3", "dst-tp-id": "otu-client-ch3",
+          "te-bandwidth": { "ietf-otn-tunnel:otn": { "rate-type": "ietf-layer1-types:odu-2" } },
+          "primary-paths": { "primary-path": [{
+            "name": "primary",
+            "explicit-route-objects": { "route-object-include-exclude": [
+              { "index": 1, "explicit-route-usage": "ietf-te-types:route-include-object",
+                "type": { "numbered-link-hop": { "numbered-link-hop": {
+                  "link-tp-id": "D/otu-line-to-C",
+                  "supporting-link-ref": { "network-ref": "otn-topo", "link-ref": "otu_OMS4_DC" } } } } } ] } }] },
+          "supporting-tunnel": [{ "tunnel-ref": "och_ch3" }],
+          "network-fault-mgmt-state:client-service-name": "ch3" },
+
+        { "_comment": "ODU ch4 (D->B->C) over och_ch4. ch2 and ch4 share span OMS3 (R4 demo).",
+          "name": "odu_ch4",
+          "type": "ietf-otn-tunnel:otn-tunnel",
+          "source": "D", "destination": "C",
+          "src-tp-id": "otu-client-ch4", "dst-tp-id": "otu-client-ch4",
+          "te-bandwidth": { "ietf-otn-tunnel:otn": { "rate-type": "ietf-layer1-types:odu-2" } },
+          "primary-paths": { "primary-path": [{
+            "name": "primary",
+            "explicit-route-objects": { "route-object-include-exclude": [
+              { "index": 1, "explicit-route-usage": "ietf-te-types:route-include-object",
+                "type": { "numbered-link-hop": { "numbered-link-hop": {
+                  "link-tp-id": "D/otu-line-to-B",
+                  "supporting-link-ref": { "network-ref": "otn-topo", "link-ref": "otu_OMS5_DB" } } } } },
+              { "index": 2, "explicit-route-usage": "ietf-te-types:route-include-object",
+                "type": { "numbered-link-hop": { "numbered-link-hop": {
+                  "link-tp-id": "B/otu-line-to-C",
+                  "supporting-link-ref": { "network-ref": "otn-topo", "link-ref": "otu_OMS3_BC" } } } } } ] } }] },
+          "supporting-tunnel": [{ "tunnel-ref": "och_ch4" }],
+          "network-fault-mgmt-state:client-service-name": "ch4" },
+
+        { "_comment": "ODU ch5 (D->E->F) — 2-hop through the new region. Cutting OMS6 or OMS7 takes ch5 down.",
+          "name": "odu_ch5",
+          "type": "ietf-otn-tunnel:otn-tunnel",
+          "source": "D", "destination": "F",
+          "src-tp-id": "otu-client-ch5", "dst-tp-id": "otu-client-ch5",
+          "te-bandwidth": { "ietf-otn-tunnel:otn": { "rate-type": "ietf-layer1-types:odu-2" } },
+          "primary-paths": { "primary-path": [{
+            "name": "primary",
+            "explicit-route-objects": { "route-object-include-exclude": [
+              { "index": 1, "explicit-route-usage": "ietf-te-types:route-include-object",
+                "type": { "numbered-link-hop": { "numbered-link-hop": {
+                  "link-tp-id": "D/otu-line-to-E",
+                  "supporting-link-ref": { "network-ref": "otn-topo", "link-ref": "otu_OMS6_DE" } } } } },
+              { "index": 2, "explicit-route-usage": "ietf-te-types:route-include-object",
+                "type": { "numbered-link-hop": { "numbered-link-hop": {
+                  "link-tp-id": "E/otu-line-to-F",
+                  "supporting-link-ref": { "network-ref": "otn-topo", "link-ref": "otu_OMS7_EF" } } } } } ] } }] },
+          "supporting-tunnel": [{ "tunnel-ref": "och_ch5" }],
+          "network-fault-mgmt-state:client-service-name": "ch5" },
+
+        { "_comment": "ODU ch6 (C->F) — single-hop cross-mesh long-haul over OMS8.",
+          "name": "odu_ch6",
+          "type": "ietf-otn-tunnel:otn-tunnel",
+          "source": "C", "destination": "F",
+          "src-tp-id": "otu-client-ch6", "dst-tp-id": "otu-client-ch6",
+          "te-bandwidth": { "ietf-otn-tunnel:otn": { "rate-type": "ietf-layer1-types:odu-2" } },
+          "primary-paths": { "primary-path": [{
+            "name": "primary",
+            "explicit-route-objects": { "route-object-include-exclude": [
+              { "index": 1, "explicit-route-usage": "ietf-te-types:route-include-object",
+                "type": { "numbered-link-hop": { "numbered-link-hop": {
+                  "link-tp-id": "C/otu-line-to-F",
+                  "supporting-link-ref": { "network-ref": "otn-topo", "link-ref": "otu_OMS8_CF" } } } } } ] } }] },
+          "supporting-tunnel": [{ "tunnel-ref": "och_ch6" }],
+          "network-fault-mgmt-state:client-service-name": "ch6" }
+
+      ]
+    }
+  }
+}

@@ -1,0 +1,323 @@
+{
+  "model": {
+    "components": [
+      {
+        "id": "node:A",
+        "label": "A"
+      },
+      {
+        "id": "node:B",
+        "label": "B"
+      },
+      {
+        "id": "node:C",
+        "label": "C"
+      },
+      {
+        "id": "node:D",
+        "label": "D"
+      },
+      {
+        "id": "node:E",
+        "label": "E"
+      },
+      {
+        "id": "node:F",
+        "label": "F"
+      }
+    ],
+    "services": [
+      {
+        "id": "svc:och_ch1",
+        "label": "och_ch1",
+        "src": "A",
+        "dst": "C",
+        "nodes": [
+          "A",
+          "C"
+        ]
+      },
+      {
+        "id": "svc:och_ch2",
+        "label": "och_ch2",
+        "src": "A",
+        "dst": "C",
+        "nodes": [
+          "A",
+          "B",
+          "C"
+        ]
+      },
+      {
+        "id": "svc:och_ch3",
+        "label": "och_ch3",
+        "src": "D",
+        "dst": "C",
+        "nodes": [
+          "C",
+          "D"
+        ]
+      },
+      {
+        "id": "svc:och_ch4",
+        "label": "och_ch4",
+        "src": "D",
+        "dst": "C",
+        "nodes": [
+          "B",
+          "C",
+          "D"
+        ]
+      },
+      {
+        "id": "svc:och_ch5",
+        "label": "och_ch5",
+        "src": "D",
+        "dst": "F",
+        "nodes": [
+          "D",
+          "E",
+          "F"
+        ]
+      },
+      {
+        "id": "svc:och_ch6",
+        "label": "och_ch6",
+        "src": "C",
+        "dst": "F",
+        "nodes": [
+          "C",
+          "F"
+        ]
+      }
+    ],
+    "data_kinds": [
+      {
+        "id": "ma:dk_power_profile",
+        "dk_id": "power_profile",
+        "label": "optical power profile P(z)",
+        "unit": "dBm vs km"
+      }
+    ],
+    "agents": [
+      {
+        "id": "ma:agent_ppe_agent_A",
+        "agent_id": "ppe_agent@A",
+        "label": "ppe_agent@A",
+        "status": "active",
+        "monitors": "node:A",
+        "monitors_label": "A",
+        "reports_data_kind": "ma:dk_power_profile",
+        "data_kind_id": "power_profile",
+        "data_kind_label": "optical power profile P(z)",
+        "performs_function": "Localisation",
+        "generation_mode": "Triggered",
+        "on_service": [
+          "och_ch1",
+          "och_ch2"
+        ],
+        "provides_skill": [
+          "locate_optical_fault"
+        ],
+        "nl_description": "New instrument online at node A. I reconstruct the optical power profile P(z) of each OCh dropping here and flag where along the fibre the power departs from baseline, computed when queried."
+      },
+      {
+        "id": "ma:agent_ppe_agent_B",
+        "agent_id": "ppe_agent@B",
+        "label": "ppe_agent@B",
+        "status": "active",
+        "monitors": "node:B",
+        "monitors_label": "B",
+        "reports_data_kind": "ma:dk_power_profile",
+        "data_kind_id": "power_profile",
+        "data_kind_label": "optical power profile P(z)",
+        "performs_function": "Localisation",
+        "generation_mode": "Triggered",
+        "on_service": [
+          "och_ch2",
+          "och_ch4"
+        ],
+        "provides_skill": [
+          "locate_optical_fault"
+        ],
+        "nl_description": "New instrument online at node B. I reconstruct the optical power profile P(z) of each OCh dropping here and flag where along the fibre the power departs from baseline, computed when queried."
+      }
+    ]
+  },
+  "graph": {
+    "nodes": [
+      {
+        "id": "node:A",
+        "label": "A",
+        "type": "Component"
+      },
+      {
+        "id": "node:B",
+        "label": "B",
+        "type": "Component"
+      },
+      {
+        "id": "node:C",
+        "label": "C",
+        "type": "Component"
+      },
+      {
+        "id": "node:D",
+        "label": "D",
+        "type": "Component"
+      },
+      {
+        "id": "node:E",
+        "label": "E",
+        "type": "Component"
+      },
+      {
+        "id": "node:F",
+        "label": "F",
+        "type": "Component"
+      },
+      {
+        "id": "svc:och_ch1",
+        "label": "och_ch1",
+        "type": "Service"
+      },
+      {
+        "id": "svc:och_ch2",
+        "label": "och_ch2",
+        "type": "Service"
+      },
+      {
+        "id": "svc:och_ch3",
+        "label": "och_ch3",
+        "type": "Service"
+      },
+      {
+        "id": "svc:och_ch4",
+        "label": "och_ch4",
+        "type": "Service"
+      },
+      {
+        "id": "svc:och_ch5",
+        "label": "och_ch5",
+        "type": "Service"
+      },
+      {
+        "id": "svc:och_ch6",
+        "label": "och_ch6",
+        "type": "Service"
+      },
+      {
+        "id": "ma:dk_power_profile",
+        "label": "optical power profile P(z)",
+        "type": "DataKind"
+      },
+      {
+        "id": "ma:Measurement",
+        "label": "Measurement",
+        "type": "DataFunction"
+      },
+      {
+        "id": "ma:Localisation",
+        "label": "Localisation",
+        "type": "DataFunction"
+      },
+      {
+        "id": "ma:Detection",
+        "label": "Detection",
+        "type": "DataFunction"
+      },
+      {
+        "id": "ma:Triggered",
+        "label": "Triggered",
+        "type": "GenerationMode"
+      },
+      {
+        "id": "ma:Pushed",
+        "label": "Pushed",
+        "type": "GenerationMode"
+      },
+      {
+        "id": "ma:agent_ppe_agent_A",
+        "label": "ppe_agent@A",
+        "type": "ModalAgent"
+      },
+      {
+        "id": "ma:agent_ppe_agent_B",
+        "label": "ppe_agent@B",
+        "type": "ModalAgent"
+      }
+    ],
+    "edges": [
+      {
+        "from": "ma:agent_ppe_agent_A",
+        "to": "node:A",
+        "label": "monitors"
+      },
+      {
+        "from": "ma:agent_ppe_agent_A",
+        "to": "ma:dk_power_profile",
+        "label": "reportsDataKind"
+      },
+      {
+        "from": "ma:agent_ppe_agent_A",
+        "to": "ma:Localisation",
+        "label": "performsFunction"
+      },
+      {
+        "from": "ma:agent_ppe_agent_A",
+        "to": "ma:Triggered",
+        "label": "hasGenerationMode"
+      },
+      {
+        "from": "ma:agent_ppe_agent_A",
+        "to": "svc:och_ch1",
+        "label": "onService"
+      },
+      {
+        "from": "ma:agent_ppe_agent_A",
+        "to": "svc:och_ch2",
+        "label": "onService"
+      },
+      {
+        "from": "ma:agent_ppe_agent_B",
+        "to": "node:B",
+        "label": "monitors"
+      },
+      {
+        "from": "ma:agent_ppe_agent_B",
+        "to": "ma:dk_power_profile",
+        "label": "reportsDataKind"
+      },
+      {
+        "from": "ma:agent_ppe_agent_B",
+        "to": "ma:Localisation",
+        "label": "performsFunction"
+      },
+      {
+        "from": "ma:agent_ppe_agent_B",
+        "to": "ma:Triggered",
+        "label": "hasGenerationMode"
+      },
+      {
+        "from": "ma:agent_ppe_agent_B",
+        "to": "svc:och_ch2",
+        "label": "onService"
+      },
+      {
+        "from": "ma:agent_ppe_agent_B",
+        "to": "svc:och_ch4",
+        "label": "onService"
+      }
+    ]
+  },
+  "summary": {
+    "n_modal_agents": 2,
+    "n_components": 6,
+    "n_services": 6,
+    "n_data_kinds": 1,
+    "data_kinds": [
+      "optical power profile P(z)"
+    ],
+    "ttl_path": "/home/hyu2010/work/aiops4optix/data/kg/ontology.ttl"
+  }
+}

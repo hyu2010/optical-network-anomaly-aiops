@@ -1,0 +1,13 @@
+# Fibre cut on span_OMS3_BC (doc 07 §2 step 5).
+incident_db: tests/diag_agent/fixtures/fiber_cut_oms3.db
+raw_incident_id: 42
+view: raw
+ppe_access: on_demand
+llm: { profile: env, cache: { mode: read_only, path: tests/diag_agent/cassettes/fiber_cut_oms3.sqlite } }
+episodic: tests/diag_agent/fixtures/episodes_warm.sqlite
+client_script:                      # the OSS side, driven by the replay clock
+  - { at: "+40s",       rpc: incident-diagnose,    input: { ticket-no: TT-20261102-0042 } }
+  - { at: "09:35:00Z",  rpc: incident-acknowledge, input: { ticket-no: TT-20261102-0042 } }
+  - { at: "10:40:00Z",  rpc: incident-resolve,     input: { ticket-no: TT-20261102-0042 } }
+repair: { at: "10:52:10Z", clears: root_symptoms, note: "break found 7.0 km from B, spliced" }
+field_oracle: enabled               # not used in this run (no field check is chosen)

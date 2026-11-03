@@ -1,0 +1,19 @@
+{
+  "ietf-restconf:errors": {
+    "error": [
+      {
+        "error-type": "application",
+        "error-tag": "operation-failed",
+        "error-path": "/ietf-incident:incident-diagnose/input/incident-no",
+        "error-message": "Incident 1999 does not exist.",
+        "error-info": {
+          "ietf-incident:incident-diagnose-error-info": {
+            "incident-no": "1999",
+            "reason": "ietf-incident:incident-not-found",
+            "description": "No incident with incident-no 1999 is known to this Incident Server."
+          }
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,125 @@
+{
+  "ietf-incident:incidents": {
+    "incident": [
+      {
+        "name": "Loss of signal on span_OMS3_BC",
+        "type": "ietf-incident:problem",
+        "incident-qualifier": "",
+        "incident-no": "1001",
+        "service-instance": ["ch2", "ch4"],
+        "domain": "ietf-incident:transport",
+        "priority": "critical",
+        "status": "cleared",
+        "ack-status": "acknowledged",
+        "category": "ietf-incident:network",
+        "detail": "Fibre cut on span_OMS3_BC (B->C), 31.4 +/- 0.4 km from B. Probability 0.99831, none-of-these 0.0017. Cleared after repair.",
+        "resolve-advice": "Dispatch to span_OMS3_BC: confirm the break with OTDR from B (expected at 31.4 km), splice or replace the fibre, then verify that OTS_LOS clears at C.FIU.line_from_B and that services ch2 and ch4 recover.",
+        "sources": {
+          "source": [
+            {"node-ref": "B", "network-ref": "optical-topo", "resource": [{"name": "B.FIU.line_to_C"}]},
+            {"node-ref": "C", "network-ref": "optical-topo", "resource": [{"name": "C.FIU.line_from_B"}]}
+          ]
+        },
+        "probable-causes": {
+          "probable-cause": [
+            {
+              "node-ref": "B",
+              "network-ref": "optical-topo",
+              "cause-name": "diag-agent-incident-ext:fibre-cut",
+              "detail": "FIBRE_CUT at span_OMS3_BC; P = 0.99831.",
+              "resource": [
+                {
+                  "name": "span_OMS3_BC",
+                  "cause-name": "diag-agent-incident-ext:fibre-cut",
+                  "detail": "Break 31.4 +/- 0.4 km from B on a 75 km span; PPE step -30 dB on och_ch2 at z = 131.4 km."
+                }
+              ]
+            }
+          ]
+        },
+        "probable-events": {
+          "probable-event": [
+            {"type": "ietf-incident:alarm", "event-id": "alm-42-811"},
+            {"type": "diag-agent-incident-ext:ppe-anomaly", "event-id": "ppe-42-och_ch2-0"}
+          ]
+        },
+        "events": {
+          "event": [
+            {"type": "ietf-incident:alarm", "event-id": "alm-42-811",
+             "alarm": {"resource": "C.FIU.line_from_B", "alarm-type-id": "diag-agent-alarm-types:OTS_LOS"}},
+            {"type": "ietf-incident:alarm", "event-id": "alm-42-812",
+             "alarm": {"resource": "C.FIU.line_from_B", "alarm-type-id": "diag-agent-alarm-types:MUT_LOS"}},
+            {"type": "ietf-incident:alarm", "event-id": "alm-42-813",
+             "alarm": {"resource": "C.OTU.line_rx_B", "alarm-type-id": "diag-agent-alarm-types:R_LOS"}},
+            {"type": "ietf-incident:alarm", "event-id": "alm-42-814",
+             "alarm": {"resource": "C.OTU.line_rx_B", "alarm-type-id": "diag-agent-alarm-types:OTU_SSF"}},
+            {"type": "ietf-incident:alarm", "event-id": "alm-42-815",
+             "alarm": {"resource": "C.OTU.client_ch2", "alarm-type-id": "diag-agent-alarm-types:ODU_PM_SSF"}},
+            {"type": "ietf-incident:alarm", "event-id": "alm-42-816",
+             "alarm": {"resource": "B.OTU.line_tx_C", "alarm-type-id": "diag-agent-alarm-types:OTU_BDI"}},
+            {"type": "ietf-incident:alarm", "event-id": "alm-42-817",
+             "alarm": {"resource": "C.OTU.client_ch4", "alarm-type-id": "diag-agent-alarm-types:ODU_PM_SSF"}},
+            {"type": "diag-agent-incident-ext:ppe-anomaly", "event-id": "ppe-42-och_ch2-0",
+             "metric": {"resource": "och_ch2", "metric-name": "ppe-step-db",
+                        "threshold-value": "-3.00", "observed-value": "-30.00"}}
+          ]
+        },
+        "raise-time": "2026-11-02T09:30:35.600Z",
+        "occur-time": "2026-11-02T09:30:03.100Z",
+        "ack-time": "2026-11-02T09:35:00Z",
+        "clear-time": "2026-11-02T10:52:10Z",
+        "last-updated": "2026-11-02T10:52:10Z",
+        "diag-agent-incident-ext:ticket-no": "TT-20261102-0042",
+        "diag-agent-incident-ext:diagnosis-info": {
+          "decision": "committed",
+          "leader-probability": "0.998310",
+          "nota-probability": "0.001662",
+          "tree-uri": "http://127.0.0.1:8040/diag/v1/incidents/1001/tree",
+          "onset-estimate-start": "2026-11-02T09:29:59.400Z",
+          "onset-estimate-end": "2026-11-02T09:30:03.100Z",
+          "kb-release": "kb-2026.11.0",
+          "llm-profile": "deepseek",
+          "candidate": [
+            {"rank": 1, "fault-mode": "FIBRE_CUT", "location": "span_OMS3_BC", "probability": "0.998310"},
+            {"rank": 2, "fault-mode": "AMP_FAIL", "location": "B.OA_C", "probability": "0.000031"}
+          ]
+        },
+        "diag-agent-incident-ext:incident-diagnosis-tasks": {
+          "incident-diagnosis-task": [
+            {
+              "task-id": "dx-1001-1",
+              "incident-no": ["1001"],
+              "ticket-no": "TT-20261102-0042",
+              "start-time": "2026-11-02T09:30:35.600Z",
+              "end-time": "2026-11-02T09:31:35.600Z",
+              "task-state": "finished",
+              "diagnosis-result": "succeeded",
+              "diagnosis-result-description": "Committed after 2 decision cycles and 1 remote check (CHK_PPE_PROFILE on och_ch2, 1 min). Verified at 09:32:05.1Z when the equipment window closed.",
+              "probable-causes": {
+                "probable-cause": [
+                  {
+                    "node-ref": "B",
+                    "network-ref": "optical-topo",
+                    "cause-name": "diag-agent-incident-ext:fibre-cut",
+                    "detail": "FIBRE_CUT at span_OMS3_BC; P = 0.99287 at commit.",
+                    "resource": [
+                      {"name": "span_OMS3_BC", "cause-name": "diag-agent-incident-ext:fibre-cut",
+                       "detail": "Break 31.4 +/- 0.4 km from B."}
+                    ]
+                  }
+                ]
+              },
+              "probable-events": {
+                "probable-event": [
+                  {"type": "ietf-incident:alarm", "event-id": "alm-42-811"},
+                  {"type": "diag-agent-incident-ext:ppe-anomaly", "event-id": "ppe-42-och_ch2-0"}
+                ]
+              },
+              "repair-advices": "Confirm with OTDR from B (expected 31.4 km); splice or replace; verify OTS_LOS clears at C.FIU.line_from_B."
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

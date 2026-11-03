@@ -1,0 +1,401 @@
+{
+  "_comment": "v3 — lab mesh from Library/Mesh_network_V1130.pdf (per Design/07). 6 WSS hubs (A..F), 8 OMS line systems forming a fully-connected mesh: OMS1=A-C, OMS2=A-B, OMS3=B-C, OMS4=C-D, OMS5=B-D, OMS6=D-E, OMS7=E-F, OMS8=F-C. Encoded as 16 directed optical-topo spans + 16 directed OTN-topo OTU pipes.",
+  "_comment_pivot": "v2 (diamond+crossbar) lives in data/yang/v2/. Switch back by mv'ing files.",
+
+  "ietf-network:networks": {
+    "network": [
+
+      {
+        "_comment": "Optical (WSON) layer — 6 hub nodes, 8 OMS line systems each modelled as a forward+reverse pair of optical links (16 directed links total). OMS6 (40 km), OMS7 (60 km), OMS8 (80 km) are the newly-built 1-span segments tying the new region (E,F) into the main mesh (A,B,C,D).",
+        "network-id": "optical-topo",
+        "network-types": {
+          "ietf-te-topology:te-topology": {
+            "ietf-wson-topology:wson-topology": {}
+          }
+        },
+
+        "node": [
+          {
+            "node-id": "A",
+            "_comment": "WSS hub A — terminates OMS1 (to C) and OMS2 (to B). Sources channel ch1 and ch2.",
+            "ietf-te-topology:te": {
+              "te-node-id": "0.0.0.10",
+              "te-node-attributes": { "ietf-wson-topology:wson-node": { "is-reconfigurable-node": true } }
+            },
+            "ietf-network-topology:termination-point": [
+              { "tp-id": "fiu-to-B",   "ietf-hw-inventory-ref-topo:inventory-id": "A.FIU.line_to_B" },
+              { "tp-id": "fiu-from-B", "ietf-hw-inventory-ref-topo:inventory-id": "A.FIU.line_from_B" },
+              { "tp-id": "fiu-to-C",   "ietf-hw-inventory-ref-topo:inventory-id": "A.FIU.line_to_C" },
+              { "tp-id": "fiu-from-C", "ietf-hw-inventory-ref-topo:inventory-id": "A.FIU.line_from_C" }
+            ]
+          },
+          {
+            "node-id": "B",
+            "_comment": "WSS hub B — terminates OMS2 (to A), OMS3 (to C), OMS5 (to D).",
+            "ietf-te-topology:te": {
+              "te-node-id": "0.0.0.11",
+              "te-node-attributes": { "ietf-wson-topology:wson-node": { "is-reconfigurable-node": true } }
+            },
+            "ietf-network-topology:termination-point": [
+              { "tp-id": "fiu-to-A",   "ietf-hw-inventory-ref-topo:inventory-id": "B.FIU.line_to_A" },
+              { "tp-id": "fiu-from-A", "ietf-hw-inventory-ref-topo:inventory-id": "B.FIU.line_from_A" },
+              { "tp-id": "fiu-to-C",   "ietf-hw-inventory-ref-topo:inventory-id": "B.FIU.line_to_C" },
+              { "tp-id": "fiu-from-C", "ietf-hw-inventory-ref-topo:inventory-id": "B.FIU.line_from_C" },
+              { "tp-id": "fiu-to-D",   "ietf-hw-inventory-ref-topo:inventory-id": "B.FIU.line_to_D" },
+              { "tp-id": "fiu-from-D", "ietf-hw-inventory-ref-topo:inventory-id": "B.FIU.line_from_D" }
+            ]
+          },
+          {
+            "node-id": "C",
+            "_comment": "WSS hub C — terminates OMS1 (to A), OMS3 (to B), OMS4 (to D), OMS8 (to F). Sinks ch1..ch4 and sources ch6.",
+            "ietf-te-topology:te": {
+              "te-node-id": "0.0.0.12",
+              "te-node-attributes": { "ietf-wson-topology:wson-node": { "is-reconfigurable-node": true } }
+            },
+            "ietf-network-topology:termination-point": [
+              { "tp-id": "fiu-to-A",   "ietf-hw-inventory-ref-topo:inventory-id": "C.FIU.line_to_A" },
+              { "tp-id": "fiu-from-A", "ietf-hw-inventory-ref-topo:inventory-id": "C.FIU.line_from_A" },
+              { "tp-id": "fiu-to-B",   "ietf-hw-inventory-ref-topo:inventory-id": "C.FIU.line_to_B" },
+              { "tp-id": "fiu-from-B", "ietf-hw-inventory-ref-topo:inventory-id": "C.FIU.line_from_B" },
+              { "tp-id": "fiu-to-D",   "ietf-hw-inventory-ref-topo:inventory-id": "C.FIU.line_to_D" },
+              { "tp-id": "fiu-from-D", "ietf-hw-inventory-ref-topo:inventory-id": "C.FIU.line_from_D" },
+              { "tp-id": "fiu-to-F",   "ietf-hw-inventory-ref-topo:inventory-id": "C.FIU.line_to_F" },
+              { "tp-id": "fiu-from-F", "ietf-hw-inventory-ref-topo:inventory-id": "C.FIU.line_from_F" }
+            ]
+          },
+          {
+            "node-id": "D",
+            "_comment": "WSS hub D — terminates OMS4 (to C), OMS5 (to B), OMS6 (to E). Sources ch3, ch4, ch5.",
+            "ietf-te-topology:te": {
+              "te-node-id": "0.0.0.13",
+              "te-node-attributes": { "ietf-wson-topology:wson-node": { "is-reconfigurable-node": true } }
+            },
+            "ietf-network-topology:termination-point": [
+              { "tp-id": "fiu-to-B",   "ietf-hw-inventory-ref-topo:inventory-id": "D.FIU.line_to_B" },
+              { "tp-id": "fiu-from-B", "ietf-hw-inventory-ref-topo:inventory-id": "D.FIU.line_from_B" },
+              { "tp-id": "fiu-to-C",   "ietf-hw-inventory-ref-topo:inventory-id": "D.FIU.line_to_C" },
+              { "tp-id": "fiu-from-C", "ietf-hw-inventory-ref-topo:inventory-id": "D.FIU.line_from_C" },
+              { "tp-id": "fiu-to-E",   "ietf-hw-inventory-ref-topo:inventory-id": "D.FIU.line_to_E" },
+              { "tp-id": "fiu-from-E", "ietf-hw-inventory-ref-topo:inventory-id": "D.FIU.line_from_E" }
+            ]
+          },
+          {
+            "node-id": "E",
+            "_comment": "Hub E — terminates OMS6 (to D, 40 km) and OMS7 (to F, 60 km). Transit hub for ch5.",
+            "ietf-te-topology:te": {
+              "te-node-id": "0.0.0.14",
+              "te-node-attributes": { "ietf-wson-topology:wson-node": { "is-reconfigurable-node": true } }
+            },
+            "ietf-network-topology:termination-point": [
+              { "tp-id": "fiu-to-D",   "ietf-hw-inventory-ref-topo:inventory-id": "E.FIU.line_to_D" },
+              { "tp-id": "fiu-from-D", "ietf-hw-inventory-ref-topo:inventory-id": "E.FIU.line_from_D" },
+              { "tp-id": "fiu-to-F",   "ietf-hw-inventory-ref-topo:inventory-id": "E.FIU.line_to_F" },
+              { "tp-id": "fiu-from-F", "ietf-hw-inventory-ref-topo:inventory-id": "E.FIU.line_from_F" }
+            ]
+          },
+          {
+            "node-id": "F",
+            "_comment": "Hub F — terminates OMS7 (to E, 60 km) and OMS8 (to C, 80 km). Sinks ch5 and ch6.",
+            "ietf-te-topology:te": {
+              "te-node-id": "0.0.0.15",
+              "te-node-attributes": { "ietf-wson-topology:wson-node": { "is-reconfigurable-node": true } }
+            },
+            "ietf-network-topology:termination-point": [
+              { "tp-id": "fiu-to-E",   "ietf-hw-inventory-ref-topo:inventory-id": "F.FIU.line_to_E" },
+              { "tp-id": "fiu-from-E", "ietf-hw-inventory-ref-topo:inventory-id": "F.FIU.line_from_E" },
+              { "tp-id": "fiu-to-C",   "ietf-hw-inventory-ref-topo:inventory-id": "F.FIU.line_to_C" },
+              { "tp-id": "fiu-from-C", "ietf-hw-inventory-ref-topo:inventory-id": "F.FIU.line_from_C" }
+            ]
+          }
+        ],
+
+        "_comment_ppe": "nfms:length-km added per Design/03 §2.3 / Design/12 §6.1 — required for Power Profile Estimation. Values: OMS6/7/8 from Design/07 (40/60/80 km, calibrated); OMS1-5 concretized from the earlier 'abstract distance' (Design/07 §6 table 165) so the PPE baseline composer has a deterministic z-grid.",
+        "ietf-network-topology:link": [
+          { "link-id": "span_OMS1_AC",
+            "source": { "source-node": "A", "source-tp": "fiu-to-C" },
+            "destination": { "dest-node": "C", "dest-tp": "fiu-from-A" },
+            "ietf-te-topology:te": { "te-link-attributes": { "name": "OMS1 (A->C, 3 spans)", "admin-status": "up", "nfms:length-km": 80.0, "nfms:span-count": 3, "nfms:amplifiers": [ { "z-km": 26.7, "gain-db": 5.2 }, { "z-km": 53.3, "gain-db": 5.2 }, { "z-km": 80.0, "gain-db": 5.2 } ] } } },
+          { "link-id": "span_OMS1_CA",
+            "source": { "source-node": "C", "source-tp": "fiu-to-A" },
+            "destination": { "dest-node": "A", "dest-tp": "fiu-from-C" },
+            "ietf-te-topology:te": { "te-link-attributes": { "name": "OMS1 (C->A, 3 spans)", "admin-status": "up", "nfms:length-km": 80.0, "nfms:span-count": 3, "nfms:amplifiers": [ { "z-km": 26.7, "gain-db": 5.2 }, { "z-km": 53.3, "gain-db": 5.2 }, { "z-km": 80.0, "gain-db": 5.2 } ] } } },
+
+          { "link-id": "span_OMS2_AB",
+            "source": { "source-node": "A", "source-tp": "fiu-to-B" },
+            "destination": { "dest-node": "B", "dest-tp": "fiu-from-A" },
+            "ietf-te-topology:te": { "te-link-attributes": { "name": "OMS2 (A->B, 4 spans)", "admin-status": "up", "nfms:length-km": 100.0, "nfms:span-count": 4, "nfms:amplifiers": [ { "z-km": 25.0, "gain-db": 4.9 }, { "z-km": 50.0, "gain-db": 4.9 }, { "z-km": 75.0, "gain-db": 4.9 }, { "z-km": 100.0, "gain-db": 4.9 } ] } } },
+          { "link-id": "span_OMS2_BA",
+            "source": { "source-node": "B", "source-tp": "fiu-to-A" },
+            "destination": { "dest-node": "A", "dest-tp": "fiu-from-B" },
+            "ietf-te-topology:te": { "te-link-attributes": { "name": "OMS2 (B->A, 4 spans)", "admin-status": "up", "nfms:length-km": 100.0, "nfms:span-count": 4, "nfms:amplifiers": [ { "z-km": 25.0, "gain-db": 4.9 }, { "z-km": 50.0, "gain-db": 4.9 }, { "z-km": 75.0, "gain-db": 4.9 }, { "z-km": 100.0, "gain-db": 4.9 } ] } } },
+
+          { "link-id": "span_OMS3_BC", "_comment": "Shared by ch2 and ch4 — basis for the R4 demo when cut.",
+            "source": { "source-node": "B", "source-tp": "fiu-to-C" },
+            "destination": { "dest-node": "C", "dest-tp": "fiu-from-B" },
+            "ietf-te-topology:te": { "te-link-attributes": { "name": "OMS3 (B->C, 3 spans)", "admin-status": "up", "nfms:length-km": 60.0, "nfms:span-count": 3, "nfms:amplifiers": [ { "z-km": 20.0, "gain-db": 3.9 }, { "z-km": 40.0, "gain-db": 3.9 }, { "z-km": 60.0, "gain-db": 3.9 } ], "nfms:fibre-type": "SMF-G.652", "nfms:alpha-db-per-km": 0.20, "nfms:connector-losses": [ { "z-km": 0.0, "loss-db": 0.3 }, { "z-km": 60.0, "loss-db": 0.3 } ] } } },
+          { "link-id": "span_OMS3_CB",
+            "source": { "source-node": "C", "source-tp": "fiu-to-B" },
+            "destination": { "dest-node": "B", "dest-tp": "fiu-from-C" },
+            "ietf-te-topology:te": { "te-link-attributes": { "name": "OMS3 (C->B, 3 spans)", "admin-status": "up", "nfms:length-km": 60.0, "nfms:span-count": 3, "nfms:amplifiers": [ { "z-km": 20.0, "gain-db": 3.9 }, { "z-km": 40.0, "gain-db": 3.9 }, { "z-km": 60.0, "gain-db": 3.9 } ], "nfms:fibre-type": "SMF-G.652", "nfms:alpha-db-per-km": 0.20, "nfms:connector-losses": [ { "z-km": 0.0, "loss-db": 0.3 }, { "z-km": 60.0, "loss-db": 0.3 } ] } } },
+
+          { "link-id": "span_OMS4_DC",
+            "source": { "source-node": "D", "source-tp": "fiu-to-C" },
+            "destination": { "dest-node": "C", "dest-tp": "fiu-from-D" },
+            "ietf-te-topology:te": { "te-link-attributes": { "name": "OMS4 (D->C, 2 spans)", "admin-status": "up", "nfms:length-km": 40.0, "nfms:span-count": 2, "nfms:amplifiers": [ { "z-km": 20.0, "gain-db": 3.9 }, { "z-km": 40.0, "gain-db": 3.9 } ] } } },
+          { "link-id": "span_OMS4_CD",
+            "source": { "source-node": "C", "source-tp": "fiu-to-D" },
+            "destination": { "dest-node": "D", "dest-tp": "fiu-from-C" },
+            "ietf-te-topology:te": { "te-link-attributes": { "name": "OMS4 (C->D, 2 spans)", "admin-status": "up", "nfms:length-km": 40.0, "nfms:span-count": 2, "nfms:amplifiers": [ { "z-km": 20.0, "gain-db": 3.9 }, { "z-km": 40.0, "gain-db": 3.9 } ] } } },
+
+          { "link-id": "span_OMS5_BD",
+            "source": { "source-node": "B", "source-tp": "fiu-to-D" },
+            "destination": { "dest-node": "D", "dest-tp": "fiu-from-B" },
+            "ietf-te-topology:te": { "te-link-attributes": { "name": "OMS5 (B->D, 3 spans)", "admin-status": "up", "nfms:length-km": 80.0, "nfms:span-count": 3, "nfms:amplifiers": [ { "z-km": 26.7, "gain-db": 5.2 }, { "z-km": 53.3, "gain-db": 5.2 }, { "z-km": 80.0, "gain-db": 5.2 } ] } } },
+          { "link-id": "span_OMS5_DB",
+            "source": { "source-node": "D", "source-tp": "fiu-to-B" },
+            "destination": { "dest-node": "B", "dest-tp": "fiu-from-D" },
+            "ietf-te-topology:te": { "te-link-attributes": { "name": "OMS5 (D->B, 3 spans)", "admin-status": "up", "nfms:length-km": 80.0, "nfms:span-count": 3, "nfms:amplifiers": [ { "z-km": 26.7, "gain-db": 5.2 }, { "z-km": 53.3, "gain-db": 5.2 }, { "z-km": 80.0, "gain-db": 5.2 } ] } } },
+
+          { "link-id": "span_OMS6_DE", "_comment": "Newly-built 1-span 40 km between D and E",
+            "source": { "source-node": "D", "source-tp": "fiu-to-E" },
+            "destination": { "dest-node": "E", "dest-tp": "fiu-from-D" },
+            "ietf-te-topology:te": { "te-link-attributes": { "name": "OMS6 (D->E, 40km)", "admin-status": "up", "nfms:length-km": 40.0, "nfms:span-count": 1, "nfms:amplifiers": [ { "z-km": 40.0, "gain-db": 7.9 } ] } } },
+          { "link-id": "span_OMS6_ED",
+            "source": { "source-node": "E", "source-tp": "fiu-to-D" },
+            "destination": { "dest-node": "D", "dest-tp": "fiu-from-E" },
+            "ietf-te-topology:te": { "te-link-attributes": { "name": "OMS6 (E->D, 40km)", "admin-status": "up", "nfms:length-km": 40.0, "nfms:span-count": 1, "nfms:amplifiers": [ { "z-km": 40.0, "gain-db": 7.9 } ] } } },
+
+          { "link-id": "span_OMS7_EF", "_comment": "Newly-built 1-span 60 km between E and F",
+            "source": { "source-node": "E", "source-tp": "fiu-to-F" },
+            "destination": { "dest-node": "F", "dest-tp": "fiu-from-E" },
+            "ietf-te-topology:te": { "te-link-attributes": { "name": "OMS7 (E->F, 60km)", "admin-status": "up", "nfms:length-km": 60.0, "nfms:span-count": 1, "nfms:amplifiers": [ { "z-km": 60.0, "gain-db": 11.9 } ] } } },
+          { "link-id": "span_OMS7_FE",
+            "source": { "source-node": "F", "source-tp": "fiu-to-E" },
+            "destination": { "dest-node": "E", "dest-tp": "fiu-from-F" },
+            "ietf-te-topology:te": { "te-link-attributes": { "name": "OMS7 (F->E, 60km)", "admin-status": "up", "nfms:length-km": 60.0, "nfms:span-count": 1, "nfms:amplifiers": [ { "z-km": 60.0, "gain-db": 11.9 } ] } } },
+
+          { "link-id": "span_OMS8_FC", "_comment": "Newly-built 1-span 80 km between F and C — cross-mesh long-haul",
+            "source": { "source-node": "F", "source-tp": "fiu-to-C" },
+            "destination": { "dest-node": "C", "dest-tp": "fiu-from-F" },
+            "ietf-te-topology:te": { "te-link-attributes": { "name": "OMS8 (F->C, 80km)", "admin-status": "up", "nfms:length-km": 80.0, "nfms:span-count": 1, "nfms:amplifiers": [ { "z-km": 80.0, "gain-db": 15.9 } ] } } },
+          { "link-id": "span_OMS8_CF",
+            "source": { "source-node": "C", "source-tp": "fiu-to-F" },
+            "destination": { "dest-node": "F", "dest-tp": "fiu-from-C" },
+            "ietf-te-topology:te": { "te-link-attributes": { "name": "OMS8 (C->F, 80km)", "admin-status": "up", "nfms:length-km": 80.0, "nfms:span-count": 1, "nfms:amplifiers": [ { "z-km": 80.0, "gain-db": 15.9 } ] } } }
+        ]
+      },
+
+      {
+        "_comment": "OTN (ODU) layer — same 6 hub nodes, one OTU pipe per OMS direction (16 OTU pipes total). Each OTU pipe's supporting-link is the corresponding optical span.",
+        "network-id": "otn-topo",
+        "network-types": {
+          "ietf-te-topology:te-topology": {
+            "ietf-otn-topology:otn-topology": {}
+          }
+        },
+        "supporting-network": [{ "network-ref": "optical-topo" }],
+
+        "node": [
+          {
+            "node-id": "A",
+            "supporting-node": [{ "network-ref": "optical-topo", "node-ref": "A" }],
+            "ietf-te-topology:te": { "te-node-id": "0.0.0.10",
+              "te-node-attributes": { "ietf-otn-topology:otn-node": {} } },
+            "ietf-network-topology:termination-point": [
+              { "tp-id": "otu-line-to-B",   "ietf-hw-inventory-ref-topo:inventory-id": "A.OTU.line_to_B" },
+              { "tp-id": "otu-line-from-B", "ietf-hw-inventory-ref-topo:inventory-id": "A.OTU.line_from_B" },
+              { "tp-id": "otu-line-to-C",   "ietf-hw-inventory-ref-topo:inventory-id": "A.OTU.line_to_C" },
+              { "tp-id": "otu-line-from-C", "ietf-hw-inventory-ref-topo:inventory-id": "A.OTU.line_from_C" },
+              { "tp-id": "otu-client-ch1",  "ietf-hw-inventory-ref-topo:inventory-id": "A.OTU.client_ch1" },
+              { "tp-id": "otu-client-ch2",  "ietf-hw-inventory-ref-topo:inventory-id": "A.OTU.client_ch2" }
+            ]
+          },
+          {
+            "node-id": "B",
+            "supporting-node": [{ "network-ref": "optical-topo", "node-ref": "B" }],
+            "ietf-te-topology:te": { "te-node-id": "0.0.0.11",
+              "te-node-attributes": { "ietf-otn-topology:otn-node": {} } },
+            "ietf-network-topology:termination-point": [
+              { "tp-id": "otu-line-to-A",   "ietf-hw-inventory-ref-topo:inventory-id": "B.OTU.line_to_A" },
+              { "tp-id": "otu-line-from-A", "ietf-hw-inventory-ref-topo:inventory-id": "B.OTU.line_from_A" },
+              { "tp-id": "otu-line-to-C",   "ietf-hw-inventory-ref-topo:inventory-id": "B.OTU.line_to_C" },
+              { "tp-id": "otu-line-from-C", "ietf-hw-inventory-ref-topo:inventory-id": "B.OTU.line_from_C" },
+              { "tp-id": "otu-line-to-D",   "ietf-hw-inventory-ref-topo:inventory-id": "B.OTU.line_to_D" },
+              { "tp-id": "otu-line-from-D", "ietf-hw-inventory-ref-topo:inventory-id": "B.OTU.line_from_D" }
+            ]
+          },
+          {
+            "node-id": "C",
+            "supporting-node": [{ "network-ref": "optical-topo", "node-ref": "C" }],
+            "ietf-te-topology:te": { "te-node-id": "0.0.0.12",
+              "te-node-attributes": { "ietf-otn-topology:otn-node": {} } },
+            "ietf-network-topology:termination-point": [
+              { "tp-id": "otu-line-to-A",   "ietf-hw-inventory-ref-topo:inventory-id": "C.OTU.line_to_A" },
+              { "tp-id": "otu-line-from-A", "ietf-hw-inventory-ref-topo:inventory-id": "C.OTU.line_from_A" },
+              { "tp-id": "otu-line-to-B",   "ietf-hw-inventory-ref-topo:inventory-id": "C.OTU.line_to_B" },
+              { "tp-id": "otu-line-from-B", "ietf-hw-inventory-ref-topo:inventory-id": "C.OTU.line_from_B" },
+              { "tp-id": "otu-line-to-D",   "ietf-hw-inventory-ref-topo:inventory-id": "C.OTU.line_to_D" },
+              { "tp-id": "otu-line-from-D", "ietf-hw-inventory-ref-topo:inventory-id": "C.OTU.line_from_D" },
+              { "tp-id": "otu-line-to-F",   "ietf-hw-inventory-ref-topo:inventory-id": "C.OTU.line_to_F" },
+              { "tp-id": "otu-line-from-F", "ietf-hw-inventory-ref-topo:inventory-id": "C.OTU.line_from_F" },
+              { "tp-id": "otu-client-ch1",  "ietf-hw-inventory-ref-topo:inventory-id": "C.OTU.client_ch1" },
+              { "tp-id": "otu-client-ch2",  "ietf-hw-inventory-ref-topo:inventory-id": "C.OTU.client_ch2" },
+              { "tp-id": "otu-client-ch3",  "ietf-hw-inventory-ref-topo:inventory-id": "C.OTU.client_ch3" },
+              { "tp-id": "otu-client-ch4",  "ietf-hw-inventory-ref-topo:inventory-id": "C.OTU.client_ch4" },
+              { "tp-id": "otu-client-ch6",  "ietf-hw-inventory-ref-topo:inventory-id": "C.OTU.client_ch6" }
+            ]
+          },
+          {
+            "node-id": "D",
+            "supporting-node": [{ "network-ref": "optical-topo", "node-ref": "D" }],
+            "ietf-te-topology:te": { "te-node-id": "0.0.0.13",
+              "te-node-attributes": { "ietf-otn-topology:otn-node": {} } },
+            "ietf-network-topology:termination-point": [
+              { "tp-id": "otu-line-to-B",   "ietf-hw-inventory-ref-topo:inventory-id": "D.OTU.line_to_B" },
+              { "tp-id": "otu-line-from-B", "ietf-hw-inventory-ref-topo:inventory-id": "D.OTU.line_from_B" },
+              { "tp-id": "otu-line-to-C",   "ietf-hw-inventory-ref-topo:inventory-id": "D.OTU.line_to_C" },
+              { "tp-id": "otu-line-from-C", "ietf-hw-inventory-ref-topo:inventory-id": "D.OTU.line_from_C" },
+              { "tp-id": "otu-line-to-E",   "ietf-hw-inventory-ref-topo:inventory-id": "D.OTU.line_to_E" },
+              { "tp-id": "otu-line-from-E", "ietf-hw-inventory-ref-topo:inventory-id": "D.OTU.line_from_E" },
+              { "tp-id": "otu-client-ch3",  "ietf-hw-inventory-ref-topo:inventory-id": "D.OTU.client_ch3" },
+              { "tp-id": "otu-client-ch4",  "ietf-hw-inventory-ref-topo:inventory-id": "D.OTU.client_ch4" },
+              { "tp-id": "otu-client-ch5",  "ietf-hw-inventory-ref-topo:inventory-id": "D.OTU.client_ch5" }
+            ]
+          },
+          {
+            "node-id": "E",
+            "supporting-node": [{ "network-ref": "optical-topo", "node-ref": "E" }],
+            "ietf-te-topology:te": { "te-node-id": "0.0.0.14",
+              "te-node-attributes": { "ietf-otn-topology:otn-node": {} } },
+            "ietf-network-topology:termination-point": [
+              { "tp-id": "otu-line-to-D",   "ietf-hw-inventory-ref-topo:inventory-id": "E.OTU.line_to_D" },
+              { "tp-id": "otu-line-from-D", "ietf-hw-inventory-ref-topo:inventory-id": "E.OTU.line_from_D" },
+              { "tp-id": "otu-line-to-F",   "ietf-hw-inventory-ref-topo:inventory-id": "E.OTU.line_to_F" },
+              { "tp-id": "otu-line-from-F", "ietf-hw-inventory-ref-topo:inventory-id": "E.OTU.line_from_F" }
+            ]
+          },
+          {
+            "node-id": "F",
+            "supporting-node": [{ "network-ref": "optical-topo", "node-ref": "F" }],
+            "ietf-te-topology:te": { "te-node-id": "0.0.0.15",
+              "te-node-attributes": { "ietf-otn-topology:otn-node": {} } },
+            "ietf-network-topology:termination-point": [
+              { "tp-id": "otu-line-to-E",   "ietf-hw-inventory-ref-topo:inventory-id": "F.OTU.line_to_E" },
+              { "tp-id": "otu-line-from-E", "ietf-hw-inventory-ref-topo:inventory-id": "F.OTU.line_from_E" },
+              { "tp-id": "otu-line-to-C",   "ietf-hw-inventory-ref-topo:inventory-id": "F.OTU.line_to_C" },
+              { "tp-id": "otu-line-from-C", "ietf-hw-inventory-ref-topo:inventory-id": "F.OTU.line_from_C" },
+              { "tp-id": "otu-client-ch5",  "ietf-hw-inventory-ref-topo:inventory-id": "F.OTU.client_ch5" },
+              { "tp-id": "otu-client-ch6",  "ietf-hw-inventory-ref-topo:inventory-id": "F.OTU.client_ch6" }
+            ]
+          }
+        ],
+
+        "ietf-network-topology:link": [
+          { "link-id": "otu_OMS1_AC",
+            "source": { "source-node": "A", "source-tp": "otu-line-to-C" },
+            "destination": { "dest-node": "C", "dest-tp": "otu-line-from-A" },
+            "supporting-link": [{ "network-ref": "optical-topo", "link-ref": "span_OMS1_AC" }],
+            "ietf-te-topology:te": { "te-link-attributes": { "name": "OTU OMS1 A->C", "admin-status": "up",
+              "ietf-otn-topology:otn-link": { "tsg": "ietf-layer1-types:tsg-1.25g", "distance": 90 } } } },
+          { "link-id": "otu_OMS1_CA",
+            "source": { "source-node": "C", "source-tp": "otu-line-to-A" },
+            "destination": { "dest-node": "A", "dest-tp": "otu-line-from-C" },
+            "supporting-link": [{ "network-ref": "optical-topo", "link-ref": "span_OMS1_CA" }],
+            "ietf-te-topology:te": { "te-link-attributes": { "name": "OTU OMS1 C->A", "admin-status": "up",
+              "ietf-otn-topology:otn-link": { "tsg": "ietf-layer1-types:tsg-1.25g", "distance": 90 } } } },
+
+          { "link-id": "otu_OMS2_AB",
+            "source": { "source-node": "A", "source-tp": "otu-line-to-B" },
+            "destination": { "dest-node": "B", "dest-tp": "otu-line-from-A" },
+            "supporting-link": [{ "network-ref": "optical-topo", "link-ref": "span_OMS2_AB" }],
+            "ietf-te-topology:te": { "te-link-attributes": { "name": "OTU OMS2 A->B", "admin-status": "up",
+              "ietf-otn-topology:otn-link": { "tsg": "ietf-layer1-types:tsg-1.25g", "distance": 120 } } } },
+          { "link-id": "otu_OMS2_BA",
+            "source": { "source-node": "B", "source-tp": "otu-line-to-A" },
+            "destination": { "dest-node": "A", "dest-tp": "otu-line-from-B" },
+            "supporting-link": [{ "network-ref": "optical-topo", "link-ref": "span_OMS2_BA" }],
+            "ietf-te-topology:te": { "te-link-attributes": { "name": "OTU OMS2 B->A", "admin-status": "up",
+              "ietf-otn-topology:otn-link": { "tsg": "ietf-layer1-types:tsg-1.25g", "distance": 120 } } } },
+
+          { "link-id": "otu_OMS3_BC",
+            "source": { "source-node": "B", "source-tp": "otu-line-to-C" },
+            "destination": { "dest-node": "C", "dest-tp": "otu-line-from-B" },
+            "supporting-link": [{ "network-ref": "optical-topo", "link-ref": "span_OMS3_BC" }],
+            "ietf-te-topology:te": { "te-link-attributes": { "name": "OTU OMS3 B->C", "admin-status": "up",
+              "ietf-otn-topology:otn-link": { "tsg": "ietf-layer1-types:tsg-1.25g", "distance": 90 } } } },
+          { "link-id": "otu_OMS3_CB",
+            "source": { "source-node": "C", "source-tp": "otu-line-to-B" },
+            "destination": { "dest-node": "B", "dest-tp": "otu-line-from-C" },
+            "supporting-link": [{ "network-ref": "optical-topo", "link-ref": "span_OMS3_CB" }],
+            "ietf-te-topology:te": { "te-link-attributes": { "name": "OTU OMS3 C->B", "admin-status": "up",
+              "ietf-otn-topology:otn-link": { "tsg": "ietf-layer1-types:tsg-1.25g", "distance": 90 } } } },
+
+          { "link-id": "otu_OMS4_DC",
+            "source": { "source-node": "D", "source-tp": "otu-line-to-C" },
+            "destination": { "dest-node": "C", "dest-tp": "otu-line-from-D" },
+            "supporting-link": [{ "network-ref": "optical-topo", "link-ref": "span_OMS4_DC" }],
+            "ietf-te-topology:te": { "te-link-attributes": { "name": "OTU OMS4 D->C", "admin-status": "up",
+              "ietf-otn-topology:otn-link": { "tsg": "ietf-layer1-types:tsg-1.25g", "distance": 60 } } } },
+          { "link-id": "otu_OMS4_CD",
+            "source": { "source-node": "C", "source-tp": "otu-line-to-D" },
+            "destination": { "dest-node": "D", "dest-tp": "otu-line-from-C" },
+            "supporting-link": [{ "network-ref": "optical-topo", "link-ref": "span_OMS4_CD" }],
+            "ietf-te-topology:te": { "te-link-attributes": { "name": "OTU OMS4 C->D", "admin-status": "up",
+              "ietf-otn-topology:otn-link": { "tsg": "ietf-layer1-types:tsg-1.25g", "distance": 60 } } } },
+
+          { "link-id": "otu_OMS5_BD",
+            "source": { "source-node": "B", "source-tp": "otu-line-to-D" },
+            "destination": { "dest-node": "D", "dest-tp": "otu-line-from-B" },
+            "supporting-link": [{ "network-ref": "optical-topo", "link-ref": "span_OMS5_BD" }],
+            "ietf-te-topology:te": { "te-link-attributes": { "name": "OTU OMS5 B->D", "admin-status": "up",
+              "ietf-otn-topology:otn-link": { "tsg": "ietf-layer1-types:tsg-1.25g", "distance": 90 } } } },
+          { "link-id": "otu_OMS5_DB",
+            "source": { "source-node": "D", "source-tp": "otu-line-to-B" },
+            "destination": { "dest-node": "B", "dest-tp": "otu-line-from-D" },
+            "supporting-link": [{ "network-ref": "optical-topo", "link-ref": "span_OMS5_DB" }],
+            "ietf-te-topology:te": { "te-link-attributes": { "name": "OTU OMS5 D->B", "admin-status": "up",
+              "ietf-otn-topology:otn-link": { "tsg": "ietf-layer1-types:tsg-1.25g", "distance": 90 } } } },
+
+          { "link-id": "otu_OMS6_DE",
+            "source": { "source-node": "D", "source-tp": "otu-line-to-E" },
+            "destination": { "dest-node": "E", "dest-tp": "otu-line-from-D" },
+            "supporting-link": [{ "network-ref": "optical-topo", "link-ref": "span_OMS6_DE" }],
+            "ietf-te-topology:te": { "te-link-attributes": { "name": "OTU OMS6 D->E", "admin-status": "up",
+              "ietf-otn-topology:otn-link": { "tsg": "ietf-layer1-types:tsg-1.25g", "distance": 40 } } } },
+          { "link-id": "otu_OMS6_ED",
+            "source": { "source-node": "E", "source-tp": "otu-line-to-D" },
+            "destination": { "dest-node": "D", "dest-tp": "otu-line-from-E" },
+            "supporting-link": [{ "network-ref": "optical-topo", "link-ref": "span_OMS6_ED" }],
+            "ietf-te-topology:te": { "te-link-attributes": { "name": "OTU OMS6 E->D", "admin-status": "up",
+              "ietf-otn-topology:otn-link": { "tsg": "ietf-layer1-types:tsg-1.25g", "distance": 40 } } } },
+
+          { "link-id": "otu_OMS7_EF",
+            "source": { "source-node": "E", "source-tp": "otu-line-to-F" },
+            "destination": { "dest-node": "F", "dest-tp": "otu-line-from-E" },
+            "supporting-link": [{ "network-ref": "optical-topo", "link-ref": "span_OMS7_EF" }],
+            "ietf-te-topology:te": { "te-link-attributes": { "name": "OTU OMS7 E->F", "admin-status": "up",
+              "ietf-otn-topology:otn-link": { "tsg": "ietf-layer1-types:tsg-1.25g", "distance": 60 } } } },
+          { "link-id": "otu_OMS7_FE",
+            "source": { "source-node": "F", "source-tp": "otu-line-to-E" },
+            "destination": { "dest-node": "E", "dest-tp": "otu-line-from-F" },
+            "supporting-link": [{ "network-ref": "optical-topo", "link-ref": "span_OMS7_FE" }],
+            "ietf-te-topology:te": { "te-link-attributes": { "name": "OTU OMS7 F->E", "admin-status": "up",
+              "ietf-otn-topology:otn-link": { "tsg": "ietf-layer1-types:tsg-1.25g", "distance": 60 } } } },
+
+          { "link-id": "otu_OMS8_FC",
+            "source": { "source-node": "F", "source-tp": "otu-line-to-C" },
+            "destination": { "dest-node": "C", "dest-tp": "otu-line-from-F" },
+            "supporting-link": [{ "network-ref": "optical-topo", "link-ref": "span_OMS8_FC" }],
+            "ietf-te-topology:te": { "te-link-attributes": { "name": "OTU OMS8 F->C", "admin-status": "up",
+              "ietf-otn-topology:otn-link": { "tsg": "ietf-layer1-types:tsg-1.25g", "distance": 80 } } } },
+          { "link-id": "otu_OMS8_CF",
+            "source": { "source-node": "C", "source-tp": "otu-line-to-F" },
+            "destination": { "dest-node": "F", "dest-tp": "otu-line-from-C" },
+            "supporting-link": [{ "network-ref": "optical-topo", "link-ref": "span_OMS8_CF" }],
+            "ietf-te-topology:te": { "te-link-attributes": { "name": "OTU OMS8 C->F", "admin-status": "up",
+              "ietf-otn-topology:otn-link": { "tsg": "ietf-layer1-types:tsg-1.25g", "distance": 80 } } } }
+        ]
+      }
+    ]
+  }
+}

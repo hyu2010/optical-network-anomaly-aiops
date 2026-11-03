@@ -1,0 +1,190 @@
+@prefix onm:  <https://optical-aiops.example/ns/rfc9940#> .
+@prefix optx: <https://optical-aiops.example/ns/optical#> .
+@prefix dx:   <https://optical-aiops.example/ns/diagnosis#> .
+@prefix kb:   <https://optical-aiops.example/kb#> .
+@prefix net:  <https://optical-aiops.example/net/lab-mesh-v3/> .
+@prefix obs:  <https://optical-aiops.example/obs/> .
+@prefix g:    <https://optical-aiops.example/graph/> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+
+# ============================================================================
+#  Example semantic-memory content (excerpt).
+#  Default graph  = graph catalogue with bitemporal metadata (one entry per
+#                   lifecycle write).
+#  g:net/...      = lab-mesh resources (written by Onboarding from YANG).
+#  g:incident/... = RFC 9940 interpretation of a closed incident (Closure).
+#  Port and board identifiers follow Design/02 naming; the loader uses the
+#  inventory uuids from data/yang/inventory.json verbatim. Span lengths for
+#  OMS2/OMS3/OMS5 are illustrative (real values: nfms:length-km).
+# ============================================================================
+
+# ---------------------------------------------------------------- catalogue
+g:net-3f9c2a17b0e4-v1
+    dx:validFrom  "2026-11-01T00:00:00Z"^^xsd:dateTime ;
+    dx:recordedAt "2026-11-01T00:00:05Z"^^xsd:dateTime ;
+    dx:writtenBy  [ a dx:LifecycleEvent ; rdfs:label "Onboarding" ;
+                    prov:used "data/yang/{topology,tunnels,inventory}.json" ] ;
+    rdfs:comment "topology_id 3f9c2a17b0e4 (Topology.topology_id())" .
+
+g:incident-1001
+    dx:validFrom  "2026-11-02T09:29:59.4Z"^^xsd:dateTime ;
+    dx:validTo    "2026-11-02T10:52:10Z"^^xsd:dateTime ;
+    dx:recordedAt "2026-11-02T10:52:11Z"^^xsd:dateTime ;
+    dx:writtenBy  [ a dx:LifecycleEvent ; rdfs:label "Closure" ] ;
+    prov:wasDerivedFrom <https://optical-aiops.example/episodes/ep-1001> .
+
+# ---------------------------------------------------------------- network
+g:net-3f9c2a17b0e4-v1 {
+
+  net:lab-mesh-optical a optx:Network ; rdfs:label "optical-topo" .
+  net:lab-mesh-otn     a optx:Network ; rdfs:label "otn-topo" .
+
+  net:ne_A a optx:NetworkElement ; optx:yangId "A" .
+  net:ne_B a optx:NetworkElement ; optx:yangId "B" ;
+      optx:hostsBoard net:B.FIU_C , net:B.OA_C , net:B.OTU , net:B.FAN .
+  net:ne_C a optx:NetworkElement ; optx:yangId "C" ;
+      optx:hostsBoard net:C.FIU_B , net:C.OTU , net:C.FAN .
+  net:ne_D a optx:NetworkElement ; optx:yangId "D" .
+
+  net:B.FIU_C a optx:FIUBoard ; optx:yangId "B.FIU_C" ; optx:boardType "FIU" ;
+      optx:hasPort net:B.FIU.line_to_C , net:B.FIU.line_from_C .
+  net:B.OA_C  a optx:OABoard  ; optx:yangId "B.OA_C"  ; optx:boardType "OA" .
+  net:B.OTU   a optx:OTUBoard ; optx:yangId "B.OTU" ; optx:boardType "OTU" ;
+      optx:hasPort net:B.OTU.line_tx_C , net:B.OTU.line_rx_C .
+  net:B.FAN   a optx:FanBoard ; optx:yangId "B.FAN" .
+  net:C.FIU_B a optx:FIUBoard ; optx:yangId "C.FIU_B" ; optx:boardType "FIU" ;
+      optx:hasPort net:C.FIU.line_from_B , net:C.FIU.line_to_B .
+  net:C.OTU   a optx:OTUBoard ; optx:yangId "C.OTU" ; optx:boardType "OTU" ;
+      optx:ppeEnabled true ; optx:ppeDeltaZm 200 ; optx:ppePollMs 30000 ;
+      optx:hasPort net:C.OTU.line_rx_B , net:C.OTU.line_tx_B , net:C.OTU.client_ch2 , net:C.OTU.client_ch4 .
+  net:C.FAN   a optx:FanBoard ; optx:yangId "C.FAN" .
+
+  net:B.FIU.line_to_C   a optx:Port ; optx:yangId "B.FIU.line_to_C" .
+  net:B.FIU.line_from_C a optx:Port ; optx:yangId "B.FIU.line_from_C" .
+  net:B.OTU.line_tx_C   a optx:Port ; optx:yangId "B.OTU.line_tx_C" .
+  net:B.OTU.line_rx_C   a optx:Port ; optx:yangId "B.OTU.line_rx_C" .
+  net:C.FIU.line_from_B a optx:Port ; optx:yangId "C.FIU.line_from_B" .
+  net:C.FIU.line_to_B   a optx:Port ; optx:yangId "C.FIU.line_to_B" .
+  net:C.OTU.line_rx_B   a optx:Port ; optx:yangId "C.OTU.line_rx_B" .
+  net:C.OTU.line_tx_B   a optx:Port ; optx:yangId "C.OTU.line_tx_B" .
+  net:C.OTU.client_ch2  a optx:Port ; optx:yangId "C.OTU.client_ch2" .
+  net:C.OTU.client_ch4  a optx:Port ; optx:yangId "C.OTU.client_ch4" .
+
+  # OMS3 section: two directed spans (one per fibre)
+  net:OMS3 a optx:OmsSection ; optx:yangId "OMS3" .
+  net:span_OMS3_BC a optx:OmsSpan ; optx:yangId "span_OMS3_BC" ;
+      optx:inNetwork net:lab-mesh-optical ; optx:partOfSection net:OMS3 ;
+      optx:sourceNE net:ne_B ; optx:destNE net:ne_C ;
+      optx:txPort net:B.FIU.line_to_C ; optx:rxPort net:C.FIU.line_from_B ;
+      optx:reverseOf net:span_OMS3_CB ; optx:launchAmplifier net:amp_B_OMS3 ;
+      optx:lengthKm 75.0 ; optx:spanCount 3 ; optx:alphaDbPerKm 0.20 ; optx:fibreType "SMF-G.652" ;
+      optx:yangPath "/ietf-network:networks/network[network-id='optical-topo']/ietf-network-topology:link[link-id='span_OMS3_BC']" .
+  net:span_OMS3_CB a optx:OmsSpan ; optx:yangId "span_OMS3_CB" ;
+      optx:partOfSection net:OMS3 ; optx:sourceNE net:ne_C ; optx:destNE net:ne_B ;
+      optx:txPort net:C.FIU.line_to_B ; optx:rxPort net:B.FIU.line_from_C ; optx:lengthKm 75.0 .
+  net:amp_B_OMS3 a optx:Amplifier ; optx:amplifierBoard net:B.OA_C .
+
+  net:span_OMS2_AB a optx:OmsSpan ; optx:yangId "span_OMS2_AB" ;
+      optx:sourceNE net:ne_A ; optx:destNE net:ne_B ; optx:lengthKm 100.0 .
+  net:span_OMS5_DB a optx:OmsSpan ; optx:yangId "span_OMS5_DB" ;
+      optx:sourceNE net:ne_D ; optx:destNE net:ne_B ; optx:lengthKm 75.0 .
+
+  # OTU pipes (one per directed span) and their support
+  net:otu_OMS3_BC a optx:OtuLink ; optx:yangId "otu_OMS3_BC" ; optx:inNetwork net:lab-mesh-otn ;
+      optx:supportedBy net:span_OMS3_BC ; optx:sourceNE net:ne_B ; optx:destNE net:ne_C ;
+      optx:txPort net:B.OTU.line_tx_C ; optx:rxPort net:C.OTU.line_rx_B .
+  net:otu_OMS3_CB a optx:OtuLink ; optx:yangId "otu_OMS3_CB" ;
+      optx:supportedBy net:span_OMS3_CB ; optx:sourceNE net:ne_C ; optx:destNE net:ne_B ;
+      optx:txPort net:C.OTU.line_tx_B ; optx:rxPort net:B.OTU.line_rx_C .
+
+  # Channels ch2 (A->B->C) and ch4 (D->B->C)
+  net:och_ch2 a optx:OchTunnel ; optx:yangId "och_ch2" ;
+      optx:sourceNE net:ne_A ; optx:destNE net:ne_C ; optx:dropBoard net:C.OTU ;
+      optx:traverses net:span_OMS2_AB , net:span_OMS3_BC ;
+      optx:hasHop [ optx:hopIndex 0 ; optx:hopLink net:span_OMS2_AB ; optx:hopStartKm 0.0 ] ,
+                  [ optx:hopIndex 1 ; optx:hopLink net:span_OMS3_BC ; optx:hopStartKm 100.0 ] .
+  net:och_ch4 a optx:OchTunnel ; optx:yangId "och_ch4" ;
+      optx:sourceNE net:ne_D ; optx:destNE net:ne_C ; optx:dropBoard net:C.OTU ;
+      optx:traverses net:span_OMS5_DB , net:span_OMS3_BC ;
+      optx:hasHop [ optx:hopIndex 0 ; optx:hopLink net:span_OMS5_DB ; optx:hopStartKm 0.0 ] ,
+                  [ optx:hopIndex 1 ; optx:hopLink net:span_OMS3_BC ; optx:hopStartKm 75.0 ] .
+  net:odu_ch2 a optx:OduTunnel ; optx:yangId "odu_ch2" ; optx:rateType "odu-2" ;
+      optx:supportingTunnel net:och_ch2 ; optx:traverses net:otu_OMS3_BC ;
+      optx:clientPort net:C.OTU.client_ch2 ; optx:carries net:svc_ch2 ;
+      dx:dependsOn net:och_ch2 , net:span_OMS2_AB , net:span_OMS3_BC , net:otu_OMS3_BC , net:ne_A , net:ne_B , net:ne_C .
+  net:odu_ch4 a optx:OduTunnel ; optx:yangId "odu_ch4" ;
+      optx:supportingTunnel net:och_ch4 ; optx:traverses net:otu_OMS3_BC ;
+      optx:clientPort net:C.OTU.client_ch4 ; optx:carries net:svc_ch4 ;
+      dx:dependsOn net:och_ch4 , net:span_OMS5_DB , net:span_OMS3_BC , net:otu_OMS3_BC , net:ne_D , net:ne_B , net:ne_C .
+  net:svc_ch2 a optx:ClientService ; optx:yangId "ch2" ;
+      dx:dependsOn net:odu_ch2 , net:span_OMS3_BC , net:span_OMS2_AB , net:ne_B , net:ne_C .
+  net:svc_ch4 a optx:ClientService ; optx:yangId "ch4" ;
+      dx:dependsOn net:odu_ch4 , net:span_OMS3_BC , net:span_OMS5_DB , net:ne_B , net:ne_C .
+
+  # Characteristics + instruments (what can Detect what)
+  net:C.FIU.line_from_B onm:hasCharacteristic net:C.FIU.line_from_B-inpower .
+  net:C.FIU.line_from_B-inpower a optx:InputPower .
+  net:och_ch2 onm:hasCharacteristic net:och_ch2-profile .
+  net:och_ch2-profile a optx:PowerProfile .
+  net:C.OTU optx:observes net:och_ch2-profile , net:och_ch4-profile .
+  net:och_ch4 onm:hasCharacteristic net:och_ch4-profile .
+  net:och_ch4-profile a optx:PowerProfile .
+}
+
+# ---------------------------------------------------------------- closed incident (RFC 9940 view)
+g:incident-1001 {
+
+  # Events and Alarms (from alarms rows; event time = NMS-observed time)
+  obs:inc1001-alm-811 a optx:AlarmInstance ;
+      optx:alarmType kb:AT_OTS_LOS ; onm:alarmedResource net:C.FIU.line_from_B ;
+      optx:containerRef net:span_OMS3_BC ; optx:severity "Critical" ; optx:eventId "alm-42-811" ;
+      optx:raiseEvent obs:inc1001-alm-811-raise ; onm:issuesAlert obs:inc1001-alert-1 .
+  obs:inc1001-alm-811-raise a onm:Event ; onm:eventTime "2026-11-02T09:30:03.1Z"^^xsd:dateTime ;
+      onm:changeOf net:C.FIU.line_from_B-inpower ; onm:detectedBy [ a onm:Detection ; onm:observer net:C.FIU_B ] .
+  obs:inc1001-alm-815 a optx:AlarmInstance ;
+      optx:alarmType kb:AT_ODU_PM_SSF ; onm:alarmedResource net:C.OTU.client_ch2 ;
+      optx:containerRef net:odu_ch2 ; optx:eventId "alm-42-815" .
+
+  # PPE anomaly: a Change of the PowerProfile w.r.t. its baseline; also an Anomaly
+  obs:inc1001-ppe-ch2-0 a optx:PpeAnomaly , onm:Change ;
+      onm:changeOf net:och_ch2-profile ; optx:anomalyKind "step" ;
+      optx:zKm 131.4 ; optx:onSpan net:span_OMS3_BC ; optx:offsetInSpanKm 31.4 ;
+      optx:magnitudeDb -30.0 ; optx:detectorConfidence 0.95 ; optx:eventId "ppe-42-och_ch2-0" ;
+      onm:detectedBy [ a onm:Detection ; onm:observer net:C.OTU ] .
+
+  # Relevance -> Occurrence (framer policy)
+  obs:inc1001-occ-1 a onm:Occurrence ;
+      onm:aggregates obs:inc1001-alm-811-raise , obs:inc1001-ppe-ch2-0 ;
+      onm:occursOn net:span_OMS3_BC .
+  [] a onm:RelevanceAssessment ; onm:assesses obs:inc1001-alm-811-raise ;
+     onm:isRelevant true ; onm:policy "framer: alarm in window, in scope" .
+
+  # Symptoms indicating Problems (Conditions/States in the Symptom role)
+  obs:inc1001-S1 a dx:FrameSymptom ; dx:symptomRef "S1" ; dx:symptomKind "alarm" ;
+      onm:observable obs:inc1001-alm-811 ; dx:aboutResource net:C.FIU.line_from_B ;
+      dx:reportedBy net:C.FIU.line_from_B ; dx:relevant true ; onm:indicates obs:inc1001-P1 .
+  obs:inc1001-V1 a dx:FrameSymptom ; dx:symptomRef "V1" ; dx:symptomKind "service-down" ;
+      onm:observable obs:inc1001-alm-815 ; dx:aboutResource net:svc_ch2 ; onm:indicates obs:inc1001-P2 .
+
+  obs:inc1001-P1 a onm:Problem ; onm:stateOf net:span_OMS3_BC ; onm:resolutionStatus "resolved" ;
+      rdfs:label "No light on span_OMS3_BC (B->C)" .
+  obs:inc1001-P2 a onm:Problem , optx:ServiceDown ; onm:stateOf net:svc_ch2 , net:svc_ch4 ;
+      onm:resolutionStatus "resolved" ; onm:perspective "service" .
+
+  # Concluded Fault and its Cause (the diagnosis), linked to documentation
+  obs:inc1001-F1 a onm:Fault ; onm:occursOn net:span_OMS3_BC ;
+      onm:startTime "2026-11-02T09:29:59.4Z"^^xsd:dateTime ;   # onset interval lower bound
+      onm:endTime   "2026-11-02T09:30:03.1Z"^^xsd:dateTime ;   # onset interval upper bound
+      onm:indicatesState obs:inc1001-P1 ; onm:hasCause obs:inc1001-C1 ;
+      dx:mode kb:FIBRE_CUT ; dx:fittedParam "position_km=31.4±0.4" ; dx:posterior 0.99831 .
+  obs:inc1001-C1 a onm:Cause ; rdfs:label "Fibre severed 31.4 km from B (OTDR-confirmed at repair)" ;
+      onm:givesRiseTo obs:inc1001-F1 .
+  obs:inc1001-alert-1 a onm:Alert ; onm:alertFor obs:inc1001-F1 .
+
+  obs:inc1001 a onm:Incident ; onm:resultsFrom obs:inc1001-P1 , obs:inc1001-P2 ;
+      onm:affectsService net:svc_ch2 , net:svc_ch4 ; optx:eventId "1001" .
+
+  obs:tree-1001 a dx:DiagnosisTree ; dx:diagnoses obs:inc1001 .
+}

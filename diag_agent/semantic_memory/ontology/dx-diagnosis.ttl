@@ -1,0 +1,238 @@
+@prefix onm:  <https://optical-aiops.example/ns/rfc9940#> .
+@prefix optx: <https://optical-aiops.example/ns/optical#> .
+@prefix dx:   <https://optical-aiops.example/ns/diagnosis#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+
+# ============================================================================
+#  dx: — Diagnostic knowledge layer.
+#  Three kinds of content, kept apart on purpose:
+#   (1) DOCUMENTATION   what can go wrong and what it looks like
+#                       (FaultMode, Effect, LocationRole, Check, Rule, Procedure)
+#   (2) BELIEF          what the agent currently entertains (Hypothesis, Term)
+#   (3) BOOKKEEPING     bitemporal validity, lifecycle provenance, completeness
+#  Documentation is published by lifecycle events and is never written by the
+#  LLM. Beliefs live in working memory; a closed incident's beliefs are
+#  materialised as onm:Fault / onm:Cause / onm:Problem / onm:Incident.
+# ============================================================================
+
+<https://optical-aiops.example/ns/diagnosis>
+    a owl:Ontology ;
+    owl:imports <https://optical-aiops.example/ns/optical> ;
+    rdfs:label "Diagnostic knowledge layer"@en ;
+    owl:versionInfo "1.0.0" .
+
+# ----------------------------------------------------------------------------
+# (1) Documentation — fault modes and their effects
+# ----------------------------------------------------------------------------
+dx:FaultMode a owl:Class ;
+    rdfs:comment "A documented kind of Fault (e.g. FIBRE_CUT). A hypothesis asserts that an onm:Fault of this mode occurred at a location. A FaultMode is neither a Condition nor an Alarm."@en .
+dx:Nature a owl:Class ; owl:oneOf ( dx:Hard dx:Soft dx:Incipient dx:Transient dx:Equipment dx:Configuration dx:Monitoring ) .
+dx:Hard a dx:Nature .  dx:Soft a dx:Nature .  dx:Incipient a dx:Nature .  dx:Transient a dx:Nature .
+dx:Equipment a dx:Nature .  dx:Configuration a dx:Nature .  dx:Monitoring a dx:Nature .
+dx:nature        a owl:ObjectProperty ; rdfs:domain dx:FaultMode ; rdfs:range dx:Nature .
+dx:appliesTo     a owl:ObjectProperty ; rdfs:domain dx:FaultMode ;
+    rdfs:comment "Class-valued (punning): the resource class at which the mode is documented, e.g. optx:OmsSpan. This is the grain filter."@en .
+dx:simulatorFault a owl:DatatypeProperty ; rdfs:domain dx:FaultMode ; rdfs:range xsd:string ;
+    rdfs:comment "Test-bed fault id (faults.CATALOG) — used ONLY by the scoring harness for equivalence; never read by reasoning."@en .
+dx:baseRatePerYear a owl:DatatypeProperty ; rdfs:domain dx:FaultMode ; rdfs:range xsd:decimal ;
+    rdfs:comment "Documented failure rate per resource-year (prior); refined by closed-ticket statistics in g:stats."@en .
+dx:hasParameter  a owl:ObjectProperty ; rdfs:domain dx:FaultMode ; rdfs:range dx:Parameter .
+dx:Parameter     a owl:Class .
+dx:paramName     a owl:DatatypeProperty ; rdfs:domain dx:Parameter ; rdfs:range xsd:string .
+dx:paramMin      a owl:DatatypeProperty ; rdfs:domain dx:Parameter ; rdfs:range xsd:decimal .
+dx:paramMax      a owl:DatatypeProperty ; rdfs:domain dx:Parameter ; rdfs:range xsd:decimal .
+dx:paramUnit     a owl:DatatypeProperty ; rdfs:domain dx:Parameter ; rdfs:range xsd:string .
+
+dx:Effect a owl:Class ;
+    rdfs:comment "A documented effect of a FaultMode: a Condition expected at a LocationRole relative to the fault location, with a strength and timing."@en .
+dx:hasEffect     a owl:ObjectProperty ; rdfs:domain dx:FaultMode ; rdfs:range dx:Effect .
+dx:predictsCondition a owl:ObjectProperty ; rdfs:domain dx:Effect ;
+    rdfs:comment "Class-valued: an onm:Condition subclass (e.g. optx:LossOfSignal), or optx:ProfileStep for PPE."@en .
+dx:predictsAbsence a owl:DatatypeProperty ; rdfs:domain dx:Effect ; rdfs:range xsd:boolean ;
+    rdfs:comment "true = the mode predicts this Condition is NOT present at the role (e.g. a clean PPE profile)."@en .
+dx:atRole        a owl:ObjectProperty ; rdfs:domain dx:Effect ; rdfs:range dx:LocationRole .
+dx:inLayer       a owl:ObjectProperty ; rdfs:domain dx:Effect ; rdfs:range optx:Layer .
+dx:strength      a owl:ObjectProperty ; rdfs:domain dx:Effect ; rdfs:range dx:Strength .
+dx:Strength a owl:Class ; owl:oneOf ( dx:Required dx:Expected dx:Possible ) .
+dx:Required a dx:Strength ; dx:debitNats 2.0 .
+dx:Expected a dx:Strength ; dx:debitNats 0.6 .
+dx:Possible a dx:Strength ; dx:debitNats 0.0 .
+dx:debitNats     a owl:DatatypeProperty ; rdfs:domain dx:Strength ; rdfs:range xsd:decimal .
+dx:physDelayMs   a owl:DatatypeProperty ; rdfs:domain dx:Effect ; rdfs:range xsd:integer ;
+    rdfs:comment "Typical physical propagation delay from onset (before NMS polling)."@en .
+dx:lasting       a owl:DatatypeProperty ; rdfs:domain dx:Effect ; rdfs:range xsd:boolean ;
+    rdfs:comment "Persists until repair (hard) vs may clear (transient)."@en .
+dx:ppeSignature  a owl:ObjectProperty ; rdfs:domain dx:Effect ; rdfs:range dx:PpeSignature .
+dx:PpeSignature  a owl:Class ;
+    rdfs:comment "Predicted PPE anomaly: kind, magnitude range, and where along the span (free parameter or fixed)."@en .
+dx:sigKind       a owl:DatatypeProperty ; rdfs:domain dx:PpeSignature ; rdfs:range xsd:string .
+dx:sigMagnitudeMaxDb a owl:DatatypeProperty ; rdfs:domain dx:PpeSignature ; rdfs:range xsd:decimal .
+dx:sigMagnitudeMinDb a owl:DatatypeProperty ; rdfs:domain dx:PpeSignature ; rdfs:range xsd:decimal .
+dx:sigPosition   a owl:DatatypeProperty ; rdfs:domain dx:PpeSignature ; rdfs:range xsd:string ;
+    rdfs:comment "free-in-span | span-start | span-end | receiver | none."@en .
+dx:causeKeyword a owl:DatatypeProperty ; rdfs:domain dx:FaultMode ; rdfs:range xsd:string ;
+    rdfs:comment "Cause keyword of the vendor catalogue (fiber, los, optical_power, ...). Alarm types whose Possible Causes text carries the keyword may accompany the mode at its first primary-effect location (documented L2 association, predicted Possible)."@en .
+optx:causeKeyword a owl:DatatypeProperty ; rdfs:domain optx:AlarmType ; rdfs:range xsd:string ;
+    rdfs:comment "Keyword tag derived from the alarm type's Possible Causes text by the catalogue loader."@en .
+dx:servicesImpact a owl:ObjectProperty ; rdfs:domain dx:FaultMode ;
+    rdfs:comment "optx:ServiceDown or optx:ServiceDegraded for services whose path contains the location."@en .
+
+# Alarm documentation -> causes (the Cause-vs-Condition boundary)
+dx:possibleCause a owl:ObjectProperty ; rdfs:domain optx:AlarmType ; rdfs:range dx:FaultMode ;
+    rdfs:comment "Documented probable cause of an alarm type, curated from possibleCauseText. The alarm indicates a Condition; this edge names candidate Causes."@en .
+dx:causeAtRole   a owl:ObjectProperty ; rdfs:range dx:LocationRole ;
+    rdfs:comment "Qualifier on a reified possibleCause: where the cause sits relative to the alarm."@en .
+
+# ----------------------------------------------------------------------------
+# Location roles and location terms (the LLM vocabulary)
+# ----------------------------------------------------------------------------
+dx:LocationRole a owl:Class ;
+    rdfs:comment "A position relative to an anchor resource, defined declaratively by a walk (SPARQL property path). Used by effects (fault -> where effects appear) and by location terms (symptom -> where the cause may be)."@en .
+dx:LocationTerm a owl:Class ; rdfs:subClassOf dx:LocationRole ;
+    rdfs:comment "A LocationRole exposed to the LLM proposer, anchored on a symptom (S#), service (V#) or shared element (E#)."@en .
+dx:termId        a owl:DatatypeProperty ; rdfs:domain dx:LocationRole ; rdfs:range xsd:string .
+dx:meaning       a owl:DatatypeProperty ; rdfs:domain dx:LocationRole ; rdfs:range xsd:string .
+dx:anchorKind    a owl:DatatypeProperty ; rdfs:domain dx:LocationRole ; rdfs:range xsd:string ;
+    rdfs:comment "port | board | ne | span | otu | och | odu | service | any."@en .
+dx:walkPattern   a owl:DatatypeProperty ; rdfs:domain dx:LocationRole ; rdfs:range xsd:string ;
+    rdfs:comment "SPARQL 1.1 group-graph-pattern binding ?target from ?anchor; executed (with as_of) by the location resolver and the propagator."@en .
+dx:resultClass   a owl:ObjectProperty ; rdfs:domain dx:LocationRole ;
+    rdfs:comment "Class-valued: the class of resources the role resolves to (grain)."@en .
+
+# Generic signal-cascade knowledge (per-layer consequent actions, Design/08 §3).
+# Fault modes document only their PRIMARY effects; the propagator closes them
+# under these rules, so cascades are written once, not once per mode.
+dx:CascadeRule a owl:Class ;
+    rdfs:comment "If Condition C1 is predicted at a resource matching the from-pattern, predict C2 at every ?target of the via-pattern, with strength min(strength, transfer)."@en .
+dx:fromCondition a owl:ObjectProperty ; rdfs:domain dx:CascadeRule ; rdfs:comment "Class-valued."@en .
+dx:fromLayer     a owl:ObjectProperty ; rdfs:domain dx:CascadeRule ; rdfs:range optx:Layer .
+dx:toCondition   a owl:ObjectProperty ; rdfs:domain dx:CascadeRule ; rdfs:comment "Class-valued."@en .
+dx:toLayer       a owl:ObjectProperty ; rdfs:domain dx:CascadeRule ; rdfs:range optx:Layer .
+dx:viaPattern    a owl:DatatypeProperty ; rdfs:domain dx:CascadeRule ; rdfs:range xsd:string .
+dx:strengthTransfer a owl:ObjectProperty ; rdfs:domain dx:CascadeRule ; rdfs:range dx:Strength .
+dx:addDelayMs    a owl:DatatypeProperty ; rdfs:domain dx:CascadeRule ; rdfs:range xsd:integer .
+
+# ----------------------------------------------------------------------------
+# Checks (winnowing actions) and graph-consistency rules
+# ----------------------------------------------------------------------------
+dx:Check a owl:Class ; rdfs:comment "A catalogued action whose answer is evidence."@en .
+dx:checkId       a owl:DatatypeProperty ; rdfs:domain dx:Check ; rdfs:range xsd:string .
+dx:minutes       a owl:DatatypeProperty ; rdfs:domain dx:Check ; rdfs:range xsd:decimal .
+dx:remote        a owl:DatatypeProperty ; rdfs:domain dx:Check ; rdfs:range xsd:boolean .
+dx:serviceInterrupting a owl:DatatypeProperty ; rdfs:domain dx:Check ; rdfs:range xsd:boolean .
+dx:targetClass   a owl:ObjectProperty ; rdfs:domain dx:Check ; rdfs:comment "Class-valued."@en .
+dx:observesCondition a owl:ObjectProperty ; rdfs:domain dx:Check ; rdfs:comment "Class-valued Conditions the answer reports."@en .
+dx:answerTolerance a owl:DatatypeProperty ; rdfs:domain dx:Check ; rdfs:range xsd:string ;
+    rdfs:comment "Tolerance used to group predicted answers (e.g. 'offset 0.4 km', 'power 0.25 dB')."@en .
+dx:tau           a owl:DatatypeProperty ; rdfs:range xsd:decimal ;
+    rdfs:comment "Tempering weight of the evidence term built from this source."@en .
+
+dx:ConsistencyRule a owl:Class ;
+    rdfs:comment "Declarative graph-consistency rule; evaluated by the generic rule engine as a SPARQL ASK over {hypothesis, frame, KG}; true = contradicted."@en .
+dx:ruleId        a owl:DatatypeProperty ; rdfs:domain dx:ConsistencyRule ; rdfs:range xsd:string .
+dx:askQuery      a owl:DatatypeProperty ; rdfs:domain dx:ConsistencyRule ; rdfs:range xsd:string .
+dx:penaltyNats   a owl:DatatypeProperty ; rdfs:domain dx:ConsistencyRule ; rdfs:range xsd:decimal .
+dx:gcRule        a owl:ObjectProperty ; rdfs:range dx:ConsistencyRule .
+
+dx:Procedure a owl:Class ; rdfs:comment "Vendor or reviewed alarm-clearing procedure (a tree of steps)."@en .
+dx:ProcedureStep a owl:Class .
+dx:triggeredBy   a owl:ObjectProperty ; rdfs:domain dx:Procedure ; rdfs:range optx:AlarmType .
+dx:firstStep     a owl:ObjectProperty ; rdfs:domain dx:Procedure ; rdfs:range dx:ProcedureStep .
+dx:asks          a owl:ObjectProperty ; rdfs:domain dx:ProcedureStep ; rdfs:range dx:Check .
+dx:onYes         a owl:ObjectProperty ; rdfs:domain dx:ProcedureStep .
+dx:onNo          a owl:ObjectProperty ; rdfs:domain dx:ProcedureStep .
+dx:concludes     a owl:ObjectProperty ; rdfs:domain dx:ProcedureStep ; rdfs:range dx:FaultMode .
+
+# Incident-model mapping (doc 06)
+dx:incidentCauseName a owl:DatatypeProperty ; rdfs:domain dx:FaultMode ; rdfs:range xsd:string ;
+    rdfs:comment "ietf-incident cause-name identity (strict mode), e.g. 'ietf-incident:loss-of-signal'."@en .
+dx:incidentCauseNameExt a owl:DatatypeProperty ; rdfs:domain dx:FaultMode ; rdfs:range xsd:string ;
+    rdfs:comment "Derived identity in diag-agent-incident-ext (extended mode), e.g. 'diag-agent-incident-ext:fibre-cut'."@en .
+dx:incidentCategory a owl:DatatypeProperty ; rdfs:domain dx:FaultMode ; rdfs:range xsd:string .
+dx:resolveAdvice    a owl:DatatypeProperty ; rdfs:domain dx:FaultMode ; rdfs:range xsd:string .
+
+# ----------------------------------------------------------------------------
+# (2) Belief — hypotheses, evidence terms, diagnosis tree
+# ----------------------------------------------------------------------------
+dx:Hypothesis a owl:Class ;
+    rdfs:comment "Candidate explanation: a FaultMode at a location, a compound of hypotheses, or none-of-these."@en .
+dx:SingleHypothesis   a owl:Class ; rdfs:subClassOf dx:Hypothesis .
+dx:CompoundHypothesis a owl:Class ; rdfs:subClassOf dx:Hypothesis .
+dx:NoneOfThese        a owl:Class ; rdfs:subClassOf dx:Hypothesis .
+dx:mode        a owl:ObjectProperty ; rdfs:domain dx:SingleHypothesis ; rdfs:range dx:FaultMode .
+dx:location    a owl:ObjectProperty ; rdfs:domain dx:SingleHypothesis ; rdfs:range onm:Resource .
+dx:member      a owl:ObjectProperty ; rdfs:domain dx:CompoundHypothesis ; rdfs:range dx:SingleHypothesis .
+dx:proposedBy  a owl:DatatypeProperty ; rdfs:domain dx:Hypothesis ; rdfs:range xsd:string ;
+    rdfs:comment "Generation line id: walk | set_cover | correlation | analogy | llm | shared_risk | monitoring | return_k."@en .
+dx:walkProvenance a owl:DatatypeProperty ; rdfs:domain dx:Hypothesis ; rdfs:range xsd:string ;
+    rdfs:comment "The KG walk path that reached the location (guardrail evidence)."@en .
+dx:fittedParam a owl:DatatypeProperty ; rdfs:domain dx:Hypothesis ; rdfs:range xsd:string .
+dx:posterior   a owl:DatatypeProperty ; rdfs:domain dx:Hypothesis ; rdfs:range xsd:decimal .
+
+# Propagator output and frame items, as seen by the consistency-rule engine
+# (a per-hypothesis scratch graph in working memory, never persisted).
+dx:Prediction a owl:Class ; rdfs:comment "One predicted observation of a hypothesis."@en .
+dx:ofHypothesis  a owl:ObjectProperty ; rdfs:domain dx:Prediction ; rdfs:range dx:Hypothesis .
+dx:predCondition a owl:ObjectProperty ; rdfs:domain dx:Prediction ; rdfs:comment "Class-valued."@en .
+dx:predAt        a owl:ObjectProperty ; rdfs:domain dx:Prediction ; rdfs:range onm:Resource .
+dx:predStrength  a owl:ObjectProperty ; rdfs:domain dx:Prediction ; rdfs:range dx:Strength .
+dx:windowClosesAt a owl:DatatypeProperty ; rdfs:domain dx:Prediction ; rdfs:range xsd:dateTime .
+dx:windowClosed  a owl:DatatypeProperty ; rdfs:domain dx:Prediction ; rdfs:range xsd:boolean .
+dx:instrumentAlive a owl:DatatypeProperty ; rdfs:domain dx:Prediction ; rdfs:range xsd:boolean ;
+    rdfs:comment "The resource that would report it is in scope, reporting, and not itself predicted dead."@en .
+dx:matchedBy     a owl:ObjectProperty ; rdfs:domain dx:Prediction ; rdfs:range dx:FrameSymptom .
+dx:FrameSymptom  a owl:Class ; rdfs:subClassOf onm:Symptom ;
+    rdfs:comment "Symptom S# of the case frame (instance form)."@en .
+dx:explainedBy   a owl:ObjectProperty ; rdfs:domain dx:FrameSymptom ; rdfs:range dx:Hypothesis .
+dx:symptomRef    a owl:DatatypeProperty ; rdfs:domain dx:FrameSymptom ; rdfs:range xsd:string .
+dx:symptomKind   a owl:DatatypeProperty ; rdfs:domain dx:FrameSymptom ; rdfs:range xsd:string ;
+    rdfs:comment "alarm | ppe | service-down | service-degraded."@en .
+dx:aboutResource a owl:ObjectProperty ; rdfs:domain dx:FrameSymptom ; rdfs:range onm:Resource .
+dx:reportedBy    a owl:ObjectProperty ; rdfs:domain dx:FrameSymptom ; rdfs:range onm:Resource ;
+    rdfs:comment "The resource (port/board/NE) that raised the observation — it was alive to do so."@en .
+dx:relevant      a owl:DatatypeProperty ; rdfs:domain dx:FrameSymptom ; rdfs:range xsd:boolean ;
+    rdfs:comment "Counts toward the 70% coverage rule (primary symptoms; L1/L2 co-located children are not relevant)."@en .
+dx:dependsOn     a owl:ObjectProperty , owl:TransitiveProperty ; rdfs:range onm:Resource ;
+    rdfs:comment "Materialised closure: service/tunnel -> every resource on its path (computed by the loader)."@en .
+
+dx:EvidenceTerm a owl:Class ;
+    rdfs:comment "A log-likelihood term in nats over the hypothesis set, read from one evidence item set in one window."@en .
+dx:termKind  a owl:DatatypeProperty ; rdfs:domain dx:EvidenceTerm ; rdfs:range xsd:string .
+dx:window    a owl:DatatypeProperty ; rdfs:domain dx:EvidenceTerm ; rdfs:range xsd:string .
+dx:readsEvidence a owl:ObjectProperty ; rdfs:domain dx:EvidenceTerm .
+
+dx:DiagnosisTree a owl:Class .
+dx:TreeNode  a owl:Class .
+dx:nodeKind  a owl:DatatypeProperty ; rdfs:domain dx:TreeNode ; rdfs:range xsd:string ;
+    rdfs:comment "frame | generate | hypothesis | evaluate | question | check | answer | analogy | synthesis | decision | verify."@en .
+dx:child     a owl:ObjectProperty ; rdfs:domain dx:TreeNode ; rdfs:range dx:TreeNode .
+dx:ofTree    a owl:ObjectProperty ; rdfs:domain dx:TreeNode ; rdfs:range dx:DiagnosisTree .
+dx:diagnoses a owl:ObjectProperty ; rdfs:domain dx:DiagnosisTree ; rdfs:range onm:Incident .
+
+# ----------------------------------------------------------------------------
+# (3) Bookkeeping — bitemporal validity, lifecycle provenance, completeness
+#     Applied to NAMED GRAPHS (each lifecycle write is one graph).
+# ----------------------------------------------------------------------------
+dx:validFrom   a owl:DatatypeProperty ; rdfs:range xsd:dateTime ; rdfs:comment "Valid time start (true in the network from)."@en .
+dx:validTo     a owl:DatatypeProperty ; rdfs:range xsd:dateTime ; rdfs:comment "Valid time end (absent = still valid)."@en .
+dx:recordedAt  a owl:DatatypeProperty ; rdfs:range xsd:dateTime ; rdfs:comment "Transaction time (when the agent learned it)."@en .
+dx:supersededAt a owl:DatatypeProperty ; rdfs:range xsd:dateTime ; rdfs:comment "Transaction time at which a later record replaced it."@en .
+dx:LifecycleEvent a owl:Class ; rdfs:subClassOf prov:Activity ;
+    rdfs:comment "Onboarding | InventorySync | TopologyChange | DocumentationPublication | Closure | BaseRateUpdate."@en .
+dx:writtenBy   a owl:ObjectProperty ; rdfs:subPropertyOf prov:wasGeneratedBy ; rdfs:range dx:LifecycleEvent .
+
+dx:CompletenessDeclaration a owl:Class ;
+    rdfs:comment "Declares whether absence of a relation means false (complete) or unknown (incomplete). The rule engine treats absence on incomplete relations as unknown."@en .
+dx:aboutProperty a owl:ObjectProperty ; rdfs:domain dx:CompletenessDeclaration ; rdfs:range rdf:Property .
+dx:complete      a owl:DatatypeProperty ; rdfs:domain dx:CompletenessDeclaration ; rdfs:range xsd:boolean .
+
+[] a dx:CompletenessDeclaration ; dx:aboutProperty optx:traverses ;   dx:complete true .
+[] a dx:CompletenessDeclaration ; dx:aboutProperty optx:supportedBy ; dx:complete true .
+[] a dx:CompletenessDeclaration ; dx:aboutProperty optx:hostsBoard ;  dx:complete true .
+[] a dx:CompletenessDeclaration ; dx:aboutProperty optx:partOfSection ; dx:complete false ;
+   rdfs:comment "Cable/duct records may be missing (shared risk can be unrecorded)."@en .
+[] a dx:CompletenessDeclaration ; dx:aboutProperty optx:launchAmplifier ; dx:complete false .

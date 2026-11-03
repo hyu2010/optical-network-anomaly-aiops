@@ -1,0 +1,82 @@
+{
+  "ietf-incident:incident-notification": {
+    "incident-no": "1001",
+    "name": "Loss of signal on span_OMS3_BC",
+    "type": "ietf-incident:problem",
+    "incident-qualifier": "",
+    "service-instance": ["ch2", "ch4"],
+    "domain": "ietf-incident:transport",
+    "priority": "critical",
+    "status": "updated",
+    "ack-status": "unacknowledged",
+    "category": "ietf-incident:network",
+    "detail": "Fibre cut on span_OMS3_BC (B->C), 31.4 +/- 0.4 km from B. Probability 0.99287, none-of-these 0.0067. Decisive evidence: PPE step of -30 dB mid-span on och_ch2; no LOS at B on the reverse fibre; the dead-resource and low-power alternatives are contradicted by the alarms observed.",
+    "resolve-advice": "Dispatch to span_OMS3_BC: confirm the break with OTDR from B (expected at 31.4 km), splice or replace the fibre, then verify that OTS_LOS clears at C.FIU.line_from_B and that services ch2 and ch4 recover.",
+    "sources": {
+      "source": [
+        {
+          "node-ref": "B",
+          "network-ref": "optical-topo",
+          "resource": [{"name": "B.FIU.line_to_C"}]
+        },
+        {
+          "node-ref": "C",
+          "network-ref": "optical-topo",
+          "resource": [{"name": "C.FIU.line_from_B"}]
+        }
+      ]
+    },
+    "probable-causes": {
+      "probable-cause": [
+        {
+          "node-ref": "B",
+          "network-ref": "optical-topo",
+          "cause-name": "diag-agent-incident-ext:fibre-cut",
+          "detail": "FIBRE_CUT at span_OMS3_BC; P = 0.99287; runner-up AMP_FAIL at B.OA_C, P = 0.00042.",
+          "resource": [
+            {
+              "name": "span_OMS3_BC",
+              "cause-name": "diag-agent-incident-ext:fibre-cut",
+              "detail": "Break 31.4 +/- 0.4 km from B on a 75 km span; PPE step -30 dB on och_ch2 at z = 131.4 km."
+            }
+          ]
+        }
+      ]
+    },
+    "probable-events": {
+      "probable-event": [
+        {"type": "ietf-incident:alarm", "event-id": "alm-42-811"},
+        {"type": "diag-agent-incident-ext:ppe-anomaly", "event-id": "ppe-42-och_ch2-0"}
+      ]
+    },
+    "events": {
+      "event": [
+        {"type": "ietf-incident:alarm", "event-id": "alm-42-811",
+         "alarm": {"resource": "C.FIU.line_from_B", "alarm-type-id": "diag-agent-alarm-types:OTS_LOS"}},
+        {"type": "ietf-incident:alarm", "event-id": "alm-42-812",
+         "alarm": {"resource": "C.FIU.line_from_B", "alarm-type-id": "diag-agent-alarm-types:MUT_LOS"}},
+        {"type": "ietf-incident:alarm", "event-id": "alm-42-813",
+         "alarm": {"resource": "C.OTU.line_rx_B", "alarm-type-id": "diag-agent-alarm-types:R_LOS"}},
+        {"type": "ietf-incident:alarm", "event-id": "alm-42-814",
+         "alarm": {"resource": "C.OTU.line_rx_B", "alarm-type-id": "diag-agent-alarm-types:OTU_SSF"}},
+        {"type": "ietf-incident:alarm", "event-id": "alm-42-815",
+         "alarm": {"resource": "C.OTU.client_ch2", "alarm-type-id": "diag-agent-alarm-types:ODU_PM_SSF"}},
+        {"type": "ietf-incident:alarm", "event-id": "alm-42-816",
+         "alarm": {"resource": "B.OTU.line_tx_C", "alarm-type-id": "diag-agent-alarm-types:OTU_BDI"}},
+        {"type": "ietf-incident:alarm", "event-id": "alm-42-817",
+         "alarm": {"resource": "C.OTU.client_ch4", "alarm-type-id": "diag-agent-alarm-types:ODU_PM_SSF"}},
+        {"type": "diag-agent-incident-ext:ppe-anomaly", "event-id": "ppe-42-och_ch2-0",
+         "metric": {"resource": "och_ch2", "metric-name": "ppe-step-db",
+                    "threshold-value": "-3.00", "observed-value": "-30.00"}}
+      ]
+    },
+    "time": "2026-11-02T09:30:03.100Z",
+    "diag-agent-incident-ext:ticket-no": "TT-20261102-0042",
+    "diag-agent-incident-ext:diagnosis-summary": {
+      "decision": "committed",
+      "leader-probability": "0.992870",
+      "nota-probability": "0.006707",
+      "tree-uri": "http://127.0.0.1:8040/diag/v1/incidents/1001/tree"
+    }
+  }
+}

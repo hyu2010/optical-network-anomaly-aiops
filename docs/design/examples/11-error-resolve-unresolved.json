@@ -1,0 +1,18 @@
+{
+  "ietf-restconf:errors": {
+    "error": [
+      {
+        "error-type": "application",
+        "error-tag": "operation-failed",
+        "error-message": "Incident 1002 cannot be resolved: no probable cause has been committed.",
+        "error-info": {
+          "ietf-incident:incident-resolve-error-info": {
+            "incident-no": "1002",
+            "reason": "ietf-incident:probable-cause-unresolved",
+            "description": "Diagnosis ended without commitment (90% set: SPAN_LOSS_INCREASE@span_OMS6_DE 0.61, CONNECTOR_DIRTY@span_OMS6_DE 0.27; none-of-these 0.09). Run CHK_OTDR on span_OMS6_DE or resolve manually."
+          }
+        }
+      }
+    ]
+  }
+}

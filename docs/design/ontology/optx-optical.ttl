@@ -1,0 +1,223 @@
+@prefix onm:  <https://optical-aiops.example/ns/rfc9940#> .
+@prefix optx: <https://optical-aiops.example/ns/optical#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+# ============================================================================
+#  optx: — Optical transport domain layer, reconciled to onm: (RFC 9940).
+#  Aligned with the simulator's YANG instance data:
+#    RFC 8345 ietf-network / ietf-network-topology  (optical-topo, otn-topo)
+#    ietf-te / ietf-wdm-tunnel / ietf-otn-tunnel      (OCh / ODU tunnels)
+#    ietf-network-hardware-inventory                  (NE / board / port)
+#    nfms: augmentations                               (length-km, PPE, ...)
+#  Every instance carries optx:yangPath back to the YANG node it came from.
+# ============================================================================
+
+<https://optical-aiops.example/ns/optical>
+    a owl:Ontology ;
+    owl:imports <https://optical-aiops.example/ns/rfc9940> ;
+    rdfs:label "Optical transport domain layer"@en ;
+    owl:versionInfo "1.0.0" .
+
+# ----------------------------------------------------------------------------
+# Resources (all ⊑ onm:Resource)
+# ----------------------------------------------------------------------------
+optx:Network        a owl:Class ; rdfs:subClassOf onm:NetworkSystem ;
+    rdfs:comment "An RFC 8345 network instance (optical-topo, otn-topo)."@en .
+optx:NetworkElement a owl:Class ; rdfs:subClassOf onm:Resource ;
+    skos:altLabel "NE"@en ; rdfs:comment "inventory network-element (A..F); topology node."@en .
+optx:Board          a owl:Class ; rdfs:subClassOf onm:Resource ;
+    rdfs:comment "inventory component class module/fan."@en .
+optx:OTUBoard  a owl:Class ; rdfs:subClassOf optx:Board ; rdfs:comment "Transponder/line OTU; coherent receiver; PPE-capable."@en .
+optx:OABoard   a owl:Class ; rdfs:subClassOf optx:Board ; rdfs:comment "Optical amplifier (booster/pre-amp)."@en .
+optx:FIUBoard  a owl:Class ; rdfs:subClassOf optx:Board ; rdfs:comment "Fibre interface unit (line side of one OMS degree)."@en .
+optx:SCCBoard  a owl:Class ; rdfs:subClassOf optx:Board ; rdfs:comment "System control/communication."@en .
+optx:FanBoard  a owl:Class ; rdfs:subClassOf optx:Board .
+optx:Port      a owl:Class ; rdfs:subClassOf onm:Resource ;
+    rdfs:comment "inventory component class port; cross-referenced by topology termination points."@en .
+optx:TerminationPoint a owl:Class ; rdfs:subClassOf onm:Resource ;
+    rdfs:comment "RFC 8345 termination-point; optx:inventoryPort links to the Port."@en .
+
+optx:Link      a owl:Class ; rdfs:subClassOf onm:Resource ;
+    rdfs:comment "RFC 8345 directed link."@en .
+optx:OmsSpan   a owl:Class ; rdfs:subClassOf optx:Link ;
+    rdfs:comment "optical-topo link span_OMS{n}_{xy}: one directed fibre of an OMS section."@en .
+optx:OtuLink   a owl:Class ; rdfs:subClassOf optx:Link ;
+    rdfs:comment "otn-topo link otu_OMS{n}_{xy}: OTU pipe whose supporting-link is the span."@en .
+optx:OmsSection a owl:Class ; rdfs:subClassOf onm:Resource ;
+    rdfs:comment "The fibre pair / cable section OMS{n} (both directions). Canonical key for cuts: a cable cut merges onto it."@en .
+optx:Amplifier a owl:Class ; rdfs:subClassOf onm:Resource ;
+    rdfs:comment "EDFA site on a span (nfms:amplifiers, or node OA at the span launch)."@en .
+
+optx:Tunnel     a owl:Class ; rdfs:subClassOf onm:Resource .
+optx:OchTunnel  a owl:Class ; rdfs:subClassOf optx:Tunnel ; rdfs:comment "ietf-wdm-tunnel (och_chN)."@en .
+optx:OduTunnel  a owl:Class ; rdfs:subClassOf optx:Tunnel ; rdfs:comment "ietf-otn-tunnel (odu_chN)."@en .
+optx:ClientService a owl:Class ; rdfs:subClassOf onm:Resource ;
+    rdfs:comment "Service carried by an ODU tunnel (nfms:client-service-name, e.g. ch2)."@en .
+
+optx:Instrument a owl:Class ; rdfs:subClassOf onm:Resource ;
+    rdfs:comment "A monitoring point that Detects: an alarm-reporting port/board/NE poller, or a PPE-enabled coherent receiver."@en .
+
+# ----------------------------------------------------------------------------
+# Structural relations
+# ----------------------------------------------------------------------------
+optx:inNetwork   a owl:ObjectProperty ; rdfs:range optx:Network .
+optx:hostsBoard  a owl:ObjectProperty ; rdfs:subPropertyOf onm:hasPart ;
+    rdfs:domain optx:NetworkElement ; rdfs:range optx:Board .
+optx:hasPort     a owl:ObjectProperty ; rdfs:subPropertyOf onm:hasPart ;
+    rdfs:domain optx:Board ; rdfs:range optx:Port .
+optx:inventoryPort a owl:ObjectProperty ; rdfs:domain optx:TerminationPoint ; rdfs:range optx:Port .
+optx:onNode      a owl:ObjectProperty ; rdfs:domain optx:TerminationPoint ; rdfs:range optx:NetworkElement .
+
+optx:sourceNE  a owl:ObjectProperty , owl:FunctionalProperty ; rdfs:range optx:NetworkElement .
+optx:destNE    a owl:ObjectProperty , owl:FunctionalProperty ; rdfs:range optx:NetworkElement .
+optx:txPort    a owl:ObjectProperty , owl:FunctionalProperty ; rdfs:domain optx:Link ; rdfs:range optx:Port ;
+    rdfs:comment "Inventory port at the link's source TP."@en .
+optx:rxPort    a owl:ObjectProperty , owl:FunctionalProperty ; rdfs:domain optx:Link ; rdfs:range optx:Port ;
+    rdfs:comment "Inventory port at the link's destination TP (where LOS is reported)."@en .
+optx:reverseOf a owl:ObjectProperty , owl:SymmetricProperty ; rdfs:domain optx:Link ; rdfs:range optx:Link .
+optx:partOfSection a owl:ObjectProperty ; rdfs:domain optx:OmsSpan ; rdfs:range optx:OmsSection .
+optx:supportedBy a owl:ObjectProperty ; rdfs:domain optx:OtuLink ; rdfs:range optx:OmsSpan ;
+    rdfs:comment "RFC 8345 supporting-link (otn-topo -> optical-topo)."@en .
+optx:launchAmplifier a owl:ObjectProperty ; rdfs:domain optx:OmsSpan ; rdfs:range optx:Amplifier .
+optx:amplifierBoard  a owl:ObjectProperty ; rdfs:domain optx:Amplifier ; rdfs:range optx:OABoard .
+
+optx:hasHop    a owl:ObjectProperty ; rdfs:domain optx:Tunnel ; rdfs:range optx:Hop .
+optx:Hop       a owl:Class ; rdfs:comment "Ordered ERO hop (reified to keep order)."@en .
+optx:hopIndex  a owl:DatatypeProperty ; rdfs:domain optx:Hop ; rdfs:range xsd:nonNegativeInteger .
+optx:hopLink   a owl:ObjectProperty ; rdfs:domain optx:Hop ; rdfs:range optx:Link .
+optx:hopStartKm a owl:DatatypeProperty ; rdfs:domain optx:Hop ; rdfs:range xsd:decimal ;
+    rdfs:comment "Cumulative path offset of the hop start (PPE path coordinate)."@en .
+optx:traverses a owl:ObjectProperty ; rdfs:domain optx:Tunnel ; rdfs:range optx:Link ;
+    rdfs:comment "Unordered shortcut of hasHop/hopLink, materialised for walks."@en .
+optx:supportingTunnel a owl:ObjectProperty ; rdfs:domain optx:OduTunnel ; rdfs:range optx:OchTunnel .
+optx:carries   a owl:ObjectProperty ; rdfs:domain optx:OduTunnel ; rdfs:range optx:ClientService .
+optx:dropBoard a owl:ObjectProperty ; rdfs:domain optx:OchTunnel ; rdfs:range optx:OTUBoard .
+optx:dropPort  a owl:ObjectProperty ; rdfs:domain optx:Tunnel ; rdfs:range optx:Port .
+optx:clientPort a owl:ObjectProperty ; rdfs:domain optx:OduTunnel ; rdfs:range optx:Port ;
+    rdfs:comment "Destination client TP where ODU_PM_SSF is reported."@en .
+
+optx:observes  a owl:ObjectProperty ; rdfs:domain optx:Instrument ; rdfs:range onm:Characteristic .
+optx:instrumentOf a owl:ObjectProperty ; rdfs:domain optx:Instrument ; rdfs:range onm:Resource .
+
+# ----------------------------------------------------------------------------
+# Datatype properties (from YANG / nfms)
+# ----------------------------------------------------------------------------
+optx:yangPath   a owl:DatatypeProperty ; rdfs:range xsd:string ;
+    rdfs:comment "Instance path of the YANG node this resource was mapped from."@en .
+optx:yangId     a owl:DatatypeProperty ; rdfs:range xsd:string ;
+    rdfs:comment "Identifier as used by alarms.ne/board/port/container_id (join key)."@en .
+optx:lengthKm   a owl:DatatypeProperty ; rdfs:domain optx:OmsSpan ; rdfs:range xsd:decimal .
+optx:spanCount  a owl:DatatypeProperty ; rdfs:domain optx:OmsSpan ; rdfs:range xsd:nonNegativeInteger .
+optx:fibreType  a owl:DatatypeProperty ; rdfs:domain optx:OmsSpan ; rdfs:range xsd:string .
+optx:alphaDbPerKm a owl:DatatypeProperty ; rdfs:domain optx:OmsSpan ; rdfs:range xsd:decimal .
+optx:ppeEnabled a owl:DatatypeProperty ; rdfs:domain optx:OTUBoard ; rdfs:range xsd:boolean .
+optx:ppeDeltaZm a owl:DatatypeProperty ; rdfs:domain optx:OTUBoard ; rdfs:range xsd:integer .
+optx:ppePollMs  a owl:DatatypeProperty ; rdfs:domain optx:OTUBoard ; rdfs:range xsd:integer .
+optx:rateType   a owl:DatatypeProperty ; rdfs:domain optx:Tunnel ; rdfs:range xsd:string .
+optx:txChannelPowerDbm a owl:DatatypeProperty ; rdfs:domain optx:OchTunnel ; rdfs:range xsd:decimal .
+optx:boardType  a owl:DatatypeProperty ; rdfs:domain optx:Board ; rdfs:range xsd:string .
+
+# ----------------------------------------------------------------------------
+# Layers and monitoring (instrument model incl. NMS polling cadence)
+# ----------------------------------------------------------------------------
+optx:Layer a owl:Class ; rdfs:comment "Alarm/monitoring layer (Design/08 §3 cascade order)."@en .
+optx:layerRank   a owl:DatatypeProperty ; rdfs:domain optx:Layer ; rdfs:range xsd:integer .
+optx:pollCadenceMs a owl:DatatypeProperty ; rdfs:domain optx:Layer ; rdfs:range xsd:integer ;
+    rdfs:comment "NMS observation cadence for alarms of this layer: absence becomes evidence only after onset + delay + cadence."@en .
+optx:serverLayerOf a owl:ObjectProperty ; rdfs:domain optx:Layer ; rdfs:range optx:Layer .
+
+optx:OTS a optx:Layer ; optx:layerRank 0 ; optx:pollCadenceMs 5000 .
+optx:OMS a optx:Layer ; optx:layerRank 1 ; optx:pollCadenceMs 5000 ;  optx:serverLayerOf optx:OCH .
+optx:OCH a optx:Layer ; optx:layerRank 2 ; optx:pollCadenceMs 10000 ; optx:serverLayerOf optx:OTU .
+optx:OTU a optx:Layer ; optx:layerRank 3 ; optx:pollCadenceMs 30000 ; optx:serverLayerOf optx:ODU .
+optx:SDH a optx:Layer ; optx:layerRank 4 ; optx:pollCadenceMs 30000 .
+optx:FEC a optx:Layer ; optx:layerRank 4 ; optx:pollCadenceMs 60000 .
+optx:ODU a optx:Layer ; optx:layerRank 4 ; optx:pollCadenceMs 60000 ; optx:serverLayerOf optx:CLIENT .
+optx:CLIENT a optx:Layer ; optx:layerRank 5 ; optx:pollCadenceMs 60000 .
+optx:EQUIPMENT a optx:Layer ; optx:layerRank 0 ; optx:pollCadenceMs 120000 .
+optx:ENVIRONMENT a optx:Layer ; optx:layerRank 0 ; optx:pollCadenceMs 300000 .
+optx:PPE a optx:Layer ; optx:layerRank 0 ; optx:pollCadenceMs 30000 ;
+    rdfs:comment "Pseudo-layer for PPE trace delivery (Design/12 polling)."@en .
+optx:OTS optx:serverLayerOf optx:OMS .
+
+# ----------------------------------------------------------------------------
+# Characteristics (⊑ onm:Characteristic) and Conditions (⊑ onm:Condition)
+# ----------------------------------------------------------------------------
+optx:InputPower      a owl:Class ; rdfs:subClassOf onm:Characteristic .
+optx:PowerProfile    a owl:Class ; rdfs:subClassOf onm:Characteristic ;
+    rdfs:comment "Longitudinal power profile P(z) of an OCh reconstructed by its drop receiver (PPE)."@en .
+optx:PreFecBer       a owl:Class ; rdfs:subClassOf onm:Characteristic .
+optx:BitErrorCount   a owl:Class ; rdfs:subClassOf onm:Characteristic .
+optx:TrailTrace      a owl:Class ; rdfs:subClassOf onm:Characteristic .
+optx:PayloadType     a owl:Class ; rdfs:subClassOf onm:Characteristic .
+optx:BoardPowerState a owl:Class ; rdfs:subClassOf onm:Characteristic .
+optx:NEPowerState    a owl:Class ; rdfs:subClassOf onm:Characteristic .
+optx:FanState        a owl:Class ; rdfs:subClassOf onm:Characteristic .
+optx:Temperature     a owl:Class ; rdfs:subClassOf onm:Characteristic .
+
+optx:OpticalCondition a owl:Class ; rdfs:subClassOf onm:Condition .
+optx:LossOfSignal     a owl:Class ; rdfs:subClassOf optx:OpticalCondition ;
+    rdfs:comment "Interpretation: no light / no signal at the port or layer. Realised by alarm types OTS_LOS, R_LOS, MUT_LOS, OCH_LOS."@en .
+optx:InputPowerAbnormal a owl:Class ; rdfs:subClassOf optx:OpticalCondition ; rdfs:comment "IN_PWR_ABN."@en .
+optx:LowInputPower    a owl:Class ; rdfs:subClassOf optx:InputPowerAbnormal ; rdfs:comment "IN_PWR_LOW."@en .
+optx:HighInputPower   a owl:Class ; rdfs:subClassOf optx:InputPowerAbnormal ; rdfs:comment "IN_PWR_HIGH."@en .
+optx:SignalDegraded   a owl:Class ; rdfs:subClassOf onm:Condition ;
+    rdfs:comment "Realised by OTU_DEG (generic degradation)."@en .
+optx:RegeneratorSectionErrors a owl:Class ; rdfs:subClassOf optx:SignalDegraded ; rdfs:comment "B1_EXC."@en .
+optx:MultiplexSectionErrors   a owl:Class ; rdfs:subClassOf optx:SignalDegraded ; rdfs:comment "B2_EXC."@en .
+optx:PreFecDegraded           a owl:Class ; rdfs:subClassOf optx:SignalDegraded ; rdfs:comment "BEFFEC_EXC, FEC_BEF_COR_ER."@en .
+optx:ServerSignalFail a owl:Class ; rdfs:subClassOf onm:Condition ; rdfs:comment "OTU_SSF, ODU_PM_SSF."@en .
+optx:BackwardDefect   a owl:Class ; rdfs:subClassOf onm:Condition ; rdfs:comment "OTU_BDI (reported back upstream)."@en .
+optx:TraceMismatch    a owl:Class ; rdfs:subClassOf onm:Condition ; rdfs:comment "OTU_TIM, ODU_PM_TIM, OPU_PLM."@en .
+optx:EquipmentDown    a owl:Class ; rdfs:subClassOf onm:Condition ; rdfs:comment "BD_OFFLINE, POWER_ABNORMAL, HARD_BAD."@en .
+optx:CoolingFailure   a owl:Class ; rdfs:subClassOf onm:Condition ; rdfs:comment "FAN_FAIL."@en .
+optx:OverTemperature  a owl:Class ; rdfs:subClassOf onm:Condition ; rdfs:comment "TEMP_OVER."@en .
+optx:ProfileStep      a owl:Class ; rdfs:subClassOf optx:OpticalCondition ; rdfs:comment "PPE step anomaly (kind=step)."@en .
+optx:ProfileSlope     a owl:Class ; rdfs:subClassOf optx:OpticalCondition ; rdfs:comment "PPE slope anomaly (kind=slope)."@en .
+optx:ProfileNull      a owl:Class ; rdfs:subClassOf optx:OpticalCondition ; rdfs:comment "PPE degraded / no usable profile (kind=null)."@en .
+optx:RxOffset         a owl:Class ; rdfs:subClassOf optx:OpticalCondition ; rdfs:comment "PPE rx_offset: change at the receiver only."@en .
+optx:ProfileClean     a owl:Class ; rdfs:subClassOf optx:OpticalCondition ; rdfs:comment "PPE trace with no anomaly above detector thresholds."@en .
+optx:ServiceDown      a owl:Class ; rdfs:subClassOf onm:Condition .
+optx:ServiceDegraded  a owl:Class ; rdfs:subClassOf onm:Condition .
+
+# ----------------------------------------------------------------------------
+# Alarm types (documentation) and alarm instances (observations)
+# ----------------------------------------------------------------------------
+optx:AlarmType a owl:Class ;
+    rdfs:comment "Vendor alarm definition (kg_lib/alarm_catalog_9800.json; 8800 fallback)."@en .
+optx:alarmName      a owl:DatatypeProperty ; rdfs:domain optx:AlarmType ; rdfs:range xsd:string .
+optx:alarmLayer     a owl:ObjectProperty ;   rdfs:domain optx:AlarmType ; rdfs:range optx:Layer .
+optx:defaultSeverity a owl:DatatypeProperty ; rdfs:domain optx:AlarmType ; rdfs:range xsd:string .
+optx:reportedAgainst a owl:DatatypeProperty ; rdfs:domain optx:AlarmType ; rdfs:range xsd:string ;
+    rdfs:comment "port | board | ne | container."@en .
+optx:indicatesCondition a owl:ObjectProperty ; rdfs:domain optx:AlarmType ;
+    rdfs:comment "Range: a subclass of onm:Condition (class-valued, OWL 2 punning). The alarm reports the Condition, never the Cause."@en .
+optx:suppresses     a owl:ObjectProperty ; rdfs:domain optx:AlarmType ; rdfs:range optx:AlarmType ;
+    rdfs:comment "Edge of alarm_suppression.json (upstream suppresses downstream at the same location)."@en .
+optx:possibleCauseText a owl:DatatypeProperty ; rdfs:domain optx:AlarmType ; rdfs:range xsd:string ;
+    rdfs:comment "Verbatim 'Possible Causes' text (alarms_detail.json)."@en .
+
+optx:AlarmInstance a owl:Class ; rdfs:subClassOf onm:Alarm ;
+    rdfs:comment "One alarms row interpreted per RFC 9940: an Alarm (State) whose raise is an onm:Event."@en .
+optx:alarmType   a owl:ObjectProperty , owl:FunctionalProperty ; rdfs:domain optx:AlarmInstance ; rdfs:range optx:AlarmType .
+optx:containerRef a owl:ObjectProperty ; rdfs:domain optx:AlarmInstance ; rdfs:range onm:Resource ;
+    rdfs:comment "alarms.container_id resolved (span / otu / och / odu / port / board)."@en .
+optx:raiseEvent  a owl:ObjectProperty ; rdfs:domain optx:AlarmInstance ; rdfs:range onm:Event .
+optx:severity    a owl:DatatypeProperty ; rdfs:range xsd:string .
+optx:eventId     a owl:DatatypeProperty ; rdfs:range xsd:string ;
+    rdfs:comment "Stable id used as ietf-incident event-id (alm-<incident>-<alarm-row-id>)."@en .
+
+optx:PpeTraceValue a owl:Class ; rdfs:subClassOf onm:Value ;
+    rdfs:comment "A PPE snapshot of a PowerProfile characteristic (ppe_traces row)."@en .
+optx:PpeAnomaly    a owl:Class ; rdfs:subClassOf onm:Anomaly ;
+    rdfs:comment "Detector anomaly (ppe_anomalies, is_root=0) — also an onm:Change w.r.t. the baseline profile."@en .
+optx:anomalyKind   a owl:DatatypeProperty ; rdfs:domain optx:PpeAnomaly ; rdfs:range xsd:string .
+optx:zKm           a owl:DatatypeProperty ; rdfs:range xsd:decimal ; rdfs:comment "Path coordinate (cumulative along OCh route)."@en .
+optx:onSpan        a owl:ObjectProperty ; rdfs:range optx:OmsSpan .
+optx:offsetInSpanKm a owl:DatatypeProperty ; rdfs:range xsd:decimal .
+optx:magnitudeDb   a owl:DatatypeProperty ; rdfs:range xsd:decimal .
+optx:detectorConfidence a owl:DatatypeProperty ; rdfs:range xsd:decimal .

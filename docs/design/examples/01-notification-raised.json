@@ -1,0 +1,72 @@
+{
+  "ietf-incident:incident-notification": {
+    "incident-no": "1001",
+    "name": "Loss of signal on span_OMS3_BC",
+    "type": "ietf-incident:problem",
+    "incident-qualifier": "",
+    "service-instance": ["ch2", "ch4"],
+    "domain": "ietf-incident:transport",
+    "priority": "critical",
+    "status": "raised",
+    "ack-status": "unacknowledged",
+    "category": "ietf-incident:network",
+    "detail": "OTS loss of signal at C on the receive side of span_OMS3_BC (B->C), followed by the OCh/OTU/ODU cascade at C and a backward defect at B. Service ch2 is down; ch4 traverses the same span. Diagnosis in progress (task dx-1001-1).",
+    "events": {
+      "event": [
+        {
+          "type": "ietf-incident:alarm",
+          "event-id": "alm-42-811",
+          "alarm": {
+            "resource": "C.FIU.line_from_B",
+            "alarm-type-id": "diag-agent-alarm-types:OTS_LOS"
+          }
+        },
+        {
+          "type": "ietf-incident:alarm",
+          "event-id": "alm-42-812",
+          "alarm": {
+            "resource": "C.FIU.line_from_B",
+            "alarm-type-id": "diag-agent-alarm-types:MUT_LOS"
+          }
+        },
+        {
+          "type": "ietf-incident:alarm",
+          "event-id": "alm-42-813",
+          "alarm": {
+            "resource": "C.OTU.line_rx_B",
+            "alarm-type-id": "diag-agent-alarm-types:R_LOS"
+          }
+        },
+        {
+          "type": "ietf-incident:alarm",
+          "event-id": "alm-42-814",
+          "alarm": {
+            "resource": "C.OTU.line_rx_B",
+            "alarm-type-id": "diag-agent-alarm-types:OTU_SSF"
+          }
+        },
+        {
+          "type": "ietf-incident:alarm",
+          "event-id": "alm-42-815",
+          "alarm": {
+            "resource": "C.OTU.client_ch2",
+            "alarm-type-id": "diag-agent-alarm-types:ODU_PM_SSF"
+          }
+        },
+        {
+          "type": "ietf-incident:alarm",
+          "event-id": "alm-42-816",
+          "alarm": {
+            "resource": "B.OTU.line_tx_C",
+            "alarm-type-id": "diag-agent-alarm-types:OTU_BDI"
+          }
+        }
+      ]
+    },
+    "time": "2026-11-02T09:30:03.100Z",
+    "diag-agent-incident-ext:diagnosis-summary": {
+      "decision": "in-progress",
+      "tree-uri": "http://127.0.0.1:8040/diag/v1/incidents/1001/tree"
+    }
+  }
+}
