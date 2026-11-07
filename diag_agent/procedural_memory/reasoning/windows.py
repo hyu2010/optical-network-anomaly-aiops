@@ -1,4 +1,9 @@
-"""Windowed evaluation of predictions (doc 04 §6.2) and PPE trace classes.
+"""Observation-window states for winnowing (doc 04 §6.2) and PPE trace classes.
+
+Winnowing weighs hypotheses with likelihood terms (`terms.py`, `ledger.py`).
+This module only classifies each predicted effect against its observation
+window. A window still open is PENDING and is not evidence. Absence becomes
+a winnowing debit only after the window closes.
 
 A prediction p with physical delay d has the observation window
     W = [t0_lo + d,  t0_hi + d + cadence(layer) + 2 s]

@@ -1,4 +1,7 @@
-"""Evidence terms (doc 04 §6.3-6.6).
+"""Winnowing terms (doc 04 §6.3).
+
+These are the likelihood terms winnowing supplies to the ledger. Observation
+windows (windows.py) only decide which predicted effects are eligible.
 
 Every synthesis recomputes all terms from the evidence held so far, so no
 observation is counted twice across cycles.

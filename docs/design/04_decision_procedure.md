@@ -9,7 +9,7 @@ All reasoning happens in working memory, through the steps below.
 | Frame | Build the case frame deterministically from the observations | §3 |
 | Generate | Propose hypotheses from several independent lines. The LLM line is guardrailed by an **agent-led KG walk**. | §4, §5 |
 | Pool | Mix the lines into a prior with an explicit "none of these" (NOTA) | §4.5 |
-| Evaluate in windows | Score each hypothesis's predictions only once their observation window has closed | §6 |
+| Winnow | Weigh each hypothesis with likelihood terms from documented effects, graph consistency, the PPE twin and checks. A predicted absence counts only after its observation window has closed. | §6 |
 | Analogy | Compare the current role signature with past episodes from episodic memory | §10 |
 | Bayesian synthesis | Combine tempered log-likelihood terms in a ledger; commit, report a set, or say "I don't know" | §7 |
 | Plan | Choose the next check by expected information per hour | §8 |
@@ -46,7 +46,7 @@ class TreeNode(BaseModel):
 | `hypothesis` | A pooled candidate `H#` | mode, location, prior, line support |
 | `pruned` | A candidate dropped before pooling, or a rejected LLM proposal | reason (e.g. "reverse-fibre rx quiet", "undocumented mode WSS_PORT_FAIL") |
 | `analogy` | Episodes retrieved | top episodes, similarities, verification weights |
-| `evaluate` | Windowed evaluation of one cycle | per-hypothesis prediction states and terms |
+| `evaluate` | One cycle of winnowing | per-hypothesis observation-window states and the terms they feed |
 | `question` | A test that partitions the hypotheses. It is either *already answered* by observations, or a *check* to be run. | question text, answer classes and the hypotheses in each |
 | `check` | A check chosen by the advisor | check id, target, bits, effort, rate, rationale |
 | `answer` | One answer class of a question or check | answer, hypotheses kept, mass |
@@ -73,9 +73,9 @@ frame ← build_frame(observations ≤ clock)                              # §3
 H, prior ← pool(generation_lines(frame))                               # §4–5
 loop:
     preds ← propagate(H)                                               # §6.1
-    states ← window_states(preds, observations ≤ clock, clock)         # §6.2
-    terms ← evidence_terms(H, states, checks_done)                     # §6.3
-    post ← ledger(prior, terms)                                        # §7
+    states ← window_states(preds, observations ≤ clock, clock)         # §6.2 observation windows
+    terms ← evidence_terms(H, states, checks_done)                     # §6.3 winnowing terms
+    post ← ledger(prior, terms)                                        # §7 the ledger, which alone commits
     tree += questions(evidence partitions), synthesis(post)            # §9
     match decide(post, states, budget):                                # §7.3
         COMMIT          → emit; verify while windows close; break
@@ -256,13 +256,17 @@ The LLM's weights are used only as a proposal distribution; on the Janz test bed
 
 ### 5.4 Prompt (procedural memory: `prompts/proposer.v1.md`, abridged)
 
-> You are proposing candidate root causes for an optical-network incident. You are not deciding.
+> You are proposing candidate root causes for an optical-network incident. You are not deciding: winnowing and the ledger do that.
 > Use the tools to walk the knowledge graph from the frame references. Name only fault modes returned by `kg_modes`.
 > Place each hypothesis with one location term anchored on S#, V# or E#.
 > Give weights that sum, together with `nota`, to 1. Reserve `nota` for causes you believe are not documented.
 > Return JSON matching the schema.
 
-## 6. Windowed evaluation
+## 6. Winnowing
+
+Winnowing decides what is believed. Generation proposes candidates; winnowing weighs them. Each tool reads evidence the operator already holds, or the answer of a check, and supplies a likelihood term. The ledger (§7) is the only component that turns the prior and those terms into a posterior, and the only component that commits.
+
+An observation window is the timing rule inside this step, not a name for it. A predicted effect is `PENDING` until the layer's poll cadence has elapsed, and a pending absence adds nothing. Once the window has closed, the same prediction is `MATCHED`, `MISSING` or `CONTRADICTED`, and the terms below may use it. `CHK_WAIT` and the checks in §8 are refined winnowing: further evidence when the terms already held do not separate the leaders.
 
 ### 6.1 Forward propagation
 
@@ -310,9 +314,9 @@ Example windows for H1 at cycle 1 (t = +35.6 s):
 
 H9 (`AMP_FAIL`) has `EquipmentDown` at B.OA, with window [−0.6, 125.1]. It stays pending until +125.1 s, which is why H9 is still at 0 nats in cycle 1.
 
-### 6.3 Evidence terms
+### 6.3 Winnowing terms
 
-Each term is a log-likelihood in nats. Terms that read the **same evidence** share a tau budget of at most 1.
+Each term is a log-likelihood in nats, the form every winnowing tool uses. Terms that read the **same evidence** share a tau budget of at most 1. The documented term and graph consistency judge equipment behaviour from the knowledge graph. The PPE term is this test bed's transmission twin: it compares the power-profile signature a cause would produce with the profile that was read. Checks are separate evidence items.
 
 | Term | Reads | Tau | Rule |
 |---|---|---|---|

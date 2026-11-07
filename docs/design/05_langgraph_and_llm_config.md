@@ -82,8 +82,8 @@ START → ingest → frame → raise_incident → retrieve_episodes ⇉ line_* (
 | `line_*` | §4, one node per line, run in parallel through `Send` | frame, semantic memory | line_results, tree |
 | `line_llm` | §5, a ReAct **subgraph** | frame, KG tools | line_results["llm"], tree (pruned proposals) |
 | `pool` | §4.5 | line_results | hypotheses, ledger.prior, tree |
-| `evaluate` | §6, propagation and window states | hypotheses, obs_log, clock | windows, tree (`evaluate`, `question`) |
-| `synthesize` | §7.1 ledger | windows, checks done | ledger, tree (`synthesis`) |
+| `evaluate` | §6 winnowing: propagation and observation-window states | hypotheses, obs_log, clock | windows, tree (`evaluate`, `question`) |
+| `synthesize` | §6.3–§7.1 winnowing terms and the ledger | windows, checks done | ledger, tree (`synthesis`) |
 | `decide` | §7.3 decide, a pure function used as the conditional edge | ledger, windows, budget | decision, tree (`decision`) |
 | `plan` | §8.1 advisor and §8.2 orchestrator | ledger, hypotheses, windows | plan, tree (`check` plus forward branches) |
 | `execute_check` | §8.3 dispatch. Remote checks run directly. Field checks call `interrupt(pending_check)` in live mode, or ask the `FieldOracle` in replay. | plan | obs_log, clock, budget |

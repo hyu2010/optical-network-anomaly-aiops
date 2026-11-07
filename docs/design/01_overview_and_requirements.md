@@ -13,7 +13,7 @@ It is built as a CoALA-style language agent (doc 02) on LangGraph (doc 05). It u
 | R-1 | Follow the CoALA Figure-4 framework: working memory plus procedural, semantic and episodic memory as **decoupled modules** | 02 §2–§5 |
 | R-2 | Familiarity with the 6-node simulator and its anomaly injection | 01 §5, 03 §5, 07 |
 | R-3 | A KG schema layer in RDF/OWL/TTL using the **RFC 9940** terms and relationships; populated instances in **semantic memory** | 03, `ontology/*.ttl`, `ontology/example-lab-mesh.trig` |
-| R-4 | A decision procedure (diagnosis tree) built through these steps: <br>• an agent-led KG walk that guardrails the LLM's hypotheses <br>• windowed evaluation <br>• analogy with episodic memory <br>• Bayesian synthesis <br>The tree must be displayable. | 04 |
+| R-4 | A decision procedure (diagnosis tree) built through these steps: <br>• an agent-led KG walk that guardrails the LLM's hypotheses <br>• winnowing <br>• analogy with episodic memory <br>• Bayesian synthesis <br>The tree must be displayable. | 04 |
 | R-5 | LangGraph; DeepSeek or local LLMs, switched through a config file (as in `.env.example`) | 05 |
 | R-6 | The capabilities of the ietf-incident Incident Server, including generation of **ietf-incident JSON** | 06, `yang/`, `examples/` |
 | R-7 | A demonstrable test case, such as a fibre cut, that shows the reasoning steps, tree generation and the JSON payload | 07 |
@@ -36,7 +36,8 @@ These principles carry over from the Janz test-bed findings (`anomaly-diagnosis-
    - The case frame records which observable resources saw nothing. Many hypotheses are eliminated this way.
    - The frame is built deterministically and never summarised by an LLM. When an LLM built the frame on the Janz test bed, top-1 accuracy fell by 22–24 points.
 5. **Absence counts only after its observation window closes.**
-   - The simulator's NMS polling delays are 5 s for OTS up to 300 s for environment alarms. An expected alarm that has not *yet* arrived is not evidence against a hypothesis (doc 04 §6).
+   - The simulator's NMS polling delays are 5 s for OTS up to 300 s for environment alarms. An expected alarm that has not *yet* arrived is not evidence against a hypothesis (doc 04 §6.2).
+   - That timing rule is part of **winnowing**. Winnowing is the evidence step: documented effects, graph consistency, the PPE twin and checks each supply a likelihood term, and the ledger combines them (doc 04 §6–§7). An observation window only decides when a predicted absence may enter those terms. It is not a separate process, and it is not the name of winnowing.
 6. **"I don't know" is an outcome.**
    - Every diagnosis carries "none of these" (NOTA).
    - The agent commits only under explicit conditions. Otherwise it reports the 90% set and says whether the cause was probably not considered.

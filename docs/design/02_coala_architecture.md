@@ -11,8 +11,8 @@
 ```
                  ┌──────────────────────── PROCEDURAL MEMORY (read-only at run time) ─────────────────────────┐
                  │  LLM (profile from config)  ·  prompts v#  ·  output schemas  ·  parsers/validators        │
-                 │  reasoning procedures: framer, generation lines, propagator, location resolver, window     │
-                 │  evaluator, evidence terms, ledger, advisor, tree builder                                  │
+                 │  reasoning procedures: framer, generation lines, propagator, location resolver,            │
+                 │  winnowing (observation windows, evidence terms, ledger), advisor, tree builder            │
                  │  retrieval procedures: named SPARQL queries, KG walk tools, episodic retrieval             │
                  │  learning procedures: episode writer, base-rate updater                                    │
                  │  DECISION PROCEDURE: the LangGraph StateGraph (doc 05)                                     │
@@ -46,7 +46,7 @@ Working memory is the LangGraph state for one diagnosis thread, one per incident
 | `question` | The anchor (incident, service or element), the question time, and the operator's text if any | Interface (dialogue) |
 | `clock` | The current agent time: wall clock in live mode, simulated in replay | Execution and wait actions |
 | `frame` | The case frame: onset interval, scope, symptoms `S#`, services `V#`, shared elements `E#`, quiet instruments, context. Built in both an instance form and a role form. | Framer (reasoning) |
-| `windows` | The observation windows and their closure times per layer and per predicted effect | Window evaluator |
+| `windows` | Observation-window states per predicted effect (open, closed, matched, missing). These feed winnowing; they are not the winnowing step itself. | Winnowing |
 | `hypotheses` | Each candidate `H#`: fault mode, location, compound members, provenance (line, walk path), parameters | Generation lines, then location resolution |
 | `ledger` | The prior pool, the evidence terms with their tau, the log posteriors, NOTA, the entropy history and the commit status | Ledger only |
 | `tree` | Diagnosis-tree nodes and edges, appended as deltas | Tree builder |
@@ -66,7 +66,7 @@ Procedural memory holds the LLM and the agent's code. It is versioned with the r
 | LLM provider registry | `procedural_memory/llm/` | Holds named profiles (DeepSeek, local vLLM, none), one per LLM role (doc 05 §6) |
 | Prompts | `procedural_memory/prompts/*.md` | Each prompt carries a version and a content hash, which are logged in each episode |
 | Output schemas | `procedural_memory/schemas/` | Pydantic models for every LLM output, plus a repair-retry parser |
-| Reasoning procedures | `procedural_memory/reasoning/` | Framer, generation lines, propagator, location resolver, window evaluator, evidence terms, ledger, advisor, tree builder (doc 04) |
+| Reasoning procedures | `procedural_memory/reasoning/` | Framer, generation lines, propagator, location resolver, winnowing (observation-window states, evidence terms, ledger), advisor, tree builder (doc 04) |
 | Retrieval procedures | `procedural_memory/retrieval/` | Named SPARQL queries (`queries/*.rq`), KG-walk tools, episodic retrieval |
 | Learning procedures | `procedural_memory/learning/` | Episode writer, base-rate updater, procedure-candidate extractor |
 | Grounding procedures | `procedural_memory/grounding/` | Check executors and the notification emitter. These are thin and call into `environment/`. |
@@ -126,7 +126,7 @@ Episodic memory is a separate store, kept apart from the graph on purpose. It is
 |---|---|---|---|
 | Retrieval | `kg.walk`, `kg.query`, `kg.documented_modes`, `kg.effects`, `kg.resolve_location` | Semantic memory | Working memory (frame, hypotheses) |
 | Retrieval | `episodes.retrieve` | Episodic memory | Working memory (analogy candidates) |
-| Reasoning | Frame, generate, pool, propagate, evaluate windows, update ledger, plan, build tree, narrate | Working memory, LLM | Working memory |
+| Reasoning | Frame, generate, pool, propagate, winnow, update ledger, plan, build tree, narrate | Working memory, LLM | Working memory |
 | Learning | `episodes.write_episode`, `episodes.add_followup`, `kb.publish(base_rates)`, `kb.publish(incident_graph)`, `procedures.queue_candidate` | Working memory | Episodic or semantic memory; candidates go to a review queue |
 
 ### 6.2 External grounding actions
@@ -156,8 +156,8 @@ Each cycle maps onto CoALA's planning (propose, evaluate, select) followed by ex
 |---|---|---|
 | Observation | Ingest new observations up to `clock`; update the frame and the window closures | 04 §3, §6 |
 | Planning: propose | Generation lines, including the KG-walk-guardrailed LLM proposer, add hypotheses. This runs on the first cycle and on return passes. | 04 §4–5 |
-| Planning: evaluate | Windowed evaluation computes evidence terms; the ledger updates the posteriors; the tree builder adds question nodes | 04 §6–7, §9 |
-| Planning: select | Choose one: commit, run a check, wait for a window, take a return pass, or stop with "I don't know". The advisor ranks the options and the LLM orchestrator may choose among them. | 04 §8 |
+| Planning: evaluate | Winnowing computes likelihood terms (absence counts only after an observation window closes); the ledger updates the posteriors; the tree builder adds question nodes | 04 §6–7, §9 |
+| Planning: select | Choose one: commit, run a check, wait for an observation window, take a return pass, or stop with "I don't know". The advisor ranks the options and the LLM orchestrator may choose among them. Checks and waits are refined winnowing: further evidence when the terms already in the ledger do not separate the leaders. | 04 §8 |
 | Execution | A grounding action: run a check, wait, emit an incident notification, or ask the operator | 04 §8, 06 |
 | (Learning) | At closure: write the episode, base rates and the incident graph | 02 §6.3 |
 

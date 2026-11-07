@@ -558,7 +558,7 @@ class Nodes:
         return {"ledger": led, "tree": tb.new}
 
     def _questions(self, state: dict, evidence: dict, prior: dict) -> list[dict]:
-        """IG-ordered yes/no questions that the windowed evidence has answered (doc 04 §9)."""
+        """IG-ordered yes/no questions that winnowing has already answered (doc 04 §9)."""
         hyps = state.get("hypotheses") or {}
         win = state.get("windows") or {}
         asked = {n["detail"].get("key") for n in state.get("tree", []) if n["kind"] == "question"}

@@ -1,5 +1,9 @@
 """Bayesian ledger and decision rule (doc 04 §7).
 
+The ledger is the bookkeeping half of winnowing. Generation, tools and
+checks supply candidates and likelihood terms; only the ledger writes a
+posterior or commits.
+
     log P(h | E) = log P0(h) + sum_t tau_t * clip(T_t(h))  (normalised over H + NOTA)
 
 Each term is clipped at `clip_nats` below its best value, so no single source

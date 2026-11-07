@@ -4,7 +4,7 @@ This test case shows, end to end and step by step, how `diag_agent` diagnoses a 
 
 - the case frame;
 - hypothesis generation, including the KG-walk-guardrailed LLM;
-- windowed evaluation;
+- winnowing;
 - the Bayesian ledger;
 - check selection;
 - the commit;
@@ -20,7 +20,7 @@ This test case shows, end to end and step by step, how `diag_agent` diagnoses a 
 | Requirement | Where in this test |
 |---|---|
 | Agent-led KG walk guardrailing the LLM | §4.2, the LLM's tool trace, validation and pruned proposals |
-| Windowed evaluation | §4.4, prediction windows, pending versus missing |
+| Winnowing | §4.4, likelihood terms; a prediction stays pending until its observation window closes |
 | Analogy with episodic memory | §4.2, the analogy line |
 | Bayesian synthesis | §4.4, §4.6, §4.7, the ledger tables |
 | Diagnosis tree, displayable | §5, ASCII snapshots per cycle and the final Mermaid tree |
@@ -173,9 +173,9 @@ Validation (doc 04 §5.3):
 | LLM | .55 | .20 | .10 | .05 | | | .10 |
 | **Prior** | **.4645** | **.1749** | **.1749** | **.0512** | **.0140** | **.0091** | **.1114** |
 
-### 4.4 Cycle 1, evaluate: windowed evidence at +35.6 s
+### 4.4 Cycle 1, winnowing at +35.6 s
 
-The prediction states that decide the terms:
+The observation-window states that feed the winnowing terms:
 
 | Hypothesis | Matched | Missing (window closed, instrument alive) | Pending / unobservable |
 |---|---|---|---|

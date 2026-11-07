@@ -14,7 +14,7 @@ Status: **implemented**. The package lives under `diag_agent/`. How to install a
 | 01 | [Overview and requirements](01_overview_and_requirements.md) | Scope, design principles, the test bed as `diag_agent` sees it, where each requirement is met |
 | 02 | [CoALA architecture](02_coala_architecture.md) | The CoALA Figure-4 modules (working, procedural, semantic, episodic memory; internal and external actions; decision cycle), their interfaces and the package layout |
 | 03 | [Knowledge graph (RFC 9940)](03_knowledge_graph_rfc9940.md) | The RDF/OWL schema layers, the mapping from YANG and the alarm catalogue to RDF, bitemporal named graphs, and what is stored in semantic memory |
-| 04 | [Decision procedure and diagnosis tree](04_decision_procedure.md) | How the tree is formed: KG-walk-guardrailed LLM proposals, windowed evaluation (winnowing), analogy, the Bayesian ledger, the stopping rules and the tree display |
+| 04 | [Decision procedure and diagnosis tree](04_decision_procedure.md) | How the tree is formed: KG-walk-guardrailed LLM proposals, winnowing, analogy, the Bayesian ledger, the stopping rules and the tree display |
 | 05 | [LangGraph implementation and LLM configuration](05_langgraph_and_llm_config.md) | State schema, nodes and edges, checkpointing, streaming, human-in-the-loop, and config-file LLM switching between DeepSeek and local vLLM |
 | 06 | [Incident server (ietf-incident)](06_incident_server.md) | Incident identification, lifecycle, the RPCs and their errors, notifications, the payload mapping, and the extension YANG module |
 | 07 | [Test case: fibre cut on span_OMS3_BC](07_test_case_fiber_cut.md) | An end-to-end worked diagnosis: reasoning steps, tree growth, ledger arithmetic, the JSON payloads and acceptance criteria |

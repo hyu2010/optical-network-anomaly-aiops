@@ -133,7 +133,7 @@ Observations stay in the substrate. When a frame or a closed incident needs them
 | Environment | 300 s |
 | PPE | 30 s |
 
-This polling model is declarative knowledge. The window evaluator reads it to decide when an absence becomes evidence (doc 04 §6).
+This polling model is declarative knowledge. Winnowing reads it to decide when an absence becomes evidence: a predicted effect stays pending until its observation window closes (doc 04 §6.2).
 
 ## 4. L2 and KB — Diagnostic knowledge
 

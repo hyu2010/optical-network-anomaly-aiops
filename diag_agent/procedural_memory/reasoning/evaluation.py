@@ -1,5 +1,5 @@
-"""Evaluate one hypothesis against the frame: predictions, window states,
-explained items and the preview score used by the generation lines."""
+"""Winnowing inputs for one hypothesis: predictions, observation-window
+states, explained items and the preview score used by the generation lines."""
 
 from __future__ import annotations
 
